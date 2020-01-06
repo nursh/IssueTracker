@@ -7,9 +7,9 @@
     "dev:start": "nodemon --exec babel-node --extensions \".js\" src/index.js",
     "build": "babel src --out-dir dist",
     "lint": "eslint --ignore-path ../.gitignore --ext .js .",
-    "prettier": "prettier --ignore-path ../.gitignore \"**/*.js\" --write",
+    "format": "prettier --ignore-path ../.gitignore \"**/*.js\" --write",
     "test": "jest",
-    "validate": "npm-run-all --parallel lint"
+    "validate": "npm-run-all --parallel format lint"
   },
   "keywords": [],
   "author": "nur-sh",
