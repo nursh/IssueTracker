@@ -4,12 +4,11 @@ jobs:
     docker:
       - image: circleci/node:7.10
 
-    working_directory: ~/repo
+    working_directory: ~/repo/server
 
     steps:
       - checkout
-      - run: cd server
-      - run: pwd
+        - path: ~/repo
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
