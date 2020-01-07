@@ -9,6 +9,7 @@ jobs:
     steps:
       - checkout
       - run: cd server
+      - run: pwd
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
