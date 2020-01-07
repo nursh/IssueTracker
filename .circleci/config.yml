@@ -7,8 +7,8 @@ jobs:
     working_directory: ~/repo/server
 
     steps:
-      - checkout
-        path: ~/repo
+      - checkout:
+          path: ~/repo
       - run: ls -la
       - restore_cache:
           keys:
