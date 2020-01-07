@@ -8,6 +8,7 @@ jobs:
 
     steps:
       - checkout
+        path: ~/repo
       - run: ls -la
       - restore_cache:
           keys:
