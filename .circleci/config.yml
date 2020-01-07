@@ -8,6 +8,7 @@ jobs:
 
     steps:
       - checkout
+      - run: ls -la
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -17,6 +18,5 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
       # run tests!
       # - run: npm test
