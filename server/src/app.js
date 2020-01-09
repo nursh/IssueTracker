@@ -2,11 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
 import authRouter from './routes/auth';
 
-dotenv.config();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

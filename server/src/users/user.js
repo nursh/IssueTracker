@@ -4,7 +4,7 @@ export default function buildUser(userInfo = requiredParam('userInfo')) {
   const validUser = validate(userInfo);
   const user = normalize(validUser);
 
-  return Object.freeze(user);
+  return user;
 }
 
 function validate({
