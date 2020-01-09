@@ -1,8 +1,10 @@
 import mongodb from 'mongodb';
 
-export default async function initDb() {
+let db;
+
+export async function initDb() {
   const MongoClient = mongodb.MongoClient;
-  const url = `${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds045511.mlab.com:45511/issues-tracker`;
+  const url = process.env.DB_URL;
   const client = new MongoClient(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -10,9 +12,13 @@ export default async function initDb() {
 
   try {
     await client.connect();
-    const db = client.db();
-    return db;
+    console.log('Connected to DB...');
+    db = client.db();
   } catch (err) {
-    console.error;
+    console.error(err);
   }
+}
+
+export function getDb() {
+  return db;
 }
