@@ -8,9 +8,7 @@
     "build": "babel src --out-dir dist",
     "lint": "eslint --ignore-path ../.gitignore --ext .js .",
     "format": "prettier --ignore-path ../.gitignore \"**/*.js\"",
-    "check-format": "npm run format -- --list-different",
-    "test": "jest",
-    "validate": "npm-run-all --parallel lint"
+    "test": "jest"
   },
   "keywords": [],
   "author": "nur-sh",
