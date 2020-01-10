@@ -11,7 +11,7 @@ function validate(
   {
     email = requiredParam('email'),
     createdOn = new Date(),
-    signinMethod,
+    signinMethod = requiredParam('signinMethod'),
     password,
     ...otherInfo
   },
