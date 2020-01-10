@@ -36,3 +36,7 @@ export async function signupController(req, res) {
 export function signinController(req, res) {
   res.send({ token: signToken(req.user) });
 }
+
+export function githubController(req, res) {
+  res.send({ token: signToken(req.user) });
+}

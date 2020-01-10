@@ -5,7 +5,8 @@ export default function userDBFuncs(database) {
   return Object.freeze({
     findByEmail,
     findById,
-    insertOne
+    insertOne,
+    findOne
   });
 
   async function findByEmail(email) {
@@ -28,12 +29,26 @@ export default function userDBFuncs(database) {
       if (user.signinMethod === 'local') {
         user.password = await hashPassword(user.password);
       }
-      const { result } = await db.collection('users').insertOne(user);
+
+      const { result, ops } = await db.collection('users').insertOne(user);
+
       return {
-        success: result.ok === 1
+        success: result.ok === 1,
+        inserted: documentToUser(ops[0])
       };
     } catch (error) {
-      throw console.log(error);
+      console.error(error);
+    }
+  }
+
+  async function findOne(query) {
+    const db = await database;
+    try {
+      const user = await db.collection('users').findOne(query);
+
+      return user ? documentToUser(user) : null;
+    } catch (error) {
+      console.error(error);
     }
   }
 
