@@ -33,6 +33,6 @@ export async function signupController(req, res) {
   }
 }
 
-export async function signinController(req, res) {
+export function signinController(req, res) {
   res.send({ token: signToken(req.user) });
 }
