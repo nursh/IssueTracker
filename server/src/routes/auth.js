@@ -1,13 +1,9 @@
 import { Router } from 'express';
-import passport from 'passport';
 
 import { signupController, signinController } from '../controllers/auth';
-/* eslint-disable no-unused-vars */
-import { jwtPassport, localPassport } from '../passport';
+import { requireAuth, requireSignin } from '../passport';
 
 const router = Router();
-const requireAuth = passport.authenticate('jwt', { session: false });
-const requireSignin = passport.authenticate('local', { session: false });
 
 router.post('/signup', signupController);
 router.post('/signin', requireSignin, signinController);

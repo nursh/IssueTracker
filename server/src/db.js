@@ -1,6 +1,6 @@
 import mongodb from 'mongodb';
 
-export default async function initDb() {
+async function initDb() {
   const MongoClient = mongodb.MongoClient;
   const url = process.env.DB_URL;
   const client = new MongoClient(url, {
@@ -16,4 +16,9 @@ export default async function initDb() {
   } catch (err) {
     console.error(err);
   }
+}
+
+export default async function setDB() {
+  const database = await initDb();
+  return database;
 }
