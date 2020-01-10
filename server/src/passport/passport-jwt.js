@@ -1,5 +1,5 @@
-import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+
 import { userDB } from '../users';
 
 const jwtOptions = {
@@ -22,5 +22,4 @@ const jwtLogin = new JwtStrategy(jwtOptions, async function(
   return done(null, user);
 });
 
-const jwtPassport = passport.use(jwtLogin);
-export { jwtPassport };
+export { jwtLogin };

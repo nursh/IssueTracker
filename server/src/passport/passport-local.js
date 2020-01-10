@@ -1,4 +1,3 @@
-import passport from 'passport';
 import LocalStrategy from 'passport-local';
 
 import { userDB } from '../users';
@@ -25,5 +24,4 @@ const localLogin = new LocalStrategy(localOpts, async function(
   if (passwordMatches(user.password, password)) return done(null, user);
 });
 
-const localPassport = passport.use(localLogin);
-export { localPassport };
+export { localLogin };
