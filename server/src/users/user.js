@@ -7,15 +7,18 @@ export default function buildUser(userInfo = requiredParam('userInfo')) {
   return user;
 }
 
-function validate({
-  email = requiredParam('email'),
-  createdOn = new Date(),
-  signinMethod,
-  password,
-  ...otherInfo
-}) {
+function validate(
+  {
+    email = requiredParam('email'),
+    createdOn = new Date(),
+    signinMethod,
+    password,
+    ...otherInfo
+  },
+  doc = false
+) {
   validateEmail(email);
-  if (signinMethod === 'local') {
+  if (signinMethod === 'local' && !doc) {
     validatePassword(password);
   }
 
@@ -23,6 +26,7 @@ function validate({
     email,
     password,
     createdOn,
+    signinMethod,
     ...otherInfo
   };
 }
@@ -32,7 +36,7 @@ function validateEmail(email) {
   const validEmail = emailRegex.test(email);
 
   if (!validEmail) {
-    throw new Error('Invalid email address.');
+    throw new Error('Invalid email address format.');
   }
 }
 
