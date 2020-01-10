@@ -40,3 +40,7 @@ export function signinController(req, res) {
 export function githubController(req, res) {
   res.send({ token: signToken(req.user) });
 }
+
+export function googleController(req, res) {
+  res.send({ token: signToken(req.user) });
+}
