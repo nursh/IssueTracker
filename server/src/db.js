@@ -2,7 +2,10 @@ import mongodb from 'mongodb';
 
 async function initDb() {
   const MongoClient = mongodb.MongoClient;
-  const url = process.env.DB_URL;
+  const url =
+    process.env.NODE_ENV === 'test'
+      ? process.env.TEST_DB_URL
+      : process.env.DB_URL;
   const client = new MongoClient(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true

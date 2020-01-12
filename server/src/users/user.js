@@ -7,7 +7,7 @@ export default function buildUser(userInfo = requiredParam('userInfo')) {
   return user;
 }
 
-function validate(
+export function validate(
   {
     email = requiredParam('email'),
     createdOn = new Date(),
@@ -18,6 +18,7 @@ function validate(
   doc = false
 ) {
   validateEmail(email);
+  validateSigninMethod(signinMethod);
   if (signinMethod === 'local' && !doc) {
     validatePassword(password);
   }
@@ -31,7 +32,7 @@ function validate(
   };
 }
 
-function validateEmail(email) {
+export function validateEmail(email) {
   const emailRegex = new RegExp(/^[^@\s]+@[^@\s]+\.[^@\s]+$/);
   const validEmail = emailRegex.test(email);
 
@@ -40,7 +41,7 @@ function validateEmail(email) {
   }
 }
 
-function validatePassword(password) {
+export function validatePassword(password) {
   const validPassword =
     password.length >= 8 &&
     /\d/.test(password) &&
@@ -48,7 +49,16 @@ function validatePassword(password) {
     /[a-z]/.test(password);
 
   if (!validPassword) {
-    throw new Error('Invalid password. Password must satisfy all criteria');
+    throw new Error('Invalid password. Password must satisfy all criteria.');
+  }
+}
+
+export function validateSigninMethod(signinMethod) {
+  const validMethods = ['local', 'github', 'google'];
+  const isValid = validMethods.includes(signinMethod);
+
+  if (!isValid) {
+    throw new Error('Invalid Signin method.');
   }
 }
 
