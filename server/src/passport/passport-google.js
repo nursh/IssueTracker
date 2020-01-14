@@ -13,7 +13,7 @@ const googleLogin = new GoogleStrategy(
   async (accessToken, refreshToken, profile, done) => {
     try {
       const user = await userDB.findOne({
-        googleId: profile.id
+        'signinMethod.googleId': profile.id
       });
 
       if (user) {
@@ -21,9 +21,11 @@ const googleLogin = new GoogleStrategy(
       }
 
       const newUser = buildUser({
-        signinMethod: 'google',
-        email: profile.emails[0].value,
-        googleId: profile.id
+        signinMethod: {
+          method: 'google',
+          googleId: profile.id
+        },
+        email: profile.emails[0].value
       });
       const { success, inserted: insertedUser } = await userDB.insertOne(
         newUser
