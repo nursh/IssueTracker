@@ -13,7 +13,8 @@ module.exports = {
   },
   rules: {
     'no-console': 'off',
-    'require-await': 'warn'
+    'require-await': 'warn',
+    'no-prototype-builtins': 'off'
   },
   overrides: [
     {

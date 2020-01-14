@@ -26,8 +26,11 @@ export default function userDBFuncs(database) {
   async function insertOne(user) {
     const db = await database;
     try {
-      if (user.signinMethod === 'local') {
-        user.password = await hashPassword(user.password);
+      const { method } = user.signinMethod;
+      if (method === 'local') {
+        user.signinMethod.password = await hashPassword(
+          user.signinMethod.password
+        );
       }
 
       const { result, ops } = await db.collection('users').insertOne(user);

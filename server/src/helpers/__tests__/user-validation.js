@@ -1,5 +1,12 @@
-import { validateEmail, validatePassword, validateSigninMethod } from '../user';
 import cases from 'jest-in-case';
+
+import {
+  validateEmail,
+  validatePassword,
+  validateSigninMethod,
+  normalizeUser
+} from '../user-validation';
+import { buildUserInfo } from '../../../test/generate-data/user';
 
 function casifyPassword(obj) {
   return Object.entries(obj).map(([name, password]) => ({
@@ -70,20 +77,65 @@ cases(
 
 describe('validateSigninMethod(): ', () => {
   test('does not throw error on valid signin methods', () => {
-    expect(() => validateSigninMethod('local')).not.toThrow(
+    expect(() => validateSigninMethod({ method: 'local' })).not.toThrow(
       'Invalid Signin method.'
     );
-    expect(() => validateSigninMethod('github')).not.toThrow(
+    expect(() => validateSigninMethod({ method: 'github' })).not.toThrow(
       'Invalid Signin method.'
     );
-    expect(() => validateSigninMethod('google')).not.toThrow(
+    expect(() => validateSigninMethod({ method: 'google' })).not.toThrow(
       'Invalid Signin method.'
     );
+  });
+
+  test('throws error when local method is used without password', () => {
+    expect(() => validateSigninMethod({ method: 'local' })).toThrowError(
+      'Password field is required.'
+    );
+  });
+
+  test('throws error when github method is used without githubId', () => {
+    expect(() => validateSigninMethod({ method: 'github' })).toThrowError(
+      'Github signin must have an id.'
+    );
+  });
+
+  test('throws error when google method is used without googleid', () => {
+    expect(() => validateSigninMethod({ method: 'google' })).toThrowError(
+      'Google signin must have an id.'
+    );
+  });
+
+  test('does not throw error when called with local method and password', () => {
+    expect(() =>
+      validateSigninMethod({ method: 'local', password: '12GenghisKahn' })
+    ).not.toThrowError('Password field is required.');
+  });
+
+  test('does not throw error when called with github method and githubId', () => {
+    expect(() =>
+      validateSigninMethod({ method: 'github', githubId: '123455' })
+    ).not.toThrowError('Github signin must have an id.');
+  });
+
+  test('does not throw error when called with google method and googleid', () => {
+    expect(() =>
+      validateSigninMethod({ method: 'google', googleId: '918782693' })
+    ).not.toThrowError('Google signin must have an id.');
   });
 
   test('throws error on invalid signin methods', () => {
     expect(() => validateSigninMethod('yahoo')).toThrow(
       'Invalid Signin method.'
     );
+  });
+});
+
+describe('normalizeUser(): ', () => {
+  test('returns a user with lowercase email', () => {
+    const user = buildUserInfo();
+    user.email = user.email.toLowerCase();
+
+    expect(normalizeUser(user)).toHaveProperty('email', user.email);
   });
 });

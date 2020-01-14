@@ -17,8 +17,10 @@ export async function signupController(req, res) {
 
     const user = buildUser({
       email,
-      password,
-      signinMethod: 'local'
+      signinMethod: {
+        method: 'local',
+        password
+      }
     });
 
     const { success } = await userDB.insertOne(user);

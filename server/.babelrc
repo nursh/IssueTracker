@@ -10,6 +10,16 @@
     ]
   ],
   "plugins": [
-    "@babel/plugin-proposal-object-rest-spread"
+    "@babel/plugin-proposal-object-rest-spread",
+    [
+      "module-resolver", 
+      {
+        "root": ["./"],
+        "alias": {
+          "test": "./test",
+          "helpers": "./src/helpers"
+        }
+      }
+    ]
   ]
 }
