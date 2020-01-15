@@ -8,8 +8,10 @@
     "build": "babel src --out-dir dist",
     "lint": "eslint --ignore-path ../.gitignore --ext .js .",
     "format": "prettier --ignore-path ../.gitignore \"**/*.js\"",
-    "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test": "is-ci \"test:coverage\" \"test:watch\"",
+    "test:config": "jest --config test/jest.config.js",
+    "test:watch": "npm run test:config -- --watchAll",
+    "test:coverage": "npm run test:config -- --coverage"
   },
   "keywords": [],
   "author": "nur-sh",
@@ -43,6 +45,8 @@
     "eslint-plugin-prettier": "^3.1.2",
     "faker": "^4.1.0",
     "husky": "^3.1.0",
+    "is-ci": "^2.0.0",
+    "is-ci-cli": "^2.0.0",
     "jest": "^24.9.0",
     "jest-in-case": "^1.0.2",
     "lint-staged": "^9.5.0",
