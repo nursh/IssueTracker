@@ -1,4 +1,4 @@
-import requiredParam from './required-param';
+import { requiredParam } from './required-param';
 
 export const validateUser = ({
   email = requiredParam('email'),
