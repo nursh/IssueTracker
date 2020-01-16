@@ -4,9 +4,10 @@ import {
   validateEmail,
   validatePassword,
   validateSigninMethod,
-  normalizeUser
+  normalizeUser,
+  validateUser
 } from '../user-validation';
-import { buildUserInfo } from '../../../test/generate-data/user';
+import { buildUserInfo } from 'test/generate-data/user';
 
 function casifyPassword(obj) {
   return Object.entries(obj).map(([name, password]) => ({
@@ -137,5 +138,21 @@ describe('normalizeUser(): ', () => {
     user.email = user.email.toLowerCase();
 
     expect(normalizeUser(user)).toHaveProperty('email', user.email);
+  });
+});
+
+describe('validateUser(): ', () => {
+  test('throws an error when required field -email is not provided', () => {
+    const user = buildUserInfo({ email: false });
+    expect(() => validateUser(user)).toThrow(
+      'email is required, cannot be null or undefined'
+    );
+  });
+
+  test('throws an error when required field - signinMethod is not provided', () => {
+    const user = buildUserInfo({ signinMethod: false });
+    expect(() => validateUser(user)).toThrow(
+      'signinMethod is required, cannot be null or undefined'
+    );
   });
 });

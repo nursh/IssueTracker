@@ -11,8 +11,8 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe('buildUser() - builds a user given userInfo', () => {
-  test('Returns a user given valid inputs', () => {
+describe('buildUser()', () => {
+  test('returns a user given valid inputs', () => {
     const userInfo = buildUserInfo();
     const { validateUser, normalizeUser } = userValidation;
 
