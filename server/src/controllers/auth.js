@@ -1,18 +1,18 @@
-import { userDB, buildUser } from '../users';
+import { userDB, buildUser } from 'users';
 import { signToken } from '../helpers/jwt-helper';
 
 export async function signupController(req, res) {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(422).send({
+      return res.status(422).json({
         error: 'Email and Password fields must be provided.'
       });
     }
 
     const existingUser = await userDB.findByEmail(email);
     if (existingUser) {
-      return res.status(422).send({ error: 'Email is in use' });
+      return res.status(422).json({ error: 'Email is in use' });
     }
 
     const user = buildUser({
@@ -25,24 +25,21 @@ export async function signupController(req, res) {
 
     const { success } = await userDB.insertOne(user);
     if (success) {
-      res.send({
-        success,
-        token: signToken(user)
-      });
+      res.status(201).json({ token: signToken(user) });
     }
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 }
 
 export function signinController(req, res) {
-  res.send({ token: signToken(req.user) });
+  res.status(200).json({ token: signToken(req.user) });
 }
 
 export function githubController(req, res) {
-  res.send({ token: signToken(req.user) });
+  res.status(200).json({ token: signToken(req.user) });
 }
 
 export function googleController(req, res) {
-  res.send({ token: signToken(req.user) });
+  res.status(200).json({ token: signToken(req.user) });
 }

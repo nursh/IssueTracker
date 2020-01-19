@@ -1,5 +1,5 @@
 import buildUser from '../user';
-import { buildUserInfo } from 'test/generate-data/user';
+import { buildUserInfo } from 'test/generate';
 import * as userValidation from 'helpers/user-validation';
 
 jest.mock('helpers/user-validation', () => ({

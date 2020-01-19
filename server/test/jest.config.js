@@ -5,6 +5,13 @@ module.exports = {
   rootDir: path.join(__dirname, '..'),
   testEnvironment: 'node',
   coverageDirectory: path.join(__dirname, '../coverage'),
+  setupFiles: ['dotenv/config'],
   collectCoverageFrom: ['**/src/**/*.js'],
-  coveragePathIgnorePatterns: ['.*/__tests__/.*']
+  coveragePathIgnorePatterns: [
+    '.*/__tests__/.*',
+    '.*/src/index.js',
+    '.*/src/db.js',
+    '.*/src/app.js',
+    '.*/src/passport/'
+  ]
 };

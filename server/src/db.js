@@ -13,7 +13,6 @@ async function initDb() {
 
   try {
     await client.connect();
-    console.log(`Connected to DB:${url}...`);
     const db = client.db();
     return db;
   } catch (err) {
