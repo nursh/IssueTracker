@@ -17,7 +17,8 @@
         "root": ["./"],
         "alias": {
           "test": "./test",
-          "helpers": "./src/helpers"
+          "helpers": "./src/helpers",
+          "users": "./src/users"
         }
       }
     ]

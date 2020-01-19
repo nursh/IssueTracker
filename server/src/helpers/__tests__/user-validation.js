@@ -7,7 +7,7 @@ import {
   normalizeUser,
   validateUser
 } from '../user-validation';
-import { buildUserInfo } from 'test/generate-data/user';
+import { buildUserInfo } from 'test/generate';
 
 function casifyPassword(obj) {
   return Object.entries(obj).map(([name, password]) => ({

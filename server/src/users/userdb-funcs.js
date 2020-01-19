@@ -1,4 +1,3 @@
-import buildUser from './user';
 import { hashPassword } from '../helpers/password-helper';
 
 export default function userDBFuncs(database) {
@@ -20,7 +19,7 @@ export default function userDBFuncs(database) {
     const db = await database;
     const user = await db.collection('users').findOne({ id: userId });
 
-    return user ? documentToUser(user) : null;
+    return user ? user : null;
   }
 
   async function insertOne(user) {
@@ -37,7 +36,7 @@ export default function userDBFuncs(database) {
 
       return {
         success: result.ok === 1,
-        inserted: documentToUser(ops[0])
+        inserted: ops[0]
       };
     } catch (error) {
       console.error(error);
@@ -49,13 +48,9 @@ export default function userDBFuncs(database) {
     try {
       const user = await db.collection('users').findOne(query);
 
-      return user ? documentToUser(user) : null;
+      return user ? user : null;
     } catch (error) {
       console.error(error);
     }
-  }
-
-  function documentToUser(doc) {
-    return buildUser(doc, true);
   }
 }
