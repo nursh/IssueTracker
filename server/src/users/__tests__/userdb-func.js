@@ -6,10 +6,13 @@ let db;
 let user;
 
 beforeAll(async () => {
+  console.log('BeforeAll: before setup');
   await setup();
+  console.log('BeforeAll: After setup');
 });
 
 afterAll(async () => {
+  console.log('AfterAll.');
   await db.collection('users').deleteMany({});
 });
 
