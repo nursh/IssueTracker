@@ -6,8 +6,6 @@ let db;
 let user;
 
 beforeAll(async () => {
-  const database = setDB();
-  db = await database;
   await setup();
 });
 
@@ -16,6 +14,8 @@ afterAll(async () => {
 });
 
 async function setup() {
+  const database = setDB();
+  db = await database;
   const { ops } = await db.collection('users').insertOne(buildUserInfo());
   user = ops[0];
 }
