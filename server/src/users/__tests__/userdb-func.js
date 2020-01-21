@@ -7,11 +7,11 @@ let user;
 
 beforeAll(async () => {
   await setup();
-});
+}, 30000);
 
-afterAll(() => {
-  db.collection('users').deleteMany({});
-});
+afterAll(async () => {
+  await db.collection('users').deleteMany({});
+}, 20000);
 
 async function setup() {
   const database = setDB();
