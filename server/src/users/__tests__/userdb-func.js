@@ -9,12 +9,8 @@ beforeAll(async () => {
   await setup();
 });
 
-afterAll(async () => {
-  try {
-    await db.collection('users').deleteMany({});
-  } catch (err) {
-    throw new Error(err);
-  }
+afterAll(() => {
+  db.collection('users').deleteMany({});
 });
 
 async function setup() {
