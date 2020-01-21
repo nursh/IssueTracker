@@ -28,9 +28,6 @@ describe('insertOne(): ', () => {
     } = testUser;
     const { inserted } = await userDB.insertOne(testUser);
 
-    const dbCount = await db.collection('users').countDocuments();
-
-    expect(dbCount).toEqual(2);
     expect(inserted.email).toBe(testUser.email);
 
     // Make sure the password has been hashed
