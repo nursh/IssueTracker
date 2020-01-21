@@ -14,7 +14,7 @@ const githubLogin = new GithubStrategy(
   async (accessToken, refreshToken, profile, done) => {
     try {
       const user = await userDB.findOne({
-        'signMethodod.githubId': profile.id
+        'signMethod.githubId': profile.id
       });
 
       if (user) {

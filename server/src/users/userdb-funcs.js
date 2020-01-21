@@ -12,7 +12,7 @@ export default function userDBFuncs(database) {
     const db = await database;
     const user = await db.collection('users').findOne({ email });
 
-    return user;
+    return user ? user : null;
   }
 
   async function findById(userId) {
@@ -39,7 +39,7 @@ export default function userDBFuncs(database) {
         inserted: ops[0]
       };
     } catch (error) {
-      console.error(error);
+      throw new Error(error);
     }
   }
 

@@ -16,7 +16,7 @@ async function initDb() {
     const db = client.db();
     return db;
   } catch (err) {
-    console.error(err);
+    throw new Error(err);
   }
 }
 
