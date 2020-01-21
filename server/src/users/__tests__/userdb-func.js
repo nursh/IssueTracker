@@ -10,8 +10,12 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await db.collection('users').deleteMany({});
-}, 30000);
+  try {
+    await db.collection('users').deleteMany({});
+  } catch (err) {
+    throw new Error(err);
+  }
+});
 
 async function setup() {
   const database = setDB();
