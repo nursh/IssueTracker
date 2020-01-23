@@ -19,7 +19,7 @@ export function buildUserInfo({
 export function localLoginForm({ email = true, password = true } = {}) {
   return {
     ...(email && { email: faker.internet.email() }),
-    ...(password && { password: faker.internet.password() })
+    ...(password && { password: faker.internet.password() + '8slFN' })
   };
 }
 

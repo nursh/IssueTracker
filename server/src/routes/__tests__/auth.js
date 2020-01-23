@@ -1,28 +1,29 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { localLoginForm, buildUserInfo } from 'test/generate';
-import setDB from '../../db';
+import { userDB } from 'users';
 
 let user;
-let db;
 
-beforeAll(async () => {
+beforeEach(async () => {
   await setup();
 });
 
-afterAll(async () => {
-  await db.collection('users').deleteMany({});
+afterEach(async () => {
+  await userDB.deleteMany();
 });
 
 async function setup() {
-  const database = setDB();
-  db = await database;
-  const { ops } = await db.collection('users').insertOne(buildUserInfo());
-  user = ops[0];
+  user = buildUserInfo();
+  const {
+    signinMethod: { password }
+  } = user;
+  await userDB.insertOne(user);
+  user.signinMethod.password = password;
 }
 
 describe('/auth/signup', () => {
-  test('responds with a token when the userInfo is valid and does not exist in DB', async () => {
+  test('signs up a user when userInfo is valid and returns a token', async () => {
     const newUser = localLoginForm();
     const response = await request(app)
       .post('/auth/signup')
@@ -58,5 +59,58 @@ describe('/auth/signup', () => {
         "error": "Email and Password fields must be provided.",
       }
     `);
+  });
+});
+
+describe('/auth/signin', () => {
+  test('responds with an error when signing in with incomplete details', async () => {
+    const { email } = user;
+    const incompleteUser = { email };
+
+    const response = await request(app)
+      .post('/auth/signin')
+      .send(incompleteUser);
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toMatchInlineSnapshot(`Object {}`);
+  });
+
+  test('responds with an error when a user does not exist', async () => {
+    const newUser = localLoginForm();
+    const response = await request(app)
+      .post('/auth/signin')
+      .send(newUser);
+
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toMatchInlineSnapshot(`Object {}`);
+  });
+
+  test('responds with an error when an existing user tries to sign in with the wrong password', async () => {
+    const userDetails = {
+      email: user.email,
+      password: 'Wrong password'
+    };
+
+    const response = await request(app)
+      .post('/auth/signin')
+      .send(userDetails);
+
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toMatchInlineSnapshot(`Object {}`);
+  });
+
+  test('responds with a token, given an existing user with valid signin details', async () => {
+    const {
+      email,
+      signinMethod: { password }
+    } = user;
+    const userDetails = { email, password };
+
+    const response = await request(app)
+      .post('/auth/signin')
+      .send(userDetails);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('token');
   });
 });

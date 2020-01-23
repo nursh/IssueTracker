@@ -8,6 +8,6 @@ export async function hashPassword(password) {
 }
 
 export async function passwordMatches(userPassword, enteredPassword) {
-  const isMatch = await bcrypt.compare(enteredPassword, userPassword);
-  return isMatch;
+  const match = await bcrypt.compare(enteredPassword, userPassword);
+  return match;
 }

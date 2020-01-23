@@ -5,7 +5,8 @@ export default function userDBFuncs(database) {
     findByEmail,
     findById,
     insertOne,
-    findOne
+    findOne,
+    deleteMany
   });
 
   async function findByEmail(email) {
@@ -25,7 +26,9 @@ export default function userDBFuncs(database) {
   async function insertOne(user) {
     const db = await database;
     try {
-      const { method } = user.signinMethod;
+      const newUser = { ...user };
+      const { method } = newUser.signinMethod;
+
       if (method === 'local') {
         user.signinMethod.password = await hashPassword(
           user.signinMethod.password
@@ -49,6 +52,15 @@ export default function userDBFuncs(database) {
       const user = await db.collection('users').findOne(query);
 
       return user ? user : null;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function deleteMany() {
+    const db = await database;
+    try {
+      await db.collection('users').deleteMany({});
     } catch (error) {
       console.error(error);
     }
