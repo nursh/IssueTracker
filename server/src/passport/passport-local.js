@@ -14,13 +14,16 @@ const localLogin = new LocalStrategy(
       const existingUser = await userDB.findByEmail(email);
 
       if (!existingUser) {
-        return done(null, false, { message: 'User does not exist.' });
+        return done(null, false);
       }
 
       const { password: userPassword } = existingUser.signinMethod;
-      if (passwordMatches(userPassword, password)) {
+      const isMatch = await passwordMatches(userPassword, password);
+      if (isMatch) {
         return done(null, existingUser);
       }
+
+      return done(null, false);
     } catch (error) {
       return done(error, false);
     }

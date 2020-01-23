@@ -1,8 +1,6 @@
 import { userDB } from '../index';
 import { buildUserInfo } from 'test/generate';
-import setDB from '../../db';
 
-let db;
 let user;
 
 beforeAll(async () => {
@@ -10,14 +8,12 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await db.collection('users').deleteMany({});
+  await userDB.deleteMany();
 });
 
 async function setup() {
-  const database = setDB();
-  db = await database;
-  const { ops } = await db.collection('users').insertOne(buildUserInfo());
-  user = ops[0];
+  const { inserted } = await userDB.insertOne(buildUserInfo());
+  user = inserted;
 }
 
 describe('insertOne(): ', () => {
