@@ -42,7 +42,7 @@ export default function userDBFuncs(database) {
         inserted: ops[0]
       };
     } catch (error) {
-      throw new Error(error);
+      throw new error();
     }
   }
 

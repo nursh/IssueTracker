@@ -1,19 +1,21 @@
 import { requiredParam } from './required-param';
 
 export const validateUser = ({
+  name = requiredParam('name'),
   email = requiredParam('email'),
   createdOn = new Date(),
-  signinMethod = requiredParam('signinMethod'),
-  ...otherInfo
+  signupMethod = requiredParam('signupMethod'),
+  ...otherFields
 }) => {
   validateEmail(email);
-  validateSigninMethod(signinMethod);
+  validateSignupMethod(signupMethod, otherFields);
 
   return {
+    name,
     email,
     createdOn,
-    signinMethod,
-    ...otherInfo
+    signupMethod,
+    ...otherFields
   };
 };
 
@@ -42,23 +44,33 @@ export function validatePassword(password) {
   }
 }
 
-export function validateSigninMethod({ method, ...signinInfo }) {
-  switch (method) {
+export function validateSignupMethod(signUpMethod, otherFields) {
+  switch (signUpMethod) {
     case 'local': {
-      const { password } = signinInfo;
+      const {
+        local: { password }
+      } = otherFields;
       validatePassword(password);
       break;
     }
 
     case 'github': {
-      if (!signinInfo.hasOwnProperty('githubId'))
+      const {
+        github: { githubId }
+      } = otherFields;
+      if (!githubId) {
         throw new Error('Github signin must have an id.');
+      }
       break;
     }
 
     case 'google': {
-      if (!signinInfo.hasOwnProperty('googleId'))
+      const {
+        google: { googleId }
+      } = otherFields;
+      if (!googleId) {
         throw new Error('Google signin must have an id.');
+      }
       break;
     }
 

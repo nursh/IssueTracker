@@ -1,1 +1,1 @@
-# IssueTracker [![CircleCI](https://circleci.com/gh/nursh/IssueTracker.svg?style=svg)](https://circleci.com/gh/nursh/IssueTracker)
+# IssueTracker [![CircleCI](https://circleci.com/gh/nursh/IssueTracker.svg?style=svg)](https://circleci.com/gh/nursh/IssueTracker) [![codecov](https://codecov.io/gh/nursh/IssueTracker/branch/master/graph/badge.svg)](https://codecov.io/gh/nursh/IssueTracker)
