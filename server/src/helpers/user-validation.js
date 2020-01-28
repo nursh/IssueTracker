@@ -1,19 +1,21 @@
 import { requiredParam } from './required-param';
 
 export const validateUser = ({
+  name = requiredParam('name'),
   email = requiredParam('email'),
   createdOn = new Date(),
-  signinMethod = requiredParam('signinMethod'),
-  ...otherInfo
+  signupMethod = requiredParam('signupMethod'),
+  ...otherFields
 }) => {
   validateEmail(email);
-  validateSigninMethod(signinMethod);
+  validateSignupMethod(signupMethod, otherFields);
 
   return {
+    name,
     email,
     createdOn,
-    signinMethod,
-    ...otherInfo
+    signupMethod,
+    ...otherFields
   };
 };
 
@@ -27,10 +29,6 @@ export function validateEmail(email) {
 }
 
 export function validatePassword(password) {
-  if (!password) {
-    throw new Error('Password field is required.');
-  }
-
   const validPassword =
     password.length >= 8 &&
     /\d/.test(password) &&
@@ -42,28 +40,40 @@ export function validatePassword(password) {
   }
 }
 
-export function validateSigninMethod({ method, ...signinInfo }) {
-  switch (method) {
+export function validateSignupMethod(
+  signupMethod = requiredParam('signupMethod'),
+  otherFields = requiredParam('UserInfo')
+) {
+  switch (signupMethod) {
     case 'local': {
-      const { password } = signinInfo;
-      validatePassword(password);
+      const { local } = otherFields;
+
+      if (!local) {
+        throw new Error('Password field is required.');
+      }
+
+      validatePassword(local.password);
       break;
     }
 
     case 'github': {
-      if (!signinInfo.hasOwnProperty('githubId'))
+      const { github } = otherFields;
+      if (!github) {
         throw new Error('Github signin must have an id.');
+      }
       break;
     }
 
     case 'google': {
-      if (!signinInfo.hasOwnProperty('googleId'))
+      const { google } = otherFields;
+      if (!google) {
         throw new Error('Google signin must have an id.');
+      }
       break;
     }
 
     default: {
-      throw new Error('Invalid Signin method.');
+      throw new Error('Invalid Signup method.');
     }
   }
 }

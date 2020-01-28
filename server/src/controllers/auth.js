@@ -3,10 +3,10 @@ import { signToken } from '../helpers/jwt-helper';
 
 export async function signupController(req, res) {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { name, email, password } = req.body;
+    if (!email || !password || !name) {
       return res.status(422).json({
-        error: 'Email and Password fields must be provided.'
+        error: 'Name, Email and Password fields must be provided.'
       });
     }
 
@@ -16,11 +16,14 @@ export async function signupController(req, res) {
     }
 
     const user = buildUser({
+      name,
       email,
-      signinMethod: {
-        method: 'local',
+      signupMethod: 'local',
+      local: {
         password
-      }
+      },
+      projects: [],
+      issues: []
     });
 
     const { success } = await userDB.insertOne(user);

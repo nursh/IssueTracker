@@ -1,5 +1,5 @@
 import { userDB } from '../index';
-import { buildUserInfo } from 'test/generate';
+import { buildTestUser } from 'test/generate';
 
 let user;
 
@@ -12,33 +12,33 @@ afterAll(async () => {
 });
 
 async function setup() {
-  const { inserted } = await userDB.insertOne(buildUserInfo());
+  const { inserted } = await userDB.insertOne(buildTestUser());
   user = inserted;
 }
 
 describe('insertOne(): ', () => {
   it('inserts a new user given valid user info details', async () => {
-    const testUser = buildUserInfo();
+    const testUser = buildTestUser();
     const {
-      signinMethod: { password: generatedPassword }
+      local: { password: generatedPassword }
     } = testUser;
     const { inserted } = await userDB.insertOne(testUser);
 
     expect(inserted.email).toBe(testUser.email);
 
     // Make sure the password has been hashed
-    expect(inserted.signinMethod.password).not.toBe(generatedPassword);
+    expect(inserted.local.password).not.toBe(generatedPassword);
   });
 });
 
 describe('findOne(): ', () => {
   it('returns an existing user given valid query', async () => {
-    const foundUser = await userDB.findOne({ 'signinMethod.method': 'local' });
+    const foundUser = await userDB.findOne({ signupMethod: 'local' });
     expect(foundUser).not.toBeNull();
   });
 
   it('returns null when user does not exist', async () => {
-    const foundUser = await userDB.findOne({ 'signinMethod.method': 'github' });
+    const foundUser = await userDB.findOne({ signupMethod: 'github' });
     expect(foundUser).toBeNull();
   });
 });
