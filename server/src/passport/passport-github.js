@@ -39,6 +39,7 @@ const githubLogin = new GithubStrategy(
       if (success) {
         return done(null, insertedUser);
       }
+      return done(null, false);
     } catch (error) {
       return done(error, null);
     }
