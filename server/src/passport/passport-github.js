@@ -14,7 +14,7 @@ const githubLogin = new GithubStrategy(
   async (accessToken, refreshToken, profile, done) => {
     try {
       const user = await userDB.findOne({
-        'signMethod.githubId': profile.id
+        'github.githubId': profile.id
       });
 
       if (user) {
@@ -24,11 +24,14 @@ const githubLogin = new GithubStrategy(
       const email = profile.emails.find(email => email.primary);
 
       const newUser = buildUser({
-        signinMethod: {
-          method: 'github',
+        name: profile.username,
+        email: email.value,
+        signupMethod: 'github',
+        github: {
           githubId: profile.id
         },
-        email: email.value
+        projects: [],
+        issues: []
       });
       const { success, inserted: insertedUser } = await userDB.insertOne(
         newUser
