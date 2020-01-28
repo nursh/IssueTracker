@@ -5,7 +5,9 @@ import { createUserSchema } from './user-schema';
 
 const database = setDB();
 
-createUserSchema(database);
+if (process.env.NODE_ENV !== 'test') {
+  createUserSchema(database);
+}
 const userDB = userDBFuncs(database);
 
 export { userDB, buildUser };

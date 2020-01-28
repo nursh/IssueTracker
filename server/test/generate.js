@@ -57,8 +57,20 @@ export function buildTestUser({ signupMethod = 'local', options } = {}) {
   };
 }
 
-export function localLoginForm({ email = true, password = true } = {}) {
+export function localSigninForm({ email = true, password = true } = {}) {
   return {
+    ...(email && { email: getEmail() }),
+    ...(password && { password: getPassword() })
+  };
+}
+
+export function localSignupForm({
+  name = true,
+  email = true,
+  password = true
+} = {}) {
+  return {
+    ...(name && { name: getName() }),
     ...(email && { email: getEmail() }),
     ...(password && { password: getPassword() })
   };

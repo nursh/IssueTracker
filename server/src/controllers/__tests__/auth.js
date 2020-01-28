@@ -1,6 +1,6 @@
 import * as users from 'users';
 import { signupController } from '../auth';
-import { buildReq, buildRes, localLoginForm } from 'test/generate';
+import { buildReq, buildRes, localSignupForm } from 'test/generate';
 
 jest.mock('users');
 jest.mock('helpers/jwt-helper', () => {
@@ -15,7 +15,7 @@ beforeEach(() => {
 
 describe('signup controller', () => {
   test('returns an error when email or password is not provided.', async () => {
-    const loginInfo = localLoginForm({ email: false });
+    const loginInfo = localSignupForm({ email: false });
     const req = buildReq(loginInfo);
     const res = buildRes();
 
@@ -25,12 +25,12 @@ describe('signup controller', () => {
 
     expect(res.json).toHaveBeenCalledTimes(1);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'Email and Password fields must be provided.'
+      error: 'Name, Email and Password fields must be provided.'
     });
   });
 
   test('returns an error when user already exists.', async () => {
-    const loginInfo = localLoginForm();
+    const loginInfo = localSignupForm();
     const req = buildReq(loginInfo);
     const res = buildRes();
 
@@ -47,7 +47,7 @@ describe('signup controller', () => {
   });
 
   test('returns a token given valid input fields', async () => {
-    const loginInfo = localLoginForm();
+    const loginInfo = localSignupForm();
     const req = buildReq(loginInfo);
     const res = buildRes();
 

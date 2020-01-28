@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { localLoginForm, buildUserInfo } from 'test/generate';
+import { localSigninForm, localSignupForm, buildTestUser } from 'test/generate';
 import { userDB } from 'users';
 
 let user;
@@ -14,17 +14,17 @@ afterEach(async () => {
 });
 
 async function setup() {
-  user = buildUserInfo();
+  user = buildTestUser();
   const {
-    signinMethod: { password }
+    local: { password }
   } = user;
   await userDB.insertOne(user);
-  user.signinMethod.password = password;
+  user.local.password = password;
 }
 
 describe('/auth/signup', () => {
   test('signs up a user when userInfo is valid and returns a token', async () => {
-    const newUser = localLoginForm();
+    const newUser = localSignupForm();
     const response = await request(app)
       .post('/auth/signup')
       .send(newUser);
@@ -47,7 +47,7 @@ describe('/auth/signup', () => {
   });
 
   test('responds with an error when signing up with incomplete details', async () => {
-    const incompleteUser = localLoginForm({ email: false });
+    const incompleteUser = localSigninForm({ email: false });
 
     const response = await request(app)
       .post('/auth/signup')
@@ -76,7 +76,7 @@ describe('/auth/signin', () => {
   });
 
   test('responds with an error when a user does not exist', async () => {
-    const newUser = localLoginForm();
+    const newUser = localSigninForm();
     const response = await request(app)
       .post('/auth/signin')
       .send(newUser);
@@ -102,7 +102,7 @@ describe('/auth/signin', () => {
   test('responds with a token, given an existing user with valid signin details', async () => {
     const {
       email,
-      signinMethod: { password }
+      local: { password }
     } = user;
     const userDetails = { email, password };
 

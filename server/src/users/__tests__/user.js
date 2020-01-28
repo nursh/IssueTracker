@@ -1,5 +1,5 @@
 import buildUser from '../user';
-import { buildUserInfo } from 'test/generate';
+import { buildTestUser } from 'test/generate';
 import * as userValidation from 'helpers/user-validation';
 
 jest.mock('helpers/user-validation', () => ({
@@ -13,7 +13,7 @@ beforeEach(() => {
 
 describe('buildUser()', () => {
   test('returns a user given valid inputs', () => {
-    const userInfo = buildUserInfo();
+    const userInfo = buildTestUser();
     const { validateUser, normalizeUser } = userValidation;
 
     const result = buildUser(userInfo);
