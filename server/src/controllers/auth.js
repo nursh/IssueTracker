@@ -21,7 +21,9 @@ export async function signupController(req, res) {
       signupMethod: 'local',
       local: {
         password
-      }
+      },
+      projects: [],
+      issues: []
     });
 
     const { success } = await userDB.insertOne(user);

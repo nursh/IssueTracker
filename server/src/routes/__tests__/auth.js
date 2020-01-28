@@ -41,7 +41,7 @@ describe('/auth/signup', () => {
     expect(response.statusCode).toBe(422);
     expect(response.body).toMatchInlineSnapshot(`
       Object {
-        "error": "Email and Password fields must be provided.",
+        "error": "Name, Email and Password fields must be provided.",
       }
     `);
   });
@@ -56,7 +56,7 @@ describe('/auth/signup', () => {
     expect(response.statusCode).toBe(422);
     expect(response.body).toMatchInlineSnapshot(`
       Object {
-        "error": "Email and Password fields must be provided.",
+        "error": "Name, Email and Password fields must be provided.",
       }
     `);
   });

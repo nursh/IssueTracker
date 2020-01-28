@@ -29,10 +29,6 @@ export function validateEmail(email) {
 }
 
 export function validatePassword(password) {
-  if (!password) {
-    throw new Error('Password field is required.');
-  }
-
   const validPassword =
     password.length >= 8 &&
     /\d/.test(password) &&
@@ -44,38 +40,40 @@ export function validatePassword(password) {
   }
 }
 
-export function validateSignupMethod(signUpMethod, otherFields) {
-  switch (signUpMethod) {
+export function validateSignupMethod(
+  signupMethod = requiredParam('signupMethod'),
+  otherFields = requiredParam('UserInfo')
+) {
+  switch (signupMethod) {
     case 'local': {
-      const {
-        local: { password }
-      } = otherFields;
-      validatePassword(password);
+      const { local } = otherFields;
+
+      if (!local) {
+        throw new Error('Password field is required.');
+      }
+
+      validatePassword(local.password);
       break;
     }
 
     case 'github': {
-      const {
-        github: { githubId }
-      } = otherFields;
-      if (!githubId) {
+      const { github } = otherFields;
+      if (!github) {
         throw new Error('Github signin must have an id.');
       }
       break;
     }
 
     case 'google': {
-      const {
-        google: { googleId }
-      } = otherFields;
-      if (!googleId) {
+      const { google } = otherFields;
+      if (!google) {
         throw new Error('Google signin must have an id.');
       }
       break;
     }
 
     default: {
-      throw new Error('Invalid Signin method.');
+      throw new Error('Invalid Signup method.');
     }
   }
 }
