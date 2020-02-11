@@ -26,9 +26,7 @@ const googleLogin = new GoogleStrategy(
         signupMethod: 'google',
         google: {
           googleId: profile.id
-        },
-        projects: [],
-        issues: []
+        }
       });
       const { success, inserted: insertedUser } = await userDB.insertOne(
         newUser

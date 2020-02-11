@@ -4,7 +4,7 @@ export async function createUserSchema(database) {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
-        required: ['email', 'name', 'signupMethod', 'projects', 'issues'],
+        required: ['email', 'name', 'signupMethod'],
         properties: {
           name: {
             bsonType: 'string'
@@ -41,12 +41,6 @@ export async function createUserSchema(database) {
                 bsonType: 'string'
               }
             }
-          },
-          projects: {
-            bsonType: 'array'
-          },
-          issues: {
-            bsonType: 'array'
           }
         }
       }

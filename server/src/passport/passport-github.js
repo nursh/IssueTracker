@@ -29,9 +29,7 @@ const githubLogin = new GithubStrategy(
         signupMethod: 'github',
         github: {
           githubId: profile.id
-        },
-        projects: [],
-        issues: []
+        }
       });
       const { success, inserted: insertedUser } = await userDB.insertOne(
         newUser
