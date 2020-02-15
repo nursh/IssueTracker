@@ -4,6 +4,8 @@ const getPassword = () => `${faker.internet.password()}ABcd09`;
 const getName = faker.name.findName;
 const getEmail = faker.internet.email;
 const getId = faker.random.uuid;
+const getProjectTitle = () => `${faker.commerce.productName()}abc`;
+const getProjectDescription = faker.lorem.words;
 
 export function buildTestUser({ signupMethod = 'local', options } = {}) {
   const userOptions = overrides => {
@@ -90,4 +92,18 @@ export function buildRes(opts) {
     ...opts
   };
   return res;
+}
+
+export function buildProject({ title = true, createdBy = true } = {}) {
+  return {
+    ...(title && { title: getProjectTitle() }),
+    description: getProjectDescription(),
+    ...(createdBy && {
+      createdBy: {
+        id: getId(),
+        name: getName()
+      }
+    }),
+    team: []
+  };
 }

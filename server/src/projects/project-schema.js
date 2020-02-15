@@ -4,7 +4,7 @@ export async function createProjectSchema(database) {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
-        required: ['title', 'created_by', 'created_on'],
+        required: ['title', 'created_by', 'created_on', 'team'],
         properties: {
           title: {
             bsonType: 'string'
@@ -12,11 +12,16 @@ export async function createProjectSchema(database) {
           description: {
             bsonType: 'string'
           },
-          created_on: {
+          createdOn: {
             bsonType: 'date'
           },
-          created_by: {
-            bsonType: 'objectId'
+          createdBy: {
+            bsonType: 'object',
+            required: ['id', 'name'],
+            properties: {
+              id: 'objectId',
+              name: 'string'
+            }
           },
           team: {
             bsonType: 'array',
@@ -37,5 +42,9 @@ export async function createProjectSchema(database) {
         }
       }
     }
+  });
+
+  db.collection('projects').createIndex({
+    title: 'text'
   });
 }
