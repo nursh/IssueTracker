@@ -8,6 +8,6 @@ const database = setDB();
 if (process.env.NODE_ENV !== 'test') {
   createProjectSchema(database);
 }
-const projectDB = projectDBFuncs(database);
 
+const projectDB = projectDBFuncs(database);
 export { projectDB, buildProject };
