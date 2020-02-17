@@ -94,7 +94,7 @@ export function buildRes(opts) {
   return res;
 }
 
-export function buildProject({ title = true, createdBy = true } = {}) {
+export function buildTestProject({ title = true, createdBy = true } = {}) {
   return {
     ...(title && { title: getProjectTitle() }),
     description: getProjectDescription(),
