@@ -13,6 +13,8 @@ module.exports = {
     '.*/src/db.js',
     '.*/src/app.js',
     '.*/src/passport/',
-    '.*/src/**/*-schema.js'
+    '.*/src/users/user-schema.js',
+    '.*/src/projects/project-schema.js',
+    '.*/src/issues/issue-schema.js'
   ]
 };
