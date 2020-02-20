@@ -19,7 +19,7 @@ export async function createProjectSchema(database) {
             bsonType: 'object',
             required: ['id', 'name'],
             properties: {
-              id: 'objectId',
+              id: 'string',
               name: 'string'
             }
           },
@@ -31,7 +31,7 @@ export async function createProjectSchema(database) {
               additionalProperties: false,
               properties: {
                 id: {
-                  bsonType: 'objectId'
+                  bsonType: 'string'
                 },
                 name: {
                   bsonType: 'string'

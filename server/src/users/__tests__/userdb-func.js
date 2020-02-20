@@ -4,17 +4,13 @@ import { buildTestUser } from 'test/generate';
 let user;
 
 beforeAll(async () => {
-  await setup();
+  const { inserted } = await userDB.insertOne(buildTestUser());
+  user = inserted;
 });
 
 afterAll(async () => {
-  await userDB.deleteMany();
+  await userDB.delete({});
 });
-
-async function setup() {
-  const { inserted } = await userDB.insertOne(buildTestUser());
-  user = inserted;
-}
 
 describe('insertOne(): ', () => {
   it('inserts a new user given valid user info details', async () => {

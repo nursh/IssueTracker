@@ -18,7 +18,8 @@
         "alias": {
           "test": "./test",
           "helpers": "./src/helpers",
-          "users": "./src/users"
+          "users": "./src/users",
+          "projects": "./src/projects"
         }
       }
     ]

@@ -1,5 +1,5 @@
 import { validateProject, validateTitle } from '../project-validation';
-import { buildProject } from 'test/generate';
+import { buildTestProject } from 'test/generate';
 
 describe('validateTitle(): ', () => {
   test('throws an error when title has less than 6 characters', () => {
@@ -17,21 +17,21 @@ describe('validateTitle(): ', () => {
 
 describe('validateProject(): ', () => {
   test('throws an error when title is missing', () => {
-    const project = buildProject({ title: false });
+    const project = buildTestProject({ title: false });
     expect(() => validateProject(project)).toThrowErrorMatchingInlineSnapshot(
       `"title is required, cannot be null or undefined."`
     );
   });
 
   test('throws an error when createdBy is missing', () => {
-    const project = buildProject({ createdBy: false });
+    const project = buildTestProject({ createdBy: false });
     expect(() => validateProject(project)).toThrowErrorMatchingInlineSnapshot(
       `"createdBy is required, cannot be null or undefined."`
     );
   });
 
   test('should not throw error when project object is valid', () => {
-    const project = buildProject();
+    const project = buildTestProject();
     expect(() => validateProject(project)).not.toThrowError();
   });
 });

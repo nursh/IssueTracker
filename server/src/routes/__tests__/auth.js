@@ -6,21 +6,17 @@ import { userDB } from 'users';
 let user;
 
 beforeEach(async () => {
-  await setup();
-});
-
-afterEach(async () => {
-  await userDB.deleteMany();
-});
-
-async function setup() {
   user = buildTestUser();
   const {
     local: { password }
   } = user;
   await userDB.insertOne(user);
   user.local.password = password;
-}
+});
+
+afterEach(async () => {
+  await userDB.delete({});
+});
 
 describe('/auth/signup', () => {
   test('signs up a user when userInfo is valid and returns a token', async () => {

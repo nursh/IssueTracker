@@ -12,6 +12,9 @@ module.exports = {
     '.*/src/index.js',
     '.*/src/db.js',
     '.*/src/app.js',
-    '.*/src/passport/'
+    '.*/src/passport/',
+    '.*/src/users/user-schema.js',
+    '.*/src/projects/project-schema.js',
+    '.*/src/issues/issue-schema.js'
   ]
 };
