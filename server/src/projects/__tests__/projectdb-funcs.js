@@ -43,6 +43,7 @@ describe('remove(): ', () => {
     const testProject = buildTestProject();
     const { title } = testProject;
 
+    await projectDB.insertOne(testProject);
     await projectDB.delete({ title });
 
     const result = await projectDB.find({ title });

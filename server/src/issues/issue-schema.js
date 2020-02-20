@@ -1,3 +1,9 @@
+import {
+  statusValues,
+  priorityValues,
+  progressValues
+} from 'helpers/issue-schema-enums';
+
 export async function createIssueSchema(database) {
   const db = await database;
   db.createCollection('issues', {
@@ -27,13 +33,13 @@ export async function createIssueSchema(database) {
             bsonType: 'date'
           },
           priority: {
-            enum: ['HIGH', 'MEDIUM', 'LOW']
+            enum: priorityValues
           },
           status: {
-            enum: ['OPEN', 'CLOSED']
+            enum: statusValues
           },
           progress: {
-            enum: ['backlog', 'in progress', 'done']
+            enum: progressValues
           },
           createdBy: {
             bsonType: 'object',

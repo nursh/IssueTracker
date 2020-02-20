@@ -1,7 +1,7 @@
 export default function issueDBFuncs(database) {
   return Object.freeze({
     find,
-    deleteOne,
+    delete: remove,
     insertOne,
     updateOne
   });
@@ -22,17 +22,20 @@ export default function issueDBFuncs(database) {
   async function find(query) {
     const db = await database;
     try {
-      const issues = await db.collection('issues').find(query);
-      return issues ? issues : null;
+      const issues = await db
+        .collection('issues')
+        .find(query)
+        .toArray();
+      return issues.length > 0 ? issues : null;
     } catch (error) {
       console.error(error);
     }
   }
 
-  async function deleteOne(query) {
+  async function remove(query) {
     const db = await database;
     try {
-      await db.collection('issues').deleteOne(query);
+      await db.collection('issues').deleteMany(query);
     } catch (error) {
       console.error(error);
     }
@@ -41,7 +44,12 @@ export default function issueDBFuncs(database) {
   async function updateOne(issueId, query) {
     const db = await database;
     try {
-      await db.collection('issues').update({ _id: issueId }, query);
+      const result = await db
+        .collection('issues')
+        .findOneAndUpdate({ _id: issueId }, query, { returnOriginal: false });
+      return {
+        updated: result.value
+      };
     } catch (error) {
       console.error(error);
     }

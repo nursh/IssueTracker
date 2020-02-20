@@ -1,4 +1,9 @@
 import { requiredParam } from './required-param';
+import {
+  statusValues,
+  priorityValues,
+  progressValues
+} from 'helpers/issue-schema-enums';
 
 export const validateIssue = ({
   title = requiredParam('title'),
@@ -27,21 +32,21 @@ export const validateIssue = ({
 };
 
 export function validateProgress(progress) {
-  const validStates = ['backlog', 'in progress', 'done'];
+  const validStates = progressValues;
   if (!validStates.includes(progress)) {
     throw new Error('Progress value is not valid.');
   }
 }
 
 export function validateStatus(status) {
-  const validStates = ['OPEN', 'CLOSED'];
+  const validStates = statusValues;
   if (!validStates.includes(status)) {
     throw new Error('Status value is not valid.');
   }
 }
 
 export function validatePriority(priority) {
-  const validStates = ['HIGH', 'MEDIUM', 'LOW'];
+  const validStates = priorityValues;
   if (!validStates.includes(priority)) {
     throw new Error('Priority value is not valid.');
   }
