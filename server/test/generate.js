@@ -98,6 +98,7 @@ export function buildTestProject({ title = true, createdBy = true } = {}) {
   return {
     ...(title && { title: getProjectTitle() }),
     description: getProjectDescription(),
+    createdOn: new Date(),
     ...(createdBy && {
       createdBy: {
         id: getId(),

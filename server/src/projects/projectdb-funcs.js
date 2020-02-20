@@ -2,7 +2,7 @@ export default function projectDBFuncs(database) {
   return Object.freeze({
     insertOne,
     find,
-    deleteOne,
+    delete: remove,
     addTeamMember
   });
 
@@ -24,17 +24,20 @@ export default function projectDBFuncs(database) {
   async function find(query) {
     const db = await database;
     try {
-      const projects = await db.collection('projects').find(query);
-      return projects ? projects : null;
+      const projects = await db
+        .collection('projects')
+        .find(query)
+        .toArray();
+      return projects.length > 0 ? projects : null;
     } catch (error) {
       console.error(error);
     }
   }
 
-  async function deleteOne(query) {
+  async function remove(query) {
     const db = await database;
     try {
-      await db.collection('projects').deleteOne(query);
+      await db.collection('projects').deleteMany(query);
     } catch (error) {
       console.error(error);
     }
@@ -45,7 +48,7 @@ export default function projectDBFuncs(database) {
     try {
       await db
         .collection('projects')
-        .update({ _id: projectId }, { $push: { team: user } });
+        .updateOne({ _id: projectId }, { $push: { team: user } });
     } catch (error) {
       console.error(error);
     }

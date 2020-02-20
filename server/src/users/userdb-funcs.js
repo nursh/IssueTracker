@@ -6,7 +6,7 @@ export default function userDBFuncs(database) {
     findById,
     insertOne,
     findOne,
-    deleteMany
+    delete: remove
   });
 
   async function findByEmail(email) {
@@ -57,10 +57,10 @@ export default function userDBFuncs(database) {
     }
   }
 
-  async function deleteMany() {
+  async function remove(query) {
     const db = await database;
     try {
-      await db.collection('users').deleteMany({});
+      await db.collection('users').deleteMany(query);
     } catch (error) {
       console.error(error);
     }
