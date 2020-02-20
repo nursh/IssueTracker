@@ -15,6 +15,7 @@ module.exports = {
     '.*/src/passport/',
     '.*/src/users/user-schema.js',
     '.*/src/projects/project-schema.js',
-    '.*/src/issues/issue-schema.js'
+    '.*/src/issues/issue-schema.js',
+    '.*/src/helpers/issue-schema-enums.js'
   ]
 };
