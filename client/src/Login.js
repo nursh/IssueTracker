@@ -2,8 +2,7 @@ import React from "react";
 import {
   Switch,
   Route,
-  useRouteMatch,
-  useParams
+  useRouteMatch
 } from "react-router-dom";
 
 import Header from "./Header";
@@ -19,25 +18,16 @@ function Login() {
       <Header url={url} />
 
       <Switch>
-        <Route exact path={path}>
+        <Route exact path={[path, `${path}/signin`]}>
           <SignIn />
         </Route>
-        <Route path={`${path}/:formId`}>
-          <Form />
+        <Route path={`${path}/signup`}>
+          <SignUp />
         </Route>
       </Switch>
     </div>
   );
 }
 
-const Form = () => {
-  let { formId } = useParams();
-
-  return (
-    formId === 'signin' 
-      ? <SignIn />
-      : <SignUp />
-  );
-}
 
 export default Login;
