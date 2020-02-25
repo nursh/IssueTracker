@@ -1,12 +1,17 @@
 import React from 'react';
-import Header from './Header';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Login from './Login';
 
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Header />
-    </div>
+  <Router>
+    <Switch>
+      <Route path="/index">
+        <Login />
+      </Route>
+    </Switch>
+  </Router>
   );
 }
 
