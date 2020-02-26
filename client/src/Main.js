@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from './Sidebar'
-import DeleteProject from './Modals/DeleteProject'
+import DeleteProject from './Modals/DeleteProject';
+
 
 export default function Main() {
   return (

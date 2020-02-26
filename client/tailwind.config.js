@@ -4,6 +4,9 @@ const { colors } = require('tailwindcss/defaultTheme');
 module.exports = {
   theme: {
     extend: {
+      spacing: {
+        '72': '34rem'
+      },
       colors: {
         gray: {
           ...colors.gray,
@@ -13,5 +16,7 @@ module.exports = {
     }
   },
   variants: {},
-  plugins: []
+  plugins: [
+    require('@tailwindcss/custom-forms')
+  ]
 };
