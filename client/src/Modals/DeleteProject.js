@@ -3,8 +3,8 @@ import sprite from '../images/sprite.svg';
 
 export default function DeleteProject() {
   return (
-    <div className="w-5/12 shadow m-auto border-red-600">
-      <div className="bg-red-200 text-red-700 px-6 py-3">
+    <div className="w-72 shadow m-auto border-red-600">
+      <div className="bg-red-200 text-red-700 px-6 py-3 text-center">
         <h3 className="font-semibold text-lg">Delete Project</h3>
       </div>
 
@@ -25,8 +25,8 @@ export default function DeleteProject() {
       </div>
 
       <div className="flex justify-end items-center bg-gray-100 py-3 px-6">
-        <button className="font-medium text-gray-600">Cancel</button>
-        <button className="ml-6 text-red-700 font-medium bg-red-200 py-1 px-6 rounded">
+        <button className="font-medium text-gray-600 focus:outline-none">Cancel</button>
+        <button className="ml-6 text-red-700 font-medium bg-red-200 py-1 px-6 rounded focus:outline-none">
           Delete
         </button>
       </div>
