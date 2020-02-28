@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function CreateProject() {
+export default function CreateProject({ history }) {
   return (
-    <div className="w-72 m-auto shadow px-8 py-10 border">
+    <div className="w-72 m-auto shadow px-8 py-10 border z-50 bg-white">
       <h2 className="text-center mb-10 font-semibold text-xl uppercase tracking-wide">
         Create Project
       </h2>
@@ -38,11 +38,11 @@ export default function CreateProject() {
           />
         </div>
 
-        <button className="shadow rounded px-4 py-3 bg-indigo-600 text-white mt-10 hover:bg-indigo-700 uppercase text-sm">
+        <button type="submit" className="shadow rounded px-4 py-3 bg-indigo-600 text-white mt-10 hover:bg-indigo-700 uppercase text-sm">
           Create Project
         </button>
 
-        <button className="shadow rounded px-4 py-3 border mt-4 hover:bg-gray-200 uppercase text-sm">
+        <button type="button" onClick={() => history.goBack()} className="shadow rounded px-4 py-3 border mt-4 hover:bg-gray-200 uppercase text-sm">
           Cancel
         </button>
       </form>

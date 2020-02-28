@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import sprite from "./images/sprite.svg";
 
-export default function Sidebar() {
+export default function Sidebar({ url }) {
   return (
     <div className="block w-64 px-8 py-4 bg-indigo-700 border-r overflow-auto text-white">
       <div className="mb-2">
@@ -17,7 +17,7 @@ export default function Sidebar() {
 
       <div className="my-10 -mx-3">
         <NavLink
-          to="/"
+          to={`${url}/projects`}
           className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
         >
           Back to Projects
@@ -32,31 +32,31 @@ export default function Sidebar() {
         </h3>
         <div className="mt-2 -mx-3">
           <NavLink
-            to="/"
+            to={`${url}/project`}
             className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
           >
             Project Board
           </NavLink>
           <NavLink
-            to="/"
+            to={`${url}/project-details`}
             className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
           >
             Project Details
           </NavLink>
           <NavLink
-            to="/"
+            to={`${url}/manage-issues`}
             className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
           >
             Manage Issues
           </NavLink>
           <NavLink
-            to="/"
+            to={`${url}/create-issue`}
             className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
           >
             Create Issue
           </NavLink>
           <NavLink
-            to="/"
+            to={`${url}/delete-project`}
             className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
           >
             Delete Project
@@ -68,7 +68,7 @@ export default function Sidebar() {
 
       <div className="mt-10 -mx-3">
         <NavLink
-          to="/"
+          to="/index"
           className="flex items-center font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
         >
           <svg className="fill-current h-5 w-5">
