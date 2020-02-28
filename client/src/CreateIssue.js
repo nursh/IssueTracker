@@ -1,5 +1,6 @@
 import React from "react";
 
+
 export default function CreateIssue({ history }) {
   return (
     <div className="w-72 m-auto shadow px-8 py-10 border z-50 bg-white">

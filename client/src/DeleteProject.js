@@ -4,6 +4,7 @@ import sprite from './images/sprite.svg';
 export default function DeleteProject({ history }) {
   return (
     <div className="w-72 shadow m-auto border-red-600 z-50 bg-white">
+
       <div className="bg-red-200 text-red-700 px-6 py-3 text-center">
         <h3 className="font-semibold text-lg">Delete Project</h3>
       </div>

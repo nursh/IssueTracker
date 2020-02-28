@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 export default function CreateProject({ history }) {
   return (
     <div className="w-72 m-auto shadow px-8 py-10 border z-50 bg-white">
@@ -37,6 +38,7 @@ export default function CreateProject({ history }) {
             className="mt-2 py-3 px-4 rounded bg-gray-200 border"
           />
         </div>
+
 
         <button type="submit" className="shadow rounded px-4 py-3 bg-indigo-600 text-white mt-10 hover:bg-indigo-700 uppercase text-sm">
           Create Project
