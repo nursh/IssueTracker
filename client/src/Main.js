@@ -5,7 +5,8 @@ import {
   useRouteMatch,
   useParams
 } from 'react-router-dom'
-import Sidebar from './Sidebar'
+import Sidebar from './Sidebar';
+import Boards from './Boards';
 import DeleteProject from './DeleteProject';
 import CreateIssue from './CreateIssue'
 import Modal from './Modals/useModal';
@@ -19,6 +20,9 @@ export default function Main() {
     <div className="h-screen flex">
       <Sidebar url={url} />
       <Switch>
+        <Route exact path={`${path}`}>
+          <Boards />
+        </Route>
         <Route path={`${path}/:page`}>
           <Page />
         </Route>
