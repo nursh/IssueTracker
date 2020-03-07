@@ -35,12 +35,14 @@ export default function Modal({ UI }) {
   const history = useHistory();
   const escKey = useKeyPress('Escape');
 
-  const modalClasses = classNames("fixed w-full h-full flex items-center justify-center", {
+  const modalClasses = classNames("fixed w-full h-full flex items-center justify-center z-50", {
     'hidden': escKey
   });
 
   useEffect(() => {
-    if (escKey) history.goBack();
+    if (escKey) {
+      history.goBack();
+    }
   }, [escKey, history]);
 
   return (

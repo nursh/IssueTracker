@@ -3,7 +3,8 @@ import {
   Switch,
   Route,
   useRouteMatch,
-  useParams
+  useParams,
+  useLocation
 } from 'react-router-dom'
 import Sidebar from './Sidebar';
 import Boards from './Boards';
@@ -15,18 +16,25 @@ import Modal from './Modals/useModal';
 
 export default function Main() {
   const { path, url } = useRouteMatch();
+  const location = useLocation();
+  
+  const modal = location.state && location.state.modal;
+  console.log(modal);
 
   return (
     <div className="h-screen flex">
       <Sidebar url={url} />
-      <Switch>
+      <Switch location={modal || location}>
         <Route exact path={`${path}`}>
           <Boards />
         </Route>
+      </Switch>
+
+      {modal && (
         <Route path={`${path}/:page`}>
           <Page />
         </Route>
-      </Switch>
+      )}
     </div>
   );
 }
