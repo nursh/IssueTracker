@@ -61,7 +61,25 @@ function EmptyProjects({ path, location }) {
 
 function Sub({ projects = false, path, location }) {
   if (projects) {
-     return <ProjectTable />;
+    return (
+      <>
+        <ProjectTable />
+        <NavLink
+          to={{
+            pathname: `${path}/create-project`,
+            state: { modal: location }
+          }}
+          className="m-auto mt-10 w-48 rounded px-1 py-4 bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700"
+        >
+          <svg className="fill-current h-3 w-3">
+            <use xlinkHref={`${sprite}#icon-plus`} />
+          </svg>
+          <span className="uppercase tracking-wide ml-3 font-medium text-sm">
+            Add Project
+          </span>
+        </NavLink>
+      </>
+    );
   }
   return <EmptyProjects path={path} location={location} />
 }

@@ -11,6 +11,7 @@ import Boards from './Boards';
 import DeleteProject from './DeleteProject';
 import CreateIssue from './CreateIssue'
 import Modal from './Modals/useModal';
+import ManageIssues from './ManageIssues';
 
 
 
@@ -27,6 +28,9 @@ export default function Main() {
       <Switch location={modal || location}>
         <Route exact path={`${path}`}>
           <Boards />
+        </Route>
+        <Route path={`${path}/manage-issues`}>
+          <ManageIssues />
         </Route>
       </Switch>
 

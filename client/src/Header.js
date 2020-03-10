@@ -8,7 +8,7 @@ import sprite from "./images/sprite.svg";
 export default function Header(props) {
   const { url } = props;
   return (
-    <div className="bg-white shadow px-10">
+    <div className="bg-white shadow px-10 border-purple-600 border-t-4">
       <div className="max-w-screen-xl h-16 flex items-center justify-between m-auto py-2">
         <h1 className="text-lg font-semibold uppercase tracking-wider">Issue Tracker</h1>
         <RightHeader url={url} />

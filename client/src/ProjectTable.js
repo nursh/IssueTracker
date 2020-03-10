@@ -40,16 +40,14 @@ function TableRow({ project }) {
 
   const { title, owner, date } = project;
   return (
-    <>
-      <tr className="hover:shadow-md hover:bg-gray-100 border-b">
-        <td className="px-2 py-4">{title}</td>
-        <td className="px-2 py-4">{owner}</td>
-        <td className="px-2 py-4 text-right">{date}</td>
-        <td className="px-2 py-4 uppercase text-sm font-medium font-gray-500 hover:underline">
-          {/* If searching for other projects, the text should be Join Project */}
-          <NavLink to="/project">View Project</NavLink>
-        </td>
-      </tr>
-    </>
+    <tr className="hover:shadow-md hover:bg-gray-100 border-b">
+      <td className="px-2 py-4">{title}</td>
+      <td className="px-2 py-4">{owner}</td>
+      <td className="px-2 py-4 text-right">{date}</td>
+      <td className="px-2 py-4 uppercase text-sm font-medium text-gray-600 hover:underline">
+        {/* If searching for other projects, the text should be Join Project */}
+        <NavLink to="/project">View Project</NavLink>
+      </td>
+    </tr>
   );
 }
