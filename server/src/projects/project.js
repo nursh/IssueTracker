@@ -5,6 +5,5 @@ export default function buildProject(
   projectInfo = requiredParam('projectInfo')
 ) {
   const project = validateProject(projectInfo);
-
   return project;
 }
