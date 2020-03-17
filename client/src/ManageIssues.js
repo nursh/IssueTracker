@@ -1,10 +1,12 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 
 import sprite from "./images/sprite.svg";
 
-export default function ManageIssues() {
+export default function ManageIssues({ url }) {
+
+  const location = useLocation();
   return (
     <div className="flex flex-col w-full">
       <div className="p-4 border-b shadow">
@@ -56,7 +58,7 @@ export default function ManageIssues() {
             </select>
           </div>
 
-          <button className="flex items-center bg-purple-600 hover:bg-purple-700 text-white rounded px-4 py-2 ml-12">
+          <button className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white rounded px-4 py-2 ml-12">
             <svg className="h-5 w-5 fill-current">
               <use xlinkHref={`${sprite}#icon-filter_list`} />
             </svg>
@@ -98,7 +100,7 @@ export default function ManageIssues() {
                 createdOn: "February 29, 2019"
               }
             ].map((issue, idx) => (
-              <IssueRow key={idx} issue={issue} />
+              <IssueRow key={idx} issue={issue} url={url} location={location} />
             ))}
           </tbody>
         </table>
@@ -107,7 +109,7 @@ export default function ManageIssues() {
   );
 }
 
-function IssueRow({ issue }) {
+function IssueRow({ issue, url, location }) {
   const {
     title,
     priority,
@@ -123,14 +125,21 @@ function IssueRow({ issue }) {
       <td className="px-2 py-4">{createdBy}</td>
       <td className="px-2 py-4">{createdOn}</td>
       <td className="px-2 py-4">
-        <NavLink to={`/edit-issue`}>
+        <NavLink to={{
+          pathname: `${url}/edit-issue`,
+          state: { modal: location }
+        }}
+        >
           <svg className="h-6 w-6">
             <use xlinkHref={`${sprite}#icon-edit`} />
           </svg>
         </NavLink>
       </td>
       <td className="px-2 py-4">
-        <NavLink to={`/delete-issue`}>
+        <NavLink to={{
+          pathname: `${url}/delete-issue`,
+          state: { modal: location }
+        }}>
           <svg className="h-6 w-6">
             <use xlinkHref={`${sprite}#icon-trashcan`} />
           </svg>

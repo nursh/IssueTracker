@@ -9,9 +9,11 @@ import {
 import Sidebar from './Sidebar';
 import Boards from './Boards';
 import DeleteProject from './DeleteProject';
+import DeleteIssue from './DeleteIssue';
 import CreateIssue from './CreateIssue'
 import Modal from './Modals/useModal';
 import ManageIssues from './ManageIssues';
+import EditIssue from './EditIssue';
 
 
 
@@ -30,7 +32,7 @@ export default function Main() {
           <Boards />
         </Route>
         <Route path={`${path}/manage-issues`}>
-          <ManageIssues />
+          <ManageIssues url={url} />
         </Route>
       </Switch>
 
@@ -50,6 +52,10 @@ function Page() {
       return <Modal UI={CreateIssue} />
     case 'delete-project':
       return <Modal UI={DeleteProject} />
+    case 'edit-issue':
+      return <Modal UI={EditIssue} />
+    case 'delete-issue':
+      return <Modal UI={DeleteIssue} />
     default: break;    
   }
 }
