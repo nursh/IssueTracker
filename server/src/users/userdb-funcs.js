@@ -18,7 +18,7 @@ export default function userDBFuncs(database) {
 
   async function findById(userId) {
     const db = await database;
-    const user = await db.collection('users').findOne({ id: userId });
+    const user = await db.collection('users').findOne({ _id: userId });
 
     return user ? user : null;
   }

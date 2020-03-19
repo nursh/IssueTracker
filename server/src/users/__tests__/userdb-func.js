@@ -1,3 +1,6 @@
+import ObjectID from 'bson-objectid';
+import { ObjectId } from 'mongodb';
+
 import { userDB } from '../index';
 import { buildTestUser } from 'test/generate';
 
@@ -57,14 +60,14 @@ describe('findByEmail(): ', () => {
 
 describe('findById(): ', () => {
   it('returns an existing user given existing id', async () => {
-    const id = user.id;
+    const id = user._id;
 
     const foundUser = await userDB.findById(id);
     expect(foundUser).not.toBeNull();
   });
 
   it('returns null when user with id does not exist', async () => {
-    const id = 'some_id';
+    const id = ObjectId(ObjectID.generate());
 
     const foundUser = await userDB.findById(id);
     expect(foundUser).toBeNull();
