@@ -1,5 +1,5 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-
+import { ObjectId } from 'mongodb';
 import { userDB } from '../users';
 
 const jwtOptions = {
@@ -9,7 +9,8 @@ const jwtOptions = {
 
 const jwtLogin = new JwtStrategy(jwtOptions, async (tokenPayload, done) => {
   try {
-    const user = await userDB.findById(tokenPayload.sub);
+    const userId = ObjectId(tokenPayload.sub);
+    const user = await userDB.findById(userId);
     if (!user) return done(null, false);
     return done(null, user);
   } catch (error) {

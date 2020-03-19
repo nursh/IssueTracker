@@ -1,14 +1,9 @@
 import jwt from 'jsonwebtoken';
 
 export function signToken(user) {
-  const createdTimestamp = new Date().getTime();
-  const token = jwt.sign(
-    {
-      iss: 'Issue Tracker',
-      sub: user.id,
-      iat: createdTimestamp
-    },
-    process.env.JWT_SECRET
-  );
+  const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, {
+    expiresIn: '7d',
+    issuer: 'Issue Tracker'
+  });
   return token;
 }
