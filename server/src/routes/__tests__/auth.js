@@ -25,8 +25,14 @@ describe('/auth/signup', () => {
       .post('/auth/signup')
       .send(newUser);
 
-    expect(response.statusCode).toBe(201);
-    expect(response.body).toHaveProperty('token');
+    expect(response).toEqual(
+      expect.objectContaining({
+        status: 201,
+        body: {
+          token: expect.any(String)
+        }
+      })
+    );
   });
 
   test('responds with an error when the user already exists', async () => {
@@ -106,7 +112,13 @@ describe('/auth/signin', () => {
       .post('/auth/signin')
       .send(userDetails);
 
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toHaveProperty('token');
+    expect(response).toEqual(
+      expect.objectContaining({
+        status: 200,
+        body: {
+          token: expect.any(String)
+        }
+      })
+    );
   });
 });

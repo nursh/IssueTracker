@@ -1,10 +1,22 @@
-/* eslint-disable no-unused-vars */
 import { projectDB } from 'projects';
-import { decodeToken } from 'helpers/jwt-helper';
 
-export function getProjectsController(req, res) {
+export async function getProjectsController(req, res) {
   try {
-    res.status(200).json({ message: req.user });
+    let query;
+    if (req.body.search) {
+      query = {
+        $text: {
+          $search: req.body.search
+        }
+      };
+    } else {
+      query = {
+        'createdBy.id': req.user._id
+      };
+    }
+    const projects = await projectDB.find(query);
+
+    res.status(200).json({ projects });
   } catch (error) {
     console.error(error);
   }

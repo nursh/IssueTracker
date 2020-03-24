@@ -40,27 +40,37 @@ function RightHeader({ url }) {
 
   return (
     <>
-      <div className="relative ml-3 w-70">
-        <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-600">
-          <svg className="fill-current h-5 w-5">
-            <use xlinkHref={`${sprite}#icon-search`} />
-          </svg>
-        </span>
-        <input
-          type="text"
-          placeholder="Search for Projects..."
-          className="block w-full outline-none rounded-md border border-gray-400 pl-10 pr-4 py-2 text-sm text-gray-900 placeholder-gray-600"
-        />
+      <div className="flex items-center">
+        <div className="relative ml-3 w-70">
+          <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-600">
+            <svg className="fill-current h-5 w-5">
+              <use xlinkHref={`${sprite}#icon-search`} />
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="Search for projects..."
+            className="block w-full outline-none rounded-l-md border border-gray-400 pl-10 pr-4 py-2 text-sm text-gray-900 placeholder-gray-600"
+          />
+        </div>
       </div>
       <div className="flex items-center ">
-        <NavLink to="/" className="hover:underline font-medium uppercase text-sm">
+        <NavLink
+          to="/"
+          className="hover:underline font-medium uppercase text-sm"
+        >
           My Projects
         </NavLink>
         <div className="ml-10 flex items-baseline">
           <Avatar name="John Guarnane" round={true} size={35} color="#8175D8" />
-          <span className="ml-2 font-medium uppercase text-sm">John Guarnane</span>
+          <span className="ml-2 font-medium uppercase text-sm">
+            John Guarnane
+          </span>
         </div>
-        <NavLink to="/index" className="hover:underline ml-10 flex items-center text-gray-700">
+        <NavLink
+          to="/index"
+          className="hover:underline ml-10 flex items-center text-gray-700"
+        >
           <svg className="fill-current h-5 w-5">
             <use xlinkHref={`${sprite}#icon-log-out`} />
           </svg>
