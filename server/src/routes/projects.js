@@ -5,5 +5,8 @@ import { requireAuth } from '../passport';
 
 const router = Router();
 
-router.get('/:projectId', requireAuth, getProjectsController);
+router
+  .route('/:projectId')
+  .all(requireAuth)
+  .get(getProjectsController);
 export default router;
