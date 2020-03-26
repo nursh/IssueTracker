@@ -1,8 +1,12 @@
-import { getProjectsController, deleteProjectController } from '../projects';
+import {
+  getProjectsController,
+  deleteProjectController,
+  createProjectController
+} from '../projects';
 import * as projects from 'projects';
 import ObjectID from 'bson-objectid';
 import { ObjectId } from 'mongodb';
-import { buildReq, buildRes } from 'test/generate';
+import { buildReq, buildRes, buildTestProject } from 'test/generate';
 
 jest.mock('projects');
 
@@ -94,5 +98,72 @@ describe('DELETE projects: ', () => {
     });
   });
 
-  test('returns a 403 forbidden given different createdById and user._id', async () => {});
+  test('returns a 403 forbidden given different createdById and user._id', async () => {
+    const projectId = ObjectId(ObjectID.generate());
+    const req = buildReq(
+      {
+        projectId: projectId,
+        createdById: 'user-id-1'
+      },
+      {
+        user: { _id: 'user-id' }
+      }
+    );
+
+    const res = buildRes();
+
+    await deleteProjectController(req, res);
+
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(403);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({
+      message: 'User not allowed to delete project'
+    });
+  });
+});
+
+describe('CREATE projects: ', () => {
+  test('given valid inputs returns a 200 status with the inserted project', async () => {
+    const project = buildTestProject();
+    const req = buildReq({ project });
+    const res = buildRes();
+
+    projects.buildProject.mockImplementation(project => project);
+    projects.projectDB.insertOne.mockImplementation(project => ({
+      success: true,
+      inserted: project
+    }));
+
+    await createProjectController(req, res);
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({
+      message: project
+    });
+  });
+
+  test('responds with 422 when insert into database fails', async () => {
+    const project = buildTestProject();
+    const req = buildReq({ project });
+    const res = buildRes();
+
+    projects.buildProject.mockImplementation(project => project);
+    projects.projectDB.insertOne.mockImplementation(project => ({
+      success: false,
+      inserted: null
+    }));
+
+    await createProjectController(req, res);
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(422);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({
+      message: 'Could not create project.'
+    });
+  });
 });
