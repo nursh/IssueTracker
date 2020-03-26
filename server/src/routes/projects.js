@@ -1,12 +1,16 @@
 import { Router } from 'express';
 
-import { getProjectsController } from '../controllers/projects';
+import {
+  getProjectsController,
+  deleteProjectController
+} from '../controllers/projects';
 import { requireAuth } from '../passport';
 
 const router = Router();
 
 router
-  .route('/:projectId')
+  .route('/')
   .all(requireAuth)
-  .get(getProjectsController);
+  .get(getProjectsController)
+  .delete(deleteProjectController);
 export default router;

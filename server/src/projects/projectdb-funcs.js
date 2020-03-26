@@ -2,7 +2,8 @@ export default function projectDBFuncs(database) {
   return Object.freeze({
     insertOne,
     find,
-    delete: remove,
+    deleteMany,
+    deleteOne,
     addTeamMember
   });
 
@@ -34,10 +35,19 @@ export default function projectDBFuncs(database) {
     }
   }
 
-  async function remove(query) {
+  async function deleteMany(query) {
     const db = await database;
     try {
       await db.collection('projects').deleteMany(query);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function deleteOne(query) {
+    const db = await database;
+    try {
+      await db.collection('projects').deleteOne(query);
     } catch (error) {
       console.error(error);
     }

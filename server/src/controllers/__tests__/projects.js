@@ -1,5 +1,7 @@
-import { getProjectsController } from '../projects';
+import { getProjectsController, deleteProjectController } from '../projects';
 import * as projects from 'projects';
+import ObjectID from 'bson-objectid';
+import { ObjectId } from 'mongodb';
 import { buildReq, buildRes } from 'test/generate';
 
 jest.mock('projects');
@@ -62,4 +64,35 @@ describe('GET projects: ', () => {
       projects: []
     });
   });
+});
+
+describe('DELETE projects: ', () => {
+  test('deletes a project given the same createdById and user._id', async () => {
+    projects.projectDB.deleteOne.mockImplementation(query => {});
+
+    const projectId = ObjectId(ObjectID.generate());
+    const req = buildReq(
+      {
+        projectId: projectId,
+        createdById: 'user-id'
+      },
+      {
+        user: { _id: 'user-id' }
+      }
+    );
+
+    const res = buildRes();
+
+    await deleteProjectController(req, res);
+
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({
+      message: 'success'
+    });
+  });
+
+  test('returns a 403 forbidden given different createdById and user._id', async () => {});
 });
