@@ -50,6 +50,7 @@ export async function createProjectSchema(database) {
     });
 
     db.collection('projects').createIndex({
+      'createdBy.name': 'text',
       title: 'text'
     });
   } catch (error) {

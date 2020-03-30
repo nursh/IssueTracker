@@ -19,7 +19,8 @@
           "test": "./test",
           "helpers": "./src/helpers",
           "users": "./src/users",
-          "projects": "./src/projects"
+          "projects": "./src/projects",
+          "issues": "./src/issues"
         }
       }
     ]

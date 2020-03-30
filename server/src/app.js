@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import passport from 'passport';
 import 'dotenv/config';
 
 import authRouter from './routes/auth';
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use(cors());
 app.use(helmet());
+app.use(passport.initialize());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
 }

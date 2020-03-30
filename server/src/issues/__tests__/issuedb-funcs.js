@@ -9,7 +9,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await issueDB.delete({});
+  await issueDB.deleteMany({});
 });
 
 describe('insertOne(): ', () => {
@@ -40,13 +40,26 @@ describe('find(): ', () => {
   });
 });
 
-describe('remove(): ', () => {
+describe('deleteMany(): ', () => {
   it('removes an existing issue', async () => {
     const testIssue = buildTestIssue();
     await issueDB.insertOne(testIssue);
 
     const { title } = testIssue;
-    await issueDB.delete({ title });
+    await issueDB.deleteMany({ title });
+
+    const result = await issueDB.find({ title });
+    expect(result).toBeNull();
+  });
+});
+
+describe('deleteOne(): ', () => {
+  it('removes an existing issue', async () => {
+    const testIssue = buildTestIssue();
+    await issueDB.insertOne(testIssue);
+
+    const { title } = testIssue;
+    await issueDB.deleteOne({ title });
 
     const result = await issueDB.find({ title });
     expect(result).toBeNull();

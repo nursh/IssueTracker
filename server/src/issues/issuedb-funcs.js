@@ -1,7 +1,8 @@
 export default function issueDBFuncs(database) {
   return Object.freeze({
     find,
-    delete: remove,
+    deleteMany,
+    deleteOne,
     insertOne,
     updateOne
   });
@@ -32,10 +33,19 @@ export default function issueDBFuncs(database) {
     }
   }
 
-  async function remove(query) {
+  async function deleteMany(query) {
     const db = await database;
     try {
       await db.collection('issues').deleteMany(query);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function deleteOne(query) {
+    const db = await database;
+    try {
+      await db.collection('issues').deleteOne(query);
     } catch (error) {
       console.error(error);
     }

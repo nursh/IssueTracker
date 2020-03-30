@@ -14,7 +14,7 @@ beforeEach(() => {
 });
 
 describe('signup controller', () => {
-  test('returns an error when email or password is not provided.', async () => {
+  it('returns an error when email or password is not provided.', async () => {
     const loginInfo = localSignupForm({ email: false });
     const req = buildReq(loginInfo);
     const res = buildRes();
@@ -29,7 +29,7 @@ describe('signup controller', () => {
     });
   });
 
-  test('returns an error when user already exists.', async () => {
+  it('returns an error when user already exists.', async () => {
     const loginInfo = localSignupForm();
     const req = buildReq(loginInfo);
     const res = buildRes();
@@ -46,7 +46,7 @@ describe('signup controller', () => {
     });
   });
 
-  test('returns a token given valid input fields', async () => {
+  it('returns a token given valid input fields', async () => {
     const loginInfo = localSignupForm();
     const req = buildReq(loginInfo);
     const res = buildRes();

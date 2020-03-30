@@ -9,7 +9,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await projectDB.delete({});
+  await projectDB.deleteMany({});
 });
 
 describe('insertOne(): ', () => {
@@ -38,13 +38,26 @@ describe('find(): ', () => {
   });
 });
 
-describe('remove(): ', () => {
+describe('deleteMany(): ', () => {
   it('removes an existing project', async () => {
     const testProject = buildTestProject();
     const { title } = testProject;
 
     await projectDB.insertOne(testProject);
-    await projectDB.delete({ title });
+    await projectDB.deleteMany({ title });
+
+    const result = await projectDB.find({ title });
+    expect(result).toBeNull();
+  });
+});
+
+describe('deleteOne(): ', () => {
+  it('removes an existing project', async () => {
+    const testProject = buildTestProject();
+    const { title } = testProject;
+
+    await projectDB.insertOne(testProject);
+    await projectDB.deleteOne({ title });
 
     const result = await projectDB.find({ title });
     expect(result).toBeNull();
@@ -59,6 +72,20 @@ describe('addTeamMember(): ', () => {
     };
 
     const { _id } = project;
+    await projectDB.addTeamMember(_id, teamMember);
+
+    const result = await projectDB.find({ _id });
+    expect(result[0].team.length).toEqual(1);
+  });
+
+  it('does not add duplicate team members', async () => {
+    const teamMember = {
+      id: 'some-user-id',
+      name: 'Johnny Gudhonson'
+    };
+
+    const { _id } = project;
+    await projectDB.addTeamMember(_id, teamMember);
     await projectDB.addTeamMember(_id, teamMember);
 
     const result = await projectDB.find({ _id });

@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 describe('buildProject(): ', () => {
-  test('returns a project given valid inputs', () => {
+  it('returns a project given valid inputs', () => {
     const projectInfo = buildTestProject();
     const { validateProject } = projectValidation;
 
