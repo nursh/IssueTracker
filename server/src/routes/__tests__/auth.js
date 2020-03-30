@@ -5,7 +5,7 @@ import { userDB } from 'users';
 
 let user;
 
-beforeEach(async () => {
+beforeAll(async () => {
   user = buildTestUser();
   const {
     local: { password }
@@ -14,12 +14,12 @@ beforeEach(async () => {
   user.local.password = password;
 });
 
-afterEach(async () => {
+afterAll(async () => {
   await userDB.delete({});
 });
 
 describe('/auth/signup', () => {
-  test('signs up a user when userInfo is valid and returns a token', async () => {
+  it('signs up a user when userInfo is valid and returns a token', async () => {
     const newUser = localSignupForm();
     const response = await request(app)
       .post('/auth/signup')
@@ -35,7 +35,7 @@ describe('/auth/signup', () => {
     );
   });
 
-  test('responds with an error when the user already exists', async () => {
+  it('responds with an error when the user already exists', async () => {
     const response = await request(app)
       .post('/auth/signup')
       .send(user);
@@ -48,7 +48,7 @@ describe('/auth/signup', () => {
     `);
   });
 
-  test('responds with an error when signing up with incomplete details', async () => {
+  it('responds with an error when signing up with incomplete details', async () => {
     const incompleteUser = localSigninForm({ email: false });
 
     const response = await request(app)
@@ -65,7 +65,7 @@ describe('/auth/signup', () => {
 });
 
 describe('/auth/signin', () => {
-  test('responds with an error when signing in with incomplete details', async () => {
+  it('responds with an error when signing in with incomplete details', async () => {
     const { email } = user;
     const incompleteUser = { email };
 
@@ -77,7 +77,7 @@ describe('/auth/signin', () => {
     expect(response.body).toMatchInlineSnapshot(`Object {}`);
   });
 
-  test('responds with an error when a user does not exist', async () => {
+  it('responds with an error when a user does not exist', async () => {
     const newUser = localSigninForm();
     const response = await request(app)
       .post('/auth/signin')
@@ -87,7 +87,7 @@ describe('/auth/signin', () => {
     expect(response.body).toMatchInlineSnapshot(`Object {}`);
   });
 
-  test('responds with an error when an existing user tries to sign in with the wrong password', async () => {
+  it('responds with an error when an existing user tries to sign in with the wrong password', async () => {
     const userDetails = {
       email: user.email,
       password: 'Wrong password'
@@ -101,7 +101,7 @@ describe('/auth/signin', () => {
     expect(response.body).toMatchInlineSnapshot(`Object {}`);
   });
 
-  test('responds with a token, given an existing user with valid signin details', async () => {
+  it('responds with a token, given an existing user with valid signin details', async () => {
     const {
       email,
       local: { password }

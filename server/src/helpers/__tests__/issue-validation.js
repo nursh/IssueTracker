@@ -73,7 +73,7 @@ cases(
 );
 
 describe('validateIssue() - ', () => {
-  test('validateIssue() - should not throw an error when a valid issue is passed', () => {
+  it('validateIssue() - should not throw an error when a valid issue is passed', () => {
     expect(() => validateIssue(buildTestIssue())).not.toThrowError();
   });
 });

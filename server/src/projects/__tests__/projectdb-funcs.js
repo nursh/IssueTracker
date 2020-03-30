@@ -77,4 +77,18 @@ describe('addTeamMember(): ', () => {
     const result = await projectDB.find({ _id });
     expect(result[0].team.length).toEqual(1);
   });
+
+  it('does not add duplicate team members', async () => {
+    const teamMember = {
+      id: 'some-user-id',
+      name: 'Johnny Gudhonson'
+    };
+
+    const { _id } = project;
+    await projectDB.addTeamMember(_id, teamMember);
+    await projectDB.addTeamMember(_id, teamMember);
+
+    const result = await projectDB.find({ _id });
+    expect(result[0].team.length).toEqual(1);
+  });
 });

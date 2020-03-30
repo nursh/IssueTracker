@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { projectDB, buildProject } from 'projects';
+import { issueDB } from 'issues';
 
 export async function getProjectsController(req, res) {
   try {
@@ -12,14 +13,17 @@ export async function getProjectsController(req, res) {
       };
     } else {
       query = {
-        'createdBy.id': req.user._id
+        $or: [
+          { 'createdBy.id': req.user._id.toString() },
+          { 'team.id': req.user._id.toString() }
+        ]
       };
     }
-    const projects = await projectDB.find(query);
 
+    const projects = await projectDB.find(query);
     res.status(200).json({ projects });
   } catch (error) {
-    console.error(error);
+    throw new Error(error);
   }
 }
 
@@ -35,29 +39,53 @@ export async function deleteProjectController(req, res) {
         'createdBy.id': createdById
       };
 
+      const issueQuery = {
+        project: projectId
+      };
+
       await projectDB.deleteOne(query);
-      /**
-       * TO DO -> must add deletion of related issues.
-       */
+      await issueDB.deleteMany(issueQuery);
+
       res.status(200).json({ message: 'success' });
     }
   } catch (error) {
-    console.error(error);
+    throw new Error(error);
   }
 }
 
 export async function createProjectController(req, res) {
   try {
-    const { project } = req.body;
+    let { project } = req.body;
+    project = {
+      ...project,
+      createdBy: {
+        id: req.user._id.toString(),
+        name: req.user.name
+      }
+    };
     const validatedProject = buildProject(project);
     const result = await projectDB.insertOne(validatedProject);
 
     if (result.success) {
-      res.status(200).json({ message: result.inserted });
+      res.status(200).json({ project: result.inserted });
     } else {
       res.status(422).json({ message: 'Could not create project.' });
     }
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
+  }
+}
+
+export async function updateProjectController(req, res) {
+  try {
+    let user = {
+      id: req.user._id.toString(),
+      name: req.user.name
+    };
+    const { projectId } = req.body;
+    await projectDB.addTeamMember(ObjectId(projectId), user);
+    res.status(200).json({ message: 'success' });
+  } catch (error) {
+    throw new Error(error);
   }
 }

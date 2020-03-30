@@ -58,7 +58,7 @@ export default function projectDBFuncs(database) {
     try {
       await db
         .collection('projects')
-        .updateOne({ _id: projectId }, { $push: { team: user } });
+        .updateOne({ _id: projectId }, { $addToSet: { team: user } });
     } catch (error) {
       console.error(error);
     }

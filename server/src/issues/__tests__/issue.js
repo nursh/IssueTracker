@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 describe('buildIssue(): ', () => {
-  test('returns a issue given valid inputs', () => {
+  it('returns a issue given valid inputs', () => {
     const issueInfo = buildTestIssue();
     const { validateIssue } = issueValidation;
 

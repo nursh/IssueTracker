@@ -27,7 +27,7 @@ export async function createIssueSchema(database) {
             bsonType: 'string'
           },
           project: {
-            bsonType: 'objectId'
+            bsonType: 'string'
           },
           createdOn: {
             bsonType: 'date'
@@ -45,8 +45,12 @@ export async function createIssueSchema(database) {
             bsonType: 'object',
             required: ['id', 'name'],
             properties: {
-              id: 'objectId',
-              name: 'string'
+              id: {
+                bsonType: 'string'
+              },
+              name: {
+                bsonType: 'string'
+              }
             }
           }
         }

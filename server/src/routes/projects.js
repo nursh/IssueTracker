@@ -2,7 +2,9 @@ import { Router } from 'express';
 
 import {
   getProjectsController,
-  deleteProjectController
+  deleteProjectController,
+  createProjectController,
+  updateProjectController
 } from '../controllers/projects';
 import { requireAuth } from '../passport';
 
@@ -12,5 +14,7 @@ router
   .route('/')
   .all(requireAuth)
   .get(getProjectsController)
-  .delete(deleteProjectController);
+  .delete(deleteProjectController)
+  .post(createProjectController)
+  .put(updateProjectController);
 export default router;
