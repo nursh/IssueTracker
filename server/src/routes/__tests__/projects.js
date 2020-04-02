@@ -131,6 +131,21 @@ describe('DELETE /projects: ', () => {
         }
       })
     );
+
+    const confirmDeleteResponse = await request(app)
+      .get('/projects')
+      .set('Authorization', token);
+
+    expect(confirmDeleteResponse).toEqual(
+      expect.objectContaining({
+        status: 200,
+        body: {
+          projects: expect.any(Array)
+        }
+      })
+    );
+
+    expect(confirmDeleteResponse.body.projects).toHaveLength(2);
   });
 
   it('does not delete project, given a user did not create the project', async () => {
