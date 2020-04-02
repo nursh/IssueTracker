@@ -1,6 +1,5 @@
-import { getIssuesController } from '../issues';
+import { getIssuesController, createIssueController } from '../issues';
 import * as issues from 'issues';
-/* eslint-disable */
 import { buildReq, buildRes, buildTestIssue } from 'test/generate';
 
 jest.mock('issues');
@@ -47,6 +46,91 @@ describe('GET issues: ', () => {
     expect(res.json).toHaveBeenCalledTimes(1);
     expect(res.json).toHaveBeenCalledWith({
       issues: []
+    });
+  });
+});
+
+describe('CREATE issue: ', () => {
+  it('responds with 200 given valid issue info', async () => {
+    const issue = buildTestIssue();
+    const projectId = 'project-id';
+    const user = {
+      _id: 'user-id',
+      name: 'user-name'
+    };
+    const req = buildReq({ issue, projectId }, { user });
+    const res = buildRes();
+
+    issues.buildIssue.mockImplementation(issue => issue);
+    issues.issueDB.insertOne.mockImplementation(issue => ({
+      success: true,
+      inserted: issue
+    }));
+
+    await createIssueController(req, res);
+
+    const validatedIssue = {
+      ...issue,
+      project: projectId,
+      createdBy: {
+        id: user._id,
+        name: user.name
+      }
+    };
+
+    expect(issues.buildIssue).toBeCalledTimes(1);
+    expect(issues.buildIssue).toBeCalledWith({ ...validatedIssue });
+
+    expect(issues.issueDB.insertOne).toBeCalledTimes(1);
+    expect(issues.issueDB.insertOne).toBeCalledWith({ ...validatedIssue });
+
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({ issue: validatedIssue });
+  });
+
+  it('responds with 422 when insert into database fails', async () => {
+    const issue = buildTestIssue();
+    const projectId = 'project-id';
+    const user = {
+      _id: 'user-id',
+      name: 'user-name'
+    };
+    const req = buildReq({ issue, projectId }, { user });
+    const res = buildRes();
+
+    issues.buildIssue.mockImplementation(issue => issue);
+    /* eslint-disable */
+    issues.issueDB.insertOne.mockImplementation(issue => ({
+      success: false,
+      inserted: null
+    }));
+
+    await createIssueController(req, res);
+
+    const validatedIssue = {
+      ...issue,
+      project: projectId,
+      createdBy: {
+        id: user._id,
+        name: user.name
+      }
+    };
+
+    expect(issues.buildIssue).toBeCalledTimes(1);
+    expect(issues.buildIssue).toBeCalledWith({ ...validatedIssue });
+
+    expect(issues.issueDB.insertOne).toBeCalledTimes(1);
+    expect(issues.issueDB.insertOne).toBeCalledWith({ ...validatedIssue });
+
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(422);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({
+      message: 'Could not create issue.'
     });
   });
 });

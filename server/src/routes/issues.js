@@ -1,12 +1,16 @@
 import { Router } from 'express';
 import { requireAuth } from '../passport';
-import { getIssuesController } from '../controllers/issues';
+import {
+  getIssuesController,
+  createIssueController
+} from '../controllers/issues';
 
 const router = Router();
 
 router
   .route('/')
   .all(requireAuth)
-  .get(getIssuesController);
+  .get(getIssuesController)
+  .post(createIssueController);
 
 export default router;
