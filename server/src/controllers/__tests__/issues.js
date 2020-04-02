@@ -1,6 +1,12 @@
-import { getIssuesController, createIssueController } from '../issues';
+import {
+  getIssuesController,
+  createIssueController,
+  deleteIssueController
+} from '../issues';
 import * as issues from 'issues';
 import { buildReq, buildRes, buildTestIssue } from 'test/generate';
+import ObjectID from 'bson-objectid';
+import { ObjectId } from 'mongodb';
 
 jest.mock('issues');
 
@@ -132,5 +138,43 @@ describe('CREATE issue: ', () => {
     expect(res.json).toHaveBeenCalledWith({
       message: 'Could not create issue.'
     });
+  });
+});
+
+describe('DELETE issues: ', () => {
+  it('deletes an issue given a valid issueId', async () => {
+    issues.issueDB.deleteOne.mockImplementation(query => {});
+
+    const issueId = ObjectId(ObjectID.generate());
+    const req = buildReq({ issueId });
+    const res = buildRes();
+
+    await deleteIssueController(req, res);
+
+    expect(issues.issueDB.deleteOne).toBeCalledTimes(1);
+    expect(issues.issueDB.deleteOne).toBeCalledWith({ _id: issueId });
+
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({ message: 'Success' });
+  });
+
+  it('responds with 400 when there is no issueId', async () => {
+    issues.issueDB.deleteOne.mockImplementation(query => {});
+
+    const req = buildReq();
+    const res = buildRes();
+
+    await deleteIssueController(req, res);
+
+    expect(issues.issueDB.deleteOne).toBeCalledTimes(0);
+
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(403);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({ message: 'IssueId is required' });
   });
 });

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { ObjectId } from 'mongodb';
 import { issueDB, buildIssue } from 'issues';
 
@@ -37,6 +36,33 @@ export async function createIssueController(req, res) {
       return res.status(200).json({ issue: inserted });
     }
     return res.status(422).json({ message: 'Could not create issue.' });
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function deleteIssueController(req, res) {
+  try {
+    const { issueId } = req.body;
+
+    if (!issueId) {
+      return res.status(403).json({ message: 'IssueId is required' });
+    }
+
+    const query = {
+      _id: ObjectId(issueId)
+    };
+
+    await issueDB.deleteOne(query);
+    res.status(200).json({ message: 'Success' });
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+/* eslint-disable */
+export async function updateIssueController(req, res) {
+  try {
   } catch (error) {
     throw new Error(error);
   }
