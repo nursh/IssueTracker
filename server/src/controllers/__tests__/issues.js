@@ -1,7 +1,8 @@
 import {
   getIssuesController,
   createIssueController,
-  deleteIssueController
+  deleteIssueController,
+  updateIssueController
 } from '../issues';
 import * as issues from 'issues';
 import { buildReq, buildRes, buildTestIssue } from 'test/generate';
@@ -141,7 +142,7 @@ describe('CREATE issue: ', () => {
   });
 });
 
-describe('DELETE issues: ', () => {
+describe('DELETE issue: ', () => {
   it('deletes an issue given a valid issueId', async () => {
     issues.issueDB.deleteOne.mockImplementation(query => {});
 
@@ -161,7 +162,7 @@ describe('DELETE issues: ', () => {
     expect(res.json).toHaveBeenCalledWith({ message: 'Success' });
   });
 
-  it('responds with 400 when there is no issueId', async () => {
+  it('responds with 403 when there is no issueId', async () => {
     issues.issueDB.deleteOne.mockImplementation(query => {});
 
     const req = buildReq();
@@ -176,5 +177,39 @@ describe('DELETE issues: ', () => {
 
     expect(res.json).toHaveBeenCalledTimes(1);
     expect(res.json).toHaveBeenCalledWith({ message: 'IssueId is required' });
+  });
+});
+
+describe('UPDATE issue: ', () => {
+  it('update fields in an issue', async () => {
+    const _id = ObjectId(ObjectID.generate());
+    let issue = buildTestIssue();
+    issue._id = _id;
+
+    const req = buildReq({ issue });
+    const res = buildRes();
+    issues.issueDB.updateOne.mockImplementation((issueId, query) => ({
+      updated: issue
+    }));
+    await updateIssueController(req, res);
+
+    expect(issues.issueDB.updateOne).toHaveBeenCalledTimes(1);
+    expect(issues.issueDB.updateOne).toHaveBeenCalledWith(issue._id, {
+      $set: {
+        description: issue.description,
+        priority: issue.priority,
+        progress: issue.progress,
+        status: issue.status,
+        title: issue.title
+      }
+    });
+
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({
+      issue
+    });
   });
 });

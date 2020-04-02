@@ -60,9 +60,21 @@ export async function deleteIssueController(req, res) {
   }
 }
 
-/* eslint-disable */
 export async function updateIssueController(req, res) {
   try {
+    const { issue } = req.body;
+    const { title, description, status, priority, progress } = issue;
+    const query = {
+      $set: {
+        title,
+        description,
+        status,
+        priority,
+        progress
+      }
+    };
+    const { updated } = await issueDB.updateOne(ObjectId(issue._id), query);
+    res.status(200).json({ issue: updated });
   } catch (error) {
     throw new Error(error);
   }

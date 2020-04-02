@@ -75,5 +75,6 @@ describe('update(): ', () => {
     });
 
     expect(updated.priority).not.toBe(priority);
+    expect(updated.priority).toEqual(newPriority);
   });
 });
