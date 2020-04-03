@@ -21,6 +21,6 @@ async function initDb() {
 }
 
 export default async function setDB() {
-  const database = await initDb();
-  return database;
+  const db = await initDb();
+  return db;
 }

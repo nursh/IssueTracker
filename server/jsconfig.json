@@ -7,6 +7,6 @@
       "*": ["test/*", "src/*"]
     }
   },
-  "include": ["src/**/*", "test/**/*"],
+  "include": ["src/**/*", "test/**/*", "global-teardown.js"],
   "exclude": ["node_modules"]
 }

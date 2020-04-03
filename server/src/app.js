@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/auth', authRouter);
-app.use('/projects/:projectId/issues', issueRouter);
+app.use('/issues', issueRouter);
 app.use('/projects', projectRouter);
 
 export { app };
