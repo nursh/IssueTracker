@@ -11,7 +11,7 @@
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:config": "jest --config test/jest.config.js",
     "test:watch": "npm run test:config -- --watchAll --runInBand",
-    "test:coverage": "npm run test:config -- --coverage --runInBand --detectOpenHandles"
+    "test:coverage": "npm run test:config -- --coverage --runInBand --forceExit"
   },
   "keywords": [],
   "author": "nur-sh",

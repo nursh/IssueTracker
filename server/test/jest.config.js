@@ -6,7 +6,6 @@ module.exports = {
   testEnvironment: 'node',
   coverageDirectory: path.join(__dirname, '../coverage'),
   setupFiles: ['dotenv/config'],
-  globalTeardown: './global-teardown.js',
   collectCoverageFrom: ['**/src/**/*.js'],
   coveragePathIgnorePatterns: [
     '.*/__tests__/.*',
