@@ -20,9 +20,7 @@ jobs:
           paths:
             - node_modules
           key: v2-dependencies-{{ checksum "package.json" }}
-      - run:
-          command: npm test
-          no_output_timeout: "30s"
+      - run: npm test
       - codecov/upload:
           file: coverage/coverage-final.json
           token: '${CODECOV_TOKEN}'
