@@ -26,28 +26,28 @@ beforeAll(async () => {
   token = response.body.token;
 
   const resProject = await request(app)
-    .post('/projects')
+    .post('/api/projects')
     .set('Authorization', token)
     .send({ project });
 
   issuesProject = resProject.body.project;
 
   const resIssueToDelete = await request(app)
-    .post('/issues')
+    .post('/api/issues')
     .set('Authorization', token)
     .send({ projectId: issuesProject._id, issue: issueOne });
 
   issueToDelete = resIssueToDelete.body.issue;
 
   const resIssueToUpdate = await request(app)
-    .post('/issues')
+    .post('/api/issues')
     .set('Authorization', token)
     .send({ projectId: issuesProject._id, issue: issueTwo });
 
   issueToUpdate = resIssueToUpdate.body.issue;
 
   await request(app)
-    .post('/issues')
+    .post('/api/issues')
     .set('Authorization', token)
     .send({ projectId: issuesProject._id, issue: issueThree });
 });
@@ -58,10 +58,10 @@ afterAll(async () => {
   await issueDB.deleteMany({});
 });
 
-describe('GET: /issues', () => {
+describe('GET: /api/issues', () => {
   it('fetches all issues related to a project', async () => {
     const response = await request(app)
-      .get('/issues')
+      .get('/api/issues')
       .set('Authorization', token)
       .send({ projectId: issuesProject._id });
 
@@ -79,7 +79,7 @@ describe('GET: /issues', () => {
 
   it('returns a 4xx error when no projectId is not given', async () => {
     const response = await request(app)
-      .get('/issues')
+      .get('/api/issues')
       .set('Authorization', token);
 
     expect(response).toEqual(
@@ -93,11 +93,11 @@ describe('GET: /issues', () => {
   });
 });
 
-describe('CREATE: /issues', () => {
+describe('CREATE: /api/issues', () => {
   it('creates a new issue given valid issueInfo', async () => {
     const issue = buildTestIssue();
     const response = await request(app)
-      .post('/issues')
+      .post('/api/issues')
       .set('Authorization', token)
       .send({
         projectId: issuesProject._id,
@@ -118,7 +118,7 @@ describe('CREATE: /issues', () => {
   });
 });
 
-describe('UPDATE /issues: ', () => {
+describe('UPDATE /api/issues: ', () => {
   it('updates an existing issue', async () => {
     const updates = {
       priority: 'MEDIUM',
@@ -127,7 +127,7 @@ describe('UPDATE /issues: ', () => {
     };
     const issue = Object.assign({}, issueToUpdate, updates);
     const response = await request(app)
-      .put('/issues')
+      .put('/api/issues')
       .set('Authorization', token)
       .send({ issue });
 
@@ -146,10 +146,10 @@ describe('UPDATE /issues: ', () => {
   });
 });
 
-describe('DELETE /issues: ', () => {
+describe('DELETE /api/issues: ', () => {
   it('deletes an issue given a valid issue id', async () => {
     const response = await request(app)
-      .delete('/issues')
+      .delete('/api/issues')
       .set('Authorization', token)
       .send({ issueId: issueToDelete._id });
 
@@ -163,7 +163,7 @@ describe('DELETE /issues: ', () => {
     );
 
     const confirmDeleteResponse = await request(app)
-      .get('/issues')
+      .get('/api/issues')
       .set('Authorization', token)
       .send({ projectId: issuesProject._id });
 
@@ -181,7 +181,7 @@ describe('DELETE /issues: ', () => {
 
   it('returns a 4xx when no issueId is given', async () => {
     const response = await request(app)
-      .delete('/issues')
+      .delete('/api/issues')
       .set('Authorization', token);
 
     expect(response).toEqual(

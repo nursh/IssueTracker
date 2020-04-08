@@ -13,7 +13,11 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true
+};
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(passport.initialize());
 if (process.env.NODE_ENV === 'development') {
@@ -21,7 +25,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/auth', authRouter);
-app.use('/issues', issueRouter);
-app.use('/projects', projectRouter);
+app.use('/api/issues', issueRouter);
+app.use('/api/projects', projectRouter);
 
 export { app };
