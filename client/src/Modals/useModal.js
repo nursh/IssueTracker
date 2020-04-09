@@ -31,7 +31,7 @@ function useKeyPress(targetKey) {
   return keyPressed;
 }
 
-export default function Modal({ UI }) {
+export default function Modal({ UI, issue }) {
   const history = useHistory();
   const escKey = useKeyPress('Escape');
 
@@ -48,7 +48,7 @@ export default function Modal({ UI }) {
   return (
     <div className={modalClasses}>
       <div className="bg-gray-900 absolute opacity-50 w-full h-full"></div>
-      <UI history={history} />
+      <UI history={history} issue={issue || undefined} />
     </div>
   )
 }

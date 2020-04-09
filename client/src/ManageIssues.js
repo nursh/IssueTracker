@@ -127,7 +127,7 @@ function IssueRow({ issue, url, location }) {
       <td className="px-2 py-4">
         <NavLink to={{
           pathname: `${url}/edit-issue`,
-          state: { modal: location }
+          state: { modal: location, issue }
         }}
         >
           <svg className="h-6 w-6">
@@ -138,7 +138,7 @@ function IssueRow({ issue, url, location }) {
       <td className="px-2 py-4">
         <NavLink to={{
           pathname: `${url}/delete-issue`,
-          state: { modal: location }
+          state: { modal: location, issue }
         }}>
           <svg className="h-6 w-6">
             <use xlinkHref={`${sprite}#icon-trashcan`} />
