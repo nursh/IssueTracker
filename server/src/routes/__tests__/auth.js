@@ -73,8 +73,14 @@ describe('/auth/signin', () => {
       .post('/auth/signin')
       .send(incompleteUser);
 
-    expect(response.statusCode).toBe(400);
-    expect(response.body).toMatchInlineSnapshot(`Object {}`);
+    expect(response).toEqual(
+      expect.objectContaining({
+        statusCode: 401,
+        body: {
+          message: 'Missing credentials'
+        }
+      })
+    );
   });
 
   it('responds with an error when a user does not exist', async () => {
@@ -83,8 +89,14 @@ describe('/auth/signin', () => {
       .post('/auth/signin')
       .send(newUser);
 
-    expect(response.statusCode).toBe(401);
-    expect(response.body).toMatchInlineSnapshot(`Object {}`);
+    expect(response).toEqual(
+      expect.objectContaining({
+        statusCode: 401,
+        body: {
+          message: 'Error: This user does not exist.'
+        }
+      })
+    );
   });
 
   it('responds with an error when an existing user tries to sign in with the wrong password', async () => {
@@ -97,8 +109,14 @@ describe('/auth/signin', () => {
       .post('/auth/signin')
       .send(userDetails);
 
-    expect(response.statusCode).toBe(401);
-    expect(response.body).toMatchInlineSnapshot(`Object {}`);
+    expect(response).toEqual(
+      expect.objectContaining({
+        statusCode: 401,
+        body: {
+          message: 'Error: Email or Password is incorrect.'
+        }
+      })
+    );
   });
 
   it('responds with a token, given an existing user with valid signin details', async () => {

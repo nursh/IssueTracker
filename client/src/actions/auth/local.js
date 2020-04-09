@@ -13,6 +13,6 @@ export const handleLocalAuth = ({ email, password, history }) => async (dispatch
     dispatch(clearError());
     history.push('/projects')
   } catch (error) {
-    dispatch(getError(error));
+    dispatch(getError(error.response.data));
   }
 };

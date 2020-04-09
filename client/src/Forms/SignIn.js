@@ -48,6 +48,13 @@ function SignIn(props) {
         </p>
 
         <form className="flex flex-col" onSubmit={formik.handleSubmit}>
+          {
+            props.error && (
+              <div className="text-red-500 text-center font-semibold">
+                {props.error}
+              </div>
+            )
+          }
           <div className="flex flex-col">
             <label
               htmlFor="email"
@@ -126,7 +133,7 @@ const signinSchema = Yup.object().shape({
     .required("Password is required"),
 });
 
-const mapStateToProps = state => ({ auth: state.auth });
+const mapStateToProps = state => ({ error: state.error });
 export default connect(
   mapStateToProps,
   { handleGoogleAuth, handleLocalAuth }

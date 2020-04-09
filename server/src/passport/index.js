@@ -1,5 +1,6 @@
 import passport from 'passport';
 
+import { userDB } from 'users';
 import { jwtLogin } from './passport-jwt';
 import { localLogin } from './passport-local';
 import { githubLogin } from './passport-github';
@@ -17,12 +18,12 @@ const authOpts = opts => {
     session: false
   };
 };
+
 const requireAuth = passport.authenticate('jwt', authOpts());
-const useLocalSignin = passport.authenticate('local', authOpts());
 const useGithubSignin = passport.authenticate('github', authOpts());
 const useGoogleSignin = passport.authenticate(
   'google',
   authOpts({ scope: ['profile', 'email'] })
 );
 
-export { requireAuth, useLocalSignin, useGithubSignin, useGoogleSignin };
+export { requireAuth, useGithubSignin, useGoogleSignin };

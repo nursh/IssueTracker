@@ -14,7 +14,9 @@ const localLogin = new LocalStrategy(
       const existingUser = await userDB.findByEmail(email);
 
       if (!existingUser) {
-        return done(null, false);
+        return done(null, false, {
+          message: 'Error: This user does not exist.'
+        });
       }
 
       const {
@@ -25,7 +27,9 @@ const localLogin = new LocalStrategy(
         return done(null, existingUser);
       }
 
-      return done(null, false);
+      return done(null, false, {
+        message: 'Error: Email or Password is incorrect.'
+      });
     } catch (error) {
       return done(error, false);
     }

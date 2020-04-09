@@ -4,7 +4,7 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 export function getError(error) {
   return {
     type: GET_ERROR,
-    payload: error
+    payload: error.message
   };
 }
 
