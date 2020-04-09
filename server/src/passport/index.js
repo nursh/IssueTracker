@@ -1,6 +1,5 @@
 import passport from 'passport';
 
-import { userDB } from 'users';
 import { jwtLogin } from './passport-jwt';
 import { localLogin } from './passport-local';
 import { githubLogin } from './passport-github';

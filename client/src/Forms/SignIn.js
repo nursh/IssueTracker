@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 import google from '../images/google.png';
 import sprite from '../images/sprite.svg';
-import { handleGoogleAuth, handleLocalAuth } from '../actions/auth'; 
+import { handleLocalSignin } from '../actions/auth'; 
 
 function SignIn(props) {
   const history = useHistory();
@@ -18,7 +18,7 @@ function SignIn(props) {
     },
     onSubmit: values => {
       const authArgs = Object.assign({}, values, { history });
-      props.handleLocalAuth(authArgs)
+      props.handleLocalSignin(authArgs)
     },
     validationSchema: signinSchema
   });
@@ -28,19 +28,23 @@ function SignIn(props) {
       <div className="mt-12 max-w-lg m-auto bg-white shadow-lg rounded px-8 py-10 border">
         <h2 className="text-center mb-6 font-semibold text-3xl">Sign in</h2>
         <div className="flex flex-col">
-          <button
+          <a
             className=" border rounded flex items-center shadow px-4 py-3 bg-white flex-grow justify-center focus:outline-none"
             onClick={props.handleGoogleAuth}
+            href="/auth/google"
           >
             <img src={google} alt="google" className="h-8 w-8" />
             <span className="ml-4 ">Sign in with Google</span>
-          </button>
-          <button className=" border rounded flex items-center shadow mt-6 px-4 py-3 bg-white justify-center focus:outline-none">
+          </a>
+          <a
+            className=" border rounded flex items-center shadow mt-6 px-4 py-3 bg-white justify-center focus:outline-none"
+            href="/auth/github"
+          >
             <svg className="h-8 w-8">
               <use xlinkHref={`${sprite}#icon-github`} />
             </svg>
             <span className="ml-4">Sign in with GitHub</span>
-          </button>
+          </a>
         </div>
 
         <p className="text-center my-8 text-lg font-semibold">
@@ -136,5 +140,5 @@ const signinSchema = Yup.object().shape({
 const mapStateToProps = state => ({ error: state.error });
 export default connect(
   mapStateToProps,
-  { handleGoogleAuth, handleLocalAuth }
+  { handleLocalSignin }
 )(SignIn);

@@ -7,13 +7,13 @@ export async function signupController(req, res) {
     const { name, email, password } = req.body;
     if (!email || !password || !name) {
       return res.status(422).json({
-        error: 'Name, Email and Password fields must be provided.'
+        message: 'Error: Name, Email and Password fields must be provided.'
       });
     }
 
     const existingUser = await userDB.findByEmail(email);
     if (existingUser) {
-      return res.status(422).json({ error: 'Email is in use' });
+      return res.status(422).json({ message: 'Error: Email is in use' });
     }
 
     const user = buildUser({

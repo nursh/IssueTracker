@@ -25,7 +25,7 @@ describe('signup controller', () => {
 
     expect(res.json).toHaveBeenCalledTimes(1);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'Name, Email and Password fields must be provided.'
+      message: 'Error: Name, Email and Password fields must be provided.'
     });
   });
 
@@ -42,7 +42,7 @@ describe('signup controller', () => {
 
     expect(res.json).toBeCalledTimes(1);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'Email is in use'
+      message: 'Error: Email is in use'
     });
   });
 

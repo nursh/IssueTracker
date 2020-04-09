@@ -1,8 +1,9 @@
 import { handleGoogleAuth } from './google';
-import { handleLocalAuth } from './local';
+import { handleLocalSignin, handleLocalSignup } from './local';
 
 
 export {
   handleGoogleAuth,
-  handleLocalAuth
+  handleLocalSignin,
+  handleLocalSignup
 }
