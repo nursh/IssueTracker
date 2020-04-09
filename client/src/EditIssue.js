@@ -6,7 +6,7 @@ export default function EditIssue({ history, issue }) {
   const formik = useFormik({
     initialValues: {
       title: issue.title,
-      description: issue.description,
+      description: issue.description || '',
       priority: issue.priority,
       status: issue.status
     },
@@ -66,7 +66,7 @@ export default function EditIssue({ history, issue }) {
           <select
             name="priority"
             id="priority"
-            className="form-select mt-2 px-4 rounded bg-gray-200 border uppercase tracking-wide"
+            className="form-select mt-2 px-4 rounded bg-gray-200 border"
             onChange={formik.handleChange}
             value={formik.values.priority}
           >
@@ -86,7 +86,7 @@ export default function EditIssue({ history, issue }) {
           <select
             name="status"
             id="status"
-            className="form-select mt-2 px-4 rounded bg-gray-200 border uppercase tracking-wide"
+            className="form-select mt-2 px-4 rounded bg-gray-200 border"
             onChange={formik.handleChange}
             value={formik.values.status}
           >
@@ -115,5 +115,8 @@ export default function EditIssue({ history, issue }) {
 }
 
 const editIssueSchema = Yup.object().shape({
-
-})
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().notRequired(),
+  priority: Yup.string().required(),
+  status: Yup.string().required()
+});
