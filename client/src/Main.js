@@ -22,7 +22,7 @@ export default function Main() {
   const location = useLocation();
   
   const modal = location.state && location.state.modal;
-  console.log(modal);
+  const issueToEdit = location.state && location.state.issue;
 
   return (
     <div className="h-screen flex">
@@ -38,14 +38,14 @@ export default function Main() {
 
       {modal && (
         <Route path={`${path}/:page`}>
-          <Page />
+          <Page issue={issueToEdit} />
         </Route>
       )}
     </div>
   );
 }
 
-function Page() {
+function Page({ issue }) {
   let { page } = useParams();
   switch(page) {
     case 'create-issue':
@@ -53,9 +53,9 @@ function Page() {
     case 'delete-project':
       return <Modal UI={DeleteProject} />
     case 'edit-issue':
-      return <Modal UI={EditIssue} />
+      return <Modal UI={EditIssue} issue={issue} />
     case 'delete-issue':
-      return <Modal UI={DeleteIssue} />
+      return <Modal UI={DeleteIssue} issue={issue} />
     default: break;    
   }
 }

@@ -27,7 +27,7 @@ beforeAll(async () => {
   tokenTwo = responseTwo.body.token;
 
   const responseProjectOne = await request(app)
-    .post('/projects')
+    .post('/api/projects')
     .set('Content-Type', 'application/json')
     .set('Authorization', token)
     .send({ project: projectOne });
@@ -35,7 +35,7 @@ beforeAll(async () => {
   project = responseProjectOne.body.project;
 
   const responseProjectTwo = await request(app)
-    .post('/projects')
+    .post('/api/projects')
     .set('Content-Type', 'application/json')
     .set('Authorization', token)
     .send({ project: projectTwo });
@@ -43,19 +43,19 @@ beforeAll(async () => {
   projectToDelete = responseProjectTwo.body.project;
 
   const responseProjectThree = await request(app)
-    .post('/projects')
+    .post('/api/projects')
     .set('Content-Type', 'application/json')
     .set('Authorization', tokenTwo)
     .send({ project: projectThree });
 
   await request(app)
-    .post('/projects')
+    .post('/api/projects')
     .set('Content-Type', 'application/json')
     .set('Authorization', tokenTwo)
     .send({ project: projectFour });
 
   await request(app)
-    .put('/projects')
+    .put('/api/projects')
     .set('Content-Type', 'application/json')
     .set('Authorization', token)
     .send({
@@ -68,10 +68,10 @@ afterAll(async () => {
   await projectDB.deleteMany({});
 });
 
-describe('GET: /projects', () => {
+describe('GET: /api/projects', () => {
   it('fetches all projects for a user given valid token', async () => {
     const response = await request(app)
-      .get('/projects')
+      .get('/api/projects')
       .set('Authorization', token);
 
     expect(response).toEqual(
@@ -91,7 +91,7 @@ describe('GET: /projects', () => {
     const searchQuery = title.split(' ')[0];
 
     const response = await request(app)
-      .get('/projects')
+      .get('/api/projects')
       .set('Authorization', tokenTwo)
       .send({ search: searchQuery });
 
@@ -108,7 +108,7 @@ describe('GET: /projects', () => {
   });
 });
 
-describe('DELETE /projects: ', () => {
+describe('DELETE: /api/projects: ', () => {
   it('deletes a project, using the createdBy user of the project', async () => {
     const {
       createdBy: { id: createdById },
@@ -116,7 +116,7 @@ describe('DELETE /projects: ', () => {
     } = projectToDelete;
 
     const response = await request(app)
-      .delete('/projects')
+      .delete('/api/projects')
       .set('Authorization', token)
       .send({
         createdById,
@@ -133,7 +133,7 @@ describe('DELETE /projects: ', () => {
     );
 
     const confirmDeleteResponse = await request(app)
-      .get('/projects')
+      .get('/api/projects')
       .set('Authorization', token);
 
     expect(confirmDeleteResponse).toEqual(
@@ -155,7 +155,7 @@ describe('DELETE /projects: ', () => {
     } = project;
 
     const response = await request(app)
-      .delete('/projects')
+      .delete('/api/projects')
       .set('Authorization', tokenTwo)
       .send({
         createdById,
@@ -173,11 +173,11 @@ describe('DELETE /projects: ', () => {
   });
 });
 
-describe('CREATE /project: ', () => {
+describe('CREATE /api/project: ', () => {
   it('creates a project given valid details', async () => {
     const project = buildTestProject();
     const response = await request(app)
-      .post('/projects')
+      .post('/api/projects')
       .set('Authorization', token)
       .send({
         project
@@ -197,10 +197,10 @@ describe('CREATE /project: ', () => {
   });
 });
 
-describe('UPDATE /projects: ', () => {
+describe('UPDATE /api/projects: ', () => {
   it('adds a user to the team of a project', async () => {
     const response = await request(app)
-      .put('/projects')
+      .put('/api/projects')
       .set('Content-Type', 'application/json')
       .set('Authorization', tokenTwo)
       .send({
@@ -217,7 +217,7 @@ describe('UPDATE /projects: ', () => {
     );
 
     const confirmUpdateResponse = await request(app)
-      .get('/projects')
+      .get('/api/projects')
       .set('Authorization', tokenTwo);
 
     expect(confirmUpdateResponse).toEqual(

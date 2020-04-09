@@ -1,4 +1,5 @@
 import { userDB, buildUser } from 'users';
+import passport from 'passport';
 import { signToken } from '../helpers/jwt-helper';
 
 export async function signupController(req, res) {
@@ -6,13 +7,13 @@ export async function signupController(req, res) {
     const { name, email, password } = req.body;
     if (!email || !password || !name) {
       return res.status(422).json({
-        error: 'Name, Email and Password fields must be provided.'
+        message: 'Error: Name, Email and Password fields must be provided.'
       });
     }
 
     const existingUser = await userDB.findByEmail(email);
     if (existingUser) {
-      return res.status(422).json({ error: 'Email is in use' });
+      return res.status(422).json({ message: 'Error: Email is in use' });
     }
 
     const user = buildUser({
@@ -34,7 +35,15 @@ export async function signupController(req, res) {
 }
 
 export function signinController(req, res) {
-  res.status(200).json({ token: signToken(req.user) });
+  passport.authenticate('local', function(err, user, info) {
+    if (err) throw new Error(err);
+    if (!user) {
+      const { message } = info;
+      return res.status(401).json({ message });
+    }
+
+    return res.status(200).json({ token: signToken(user) });
+  })(req, res);
 }
 
 export function githubController(req, res) {

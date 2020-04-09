@@ -1,12 +1,26 @@
-import React from 'react'
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
-export default function EditIssue({ history }) {
+export default function EditIssue({ history, issue }) {
+  const formik = useFormik({
+    initialValues: {
+      title: issue.title,
+      description: issue.description || '',
+      priority: issue.priority,
+      status: issue.status
+    },
+    onSubmit: values => {
+      console.log(Object.assign({}, values))
+    },
+    validationSchema: editIssueSchema
+  });
   return (
     <div className="w-72 m-auto shadow px-8 py-10 border z-50 bg-white">
       <h2 className="text-center mb-10 font-semibold text-xl uppercase tracking-wide">
         Edit Issue
       </h2>
-      <form className="flex flex-col">
+      <form className="flex flex-col" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col">
           <label
             htmlFor="title"
@@ -19,6 +33,8 @@ export default function EditIssue({ history }) {
             id="title"
             name="title"
             className="mt-2 py-3 px-4 rounded bg-gray-200 border"
+            onChange={formik.handleChange}
+            value={formik.values.title}
           />
         </div>
 
@@ -35,6 +51,8 @@ export default function EditIssue({ history }) {
             name="description"
             rows={4}
             className="form-textarea mt-2 py-3 px-4 rounded bg-gray-200 border"
+            onChange={formik.handleChange}
+            value={formik.values.description}
           />
         </div>
 
@@ -49,6 +67,8 @@ export default function EditIssue({ history }) {
             name="priority"
             id="priority"
             className="form-select mt-2 px-4 rounded bg-gray-200 border"
+            onChange={formik.handleChange}
+            value={formik.values.priority}
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -67,6 +87,8 @@ export default function EditIssue({ history }) {
             name="status"
             id="status"
             className="form-select mt-2 px-4 rounded bg-gray-200 border"
+            onChange={formik.handleChange}
+            value={formik.values.status}
           >
             <option value="Open">Open</option>
             <option value="Closed">Closed</option>
@@ -91,3 +113,10 @@ export default function EditIssue({ history }) {
     </div>
   );
 }
+
+const editIssueSchema = Yup.object().shape({
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().notRequired(),
+  priority: Yup.string().required(),
+  status: Yup.string().required()
+});
