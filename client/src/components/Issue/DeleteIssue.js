@@ -1,12 +1,12 @@
 import React from 'react';
-import sprite from './images/sprite.svg';
+import sprite from "../../images/sprite.svg";
 
-export default function DeleteProject({ history }) {
+
+export default function DeleteIssue({ history, issue }) {
   return (
     <div className="w-72 shadow m-auto border-red-600 z-50 bg-white">
-
       <div className="bg-red-200 text-red-700 px-6 py-3 text-center">
-        <h3 className="font-semibold text-lg">Delete Project</h3>
+        <h3 className="font-semibold text-lg">Delete Issue: {issue.title} </h3>
       </div>
 
       <div className="px-6 py-8 flex items-start">
@@ -18,9 +18,7 @@ export default function DeleteProject({ history }) {
 
         <div className="ml-3">
           <p className="text-gray-600 mt-2">
-            This action will permanently delete this project and all issues
-            linked with it. Press delete if you wish to continue with this
-            action.
+            This action will permanently delete this issue. Press delete if you wish to continue with this action.
           </p>
         </div>
       </div>

@@ -1,11 +1,11 @@
 import React from 'react'
-import Header from './Header'
+import Header from '../Header'
 import { NavLink, useLocation, Route, useRouteMatch } from "react-router-dom";
 
-import { ReactComponent as KBoard } from './images/board.svg';
-import sprite from './images/sprite.svg';
+import { ReactComponent as KBoard } from '../../images/board.svg';
+import sprite from '../../images/sprite.svg';
 import CreateProject from './CreateProject';
-import Modal from './Modals/useModal';
+import Modal from '../../Modals/useModal';
 import ProjectTable from './ProjectTable';
 
 

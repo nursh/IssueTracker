@@ -8,12 +8,12 @@ import {
 } from 'react-router-dom'
 import Sidebar from './Sidebar';
 import Boards from './Boards';
-import DeleteProject from './DeleteProject';
-import DeleteIssue from './DeleteIssue';
-import CreateIssue from './CreateIssue'
-import Modal from './Modals/useModal';
-import ManageIssues from './ManageIssues';
-import EditIssue from './EditIssue';
+import DeleteProject from './Project/DeleteProject';
+import DeleteIssue from './Issue/DeleteIssue';
+import CreateIssue from './Issue/CreateIssue'
+import Modal from '../Modals/useModal';
+import ManageIssues from './Issue/ManageIssues';
+import EditIssue from './Issue/EditIssue';
 
 
 

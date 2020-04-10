@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import Avatar from 'react-avatar';
 
 
-import sprite from "./images/sprite.svg";
+import sprite from "../images/sprite.svg";
 
 export default function Header(props) {
   const { url } = props;

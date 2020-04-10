@@ -7,7 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 import middleware from './middleware';
 import './index.css';
-import App from './App';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
 

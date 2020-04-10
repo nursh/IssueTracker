@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Projects from './Projects';
-import Login from './Login';
+import Projects from './Project/Projects';
+import Auth from './Auth';
 import Main from './Main';
 
 
@@ -13,7 +13,7 @@ function App() {
         <Redirect to="/index" />
       </Route>
       <Route path="/index">
-        <Login />
+        <Auth />
       </Route>
       <Route path="/projects">
         <Projects />

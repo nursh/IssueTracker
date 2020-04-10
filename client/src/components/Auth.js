@@ -6,11 +6,11 @@ import {
 } from "react-router-dom";
 
 import Header from "./Header";
-import SignIn from "./Forms/SignIn";
-import SignUp from './Forms/SignUp';
+import SignIn from "./AuthForms/SignIn";
+import SignUp from './AuthForms/SignUp';
 
 
-function Login() {
+function Auth() {
   const { path, url } = useRouteMatch();
 
   return (
@@ -30,4 +30,4 @@ function Login() {
 }
 
 
-export default Login;
+export default Auth;
