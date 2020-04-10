@@ -1,24 +1,26 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Avatar from 'react-avatar';
+import { connect } from 'react-redux';
 
 
+import { handleLogout } from '../actions/auth';
 import sprite from "../images/sprite.svg";
 
-export default function Header(props) {
+function Header(props) {
   const { url } = props;
   return (
     <div className="bg-white shadow px-10">
       <div className="max-w-screen-xl h-16 flex items-center justify-between m-auto py-2">
         <h1 className="text-lg font-semibold uppercase tracking-wider">Issue Tracker</h1>
-        <RightHeader url={url} />
+        <RightHeader url={url} handleLogout={props.handleLogout} />
       </div>
     </div>
   );
 }
 
 
-function RightHeader({ url }) {
+function RightHeader({ url, handleLogout }) {
   if (url === '/index') {
     return (
       <div>
@@ -56,7 +58,7 @@ function RightHeader({ url }) {
       </div>
       <div className="flex items-center ">
         <NavLink
-          to="/"
+          to="/projects"
           className="hover:underline font-medium uppercase text-sm"
         >
           My Projects
@@ -70,6 +72,7 @@ function RightHeader({ url }) {
         <NavLink
           to="/index"
           className="hover:underline ml-10 flex items-center text-gray-700"
+          onClick={handleLogout}
         >
           <svg className="fill-current h-5 w-5">
             <use xlinkHref={`${sprite}#icon-log-out`} />
@@ -80,3 +83,8 @@ function RightHeader({ url }) {
     </>
   );
 }
+
+export default connect(
+  null,
+  { handleLogout }
+)(Header);

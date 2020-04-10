@@ -10,7 +10,7 @@ import SignIn from "./AuthForms/SignIn";
 import SignUp from './AuthForms/SignUp';
 
 
-function Auth() {
+function AuthPage() {
   const { path, url } = useRouteMatch();
 
   return (
@@ -30,4 +30,4 @@ function Auth() {
 }
 
 
-export default Auth;
+export default AuthPage;
