@@ -1,19 +1,26 @@
-import React from 'react'
-import Header from './Header'
+import React, { useEffect } from 'react'
+import Header from '../Header'
 import { NavLink, useLocation, Route, useRouteMatch } from "react-router-dom";
+import { connect } from 'react-redux';
+import * as _ from 'lodash';
 
-import { ReactComponent as KBoard } from './images/board.svg';
-import sprite from './images/sprite.svg';
+import { ReactComponent as KBoard } from '../../images/board.svg';
+import sprite from '../../images/sprite.svg';
 import CreateProject from './CreateProject';
-import Modal from './Modals/useModal';
+import Modal from '../../Modals/useModal';
 import ProjectTable from './ProjectTable';
+import { handleFetchProjects } from '../../actions/projects';
 
 
-export default function Projects() {
+function Projects({ token, name, projects, handleFetchProjects }) {
   const { path } = useRouteMatch();
   const location = useLocation();
 
   const modal = location.state && location.state.modal;
+
+  useEffect(() => {
+    handleFetchProjects(token)
+  }, [handleFetchProjects, token]);
 
   return (
     <>
@@ -23,8 +30,8 @@ export default function Projects() {
         </Route>
       )}
 
-      <Header />
-      <Sub projects={true} path={path} location={location} />
+      <Header name={name} />
+      <Sub projects={projects} path={path} location={location} />
     </>
   );
 }
@@ -51,7 +58,7 @@ function EmptyProjects({ path, location }) {
              <use xlinkHref={`${sprite}#icon-plus`} />
            </svg>
            <span className="uppercase tracking-wide ml-3 font-medium text-sm">
-             Add Project
+             Create Project
            </span>
          </NavLink>
        </div>
@@ -59,11 +66,11 @@ function EmptyProjects({ path, location }) {
    );
 }
 
-function Sub({ projects = false, path, location }) {
-  if (projects) {
+function Sub({ projects, path, location }) {
+  if (!_.isEmpty(projects)) {
     return (
       <>
-        <ProjectTable />
+        <ProjectTable projects={projects} />
         <NavLink
           to={{
             pathname: `${path}/create-project`,
@@ -75,7 +82,7 @@ function Sub({ projects = false, path, location }) {
             <use xlinkHref={`${sprite}#icon-plus`} />
           </svg>
           <span className="uppercase tracking-wide ml-3 font-medium text-sm">
-            Add Project
+            Create Project
           </span>
         </NavLink>
       </>
@@ -83,3 +90,14 @@ function Sub({ projects = false, path, location }) {
   }
   return <EmptyProjects path={path} location={location} />
 }
+
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+  name: state.auth.name,
+  projects: state.projects
+});
+
+export default connect(
+  mapStateToProps,
+  { handleFetchProjects }
+)(Projects)

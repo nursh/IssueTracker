@@ -1,9 +1,9 @@
 import axios from "axios";
 import { getError, clearError } from "../error";
-import { auth } from './type';
+import { auth, clearAuth } from './type';
 
 
-export const handleLocalSignin = ({ email, password, history }) => async (dispatch) => {
+export const handleLocalSignin = ({ email, password, history, from }) => async (dispatch) => {
   try {
     const response = await axios.post("/auth/signin", {
       email,
@@ -11,7 +11,7 @@ export const handleLocalSignin = ({ email, password, history }) => async (dispat
     });
     dispatch(auth(response.data));
     dispatch(clearError());
-    history.push('/projects');
+    history.push("/projects");
   } catch (error) {
     dispatch(getError(error.response.data));
   }
@@ -30,4 +30,8 @@ export const handleLocalSignup = ({ name, email, password, history }) => async (
   } catch (error) {
     dispatch(getError(error.response.data));
   }
+}
+
+export const handleLogout = () => (dispatch) => {
+  dispatch(clearAuth());
 }

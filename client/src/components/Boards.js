@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import IssueBoard from './IssueBoard';
-import data from './BoardData';
+import IssueBoard from './Issue/IssueBoard';
+import data from '../BoardData';
 
 
 export default function Boards() {

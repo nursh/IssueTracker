@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Projects from './Projects';
-import Login from './Login';
+import Projects from './Project/Projects';
+import AuthPage from './AuthPage';
+import AuthRoute from './AuthRoute';
 import Main from './Main';
 
 
@@ -13,14 +14,14 @@ function App() {
         <Redirect to="/index" />
       </Route>
       <Route path="/index">
-        <Login />
+        <AuthPage />
       </Route>
-      <Route path="/projects">
+      <AuthRoute path="/projects">
         <Projects />
-      </Route>
-      <Route path="/project">
+      </AuthRoute>
+      <AuthRoute path="/project">
         <Main />
-      </Route>
+      </AuthRoute>
     </Switch>
   </Router>
   );

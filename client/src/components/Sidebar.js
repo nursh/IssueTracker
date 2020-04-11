@@ -2,7 +2,7 @@ import React from 'react';
 import Avatar from 'react-avatar';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import sprite from "./images/sprite.svg";
+import sprite from "../images/sprite.svg";
 
 export default function Sidebar({ url }) {
 

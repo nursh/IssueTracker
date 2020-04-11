@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux';
 import auth from './auth';
 import error from './error';
+import projects from './projects';
+import project from './project';
 
 
 export default combineReducers({
   auth,
-  error
+  error,
+  projects,
+  project
 });

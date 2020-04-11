@@ -93,7 +93,7 @@ describe('GET: /api/projects', () => {
     const response = await request(app)
       .get('/api/projects')
       .set('Authorization', tokenTwo)
-      .send({ search: searchQuery });
+      .query({ search: searchQuery });
 
     expect(response).toEqual(
       expect.objectContaining({
