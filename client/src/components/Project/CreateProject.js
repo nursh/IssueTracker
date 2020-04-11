@@ -1,16 +1,19 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { connect } from 'react-redux';
 
 
-export default function CreateProject({ history }) {
+import { handleCreateProject } from '../../actions/project';
+
+function CreateProject({ history, handleCreateProject, token }) {
   const formik = useFormik({
     initialValues: {
       title: '',
       description: ''
     },
     onSubmit: values => {
-      console.log(values)
+      handleCreateProject(token, values, history);
     },
     validationSchema: createProjectSchema
   })
@@ -81,5 +84,11 @@ export default function CreateProject({ history }) {
 
 const createProjectSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
-  description: Yup.string()
+  description: Yup.string().notRequired()
 });
+
+const mapStateToProps = (state) => ({ token: state.auth })
+export default connect(
+  mapStateToProps,
+  { handleCreateProject }
+)(CreateProject);
