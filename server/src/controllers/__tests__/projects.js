@@ -20,9 +20,14 @@ beforeEach(() => {
 describe('GET projects: ', () => {
   it('Uses the text search query and returns projects', async () => {
     const searchTerm = 'Playing';
-    const req = buildReq({
-      search: searchTerm
-    });
+    const req = buildReq(
+      {},
+      {
+        query: {
+          search: searchTerm
+        }
+      }
+    );
     const res = buildRes();
 
     /* eslint-disable */
@@ -49,7 +54,8 @@ describe('GET projects: ', () => {
     const req = buildReq(
       {},
       {
-        user: { _id: 'user-id' }
+        user: { _id: 'user-id' },
+        query: {}
       }
     );
     const res = buildRes();

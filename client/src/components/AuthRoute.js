@@ -21,7 +21,7 @@ function AuthRoute({ children, auth, ...rest }) {
   )
 }
 
-const mapStateToProps = ({ auth }) => ({ auth });
+const mapStateToProps = ({ auth }) => ({ auth: auth });
 export default connect(
   mapStateToProps, {}
 )(AuthRoute)

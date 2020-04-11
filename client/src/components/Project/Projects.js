@@ -12,7 +12,7 @@ import ProjectTable from './ProjectTable';
 import { handleFetchProjects } from '../../actions/projects';
 
 
-function Projects({ token, projects, handleFetchProjects }) {
+function Projects({ token, name, projects, handleFetchProjects }) {
   const { path } = useRouteMatch();
   const location = useLocation();
 
@@ -30,7 +30,7 @@ function Projects({ token, projects, handleFetchProjects }) {
         </Route>
       )}
 
-      <Header token={token} />
+      <Header name={name} />
       <Sub projects={projects} path={path} location={location} />
     </>
   );
@@ -92,7 +92,8 @@ function Sub({ projects, path, location }) {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.auth,
+  token: state.auth.token,
+  name: state.auth.name,
   projects: state.projects
 });
 

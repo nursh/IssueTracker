@@ -5,10 +5,10 @@ import { issueDB } from 'issues';
 export async function getProjectsController(req, res) {
   try {
     let query;
-    if (req.body.search) {
+    if (req.query.search) {
       query = {
         $text: {
-          $search: req.body.search
+          $search: req.query.search
         }
       };
     } else {
@@ -19,7 +19,6 @@ export async function getProjectsController(req, res) {
         ]
       };
     }
-
     const projects = await projectDB.find(query);
     res.status(200).json({ projects });
   } catch (error) {

@@ -83,11 +83,11 @@ function CreateProject({ history, handleCreateProject, token }) {
 }
 
 const createProjectSchema = Yup.object().shape({
-  title: Yup.string().required('Title is required'),
+  title: Yup.string().min(6, 'Title must be at least 6 character long.').required('Title is required'),
   description: Yup.string().notRequired()
 });
 
-const mapStateToProps = (state) => ({ token: state.auth })
+const mapStateToProps = (state) => ({ token: state.auth.token })
 export default connect(
   mapStateToProps,
   { handleCreateProject }
