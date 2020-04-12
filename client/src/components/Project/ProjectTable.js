@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { format } from '../../utils';
+import { format, userInProject } from '../../utils';
 
 
-export default function ProjectTable({ projects }) {
+export default function ProjectTable({ projects, auth, handleJoinProject }) {
   return (
     <div className="m-auto w-5/12">
       <h2 className="font-medium uppercase text-center text-2xl mt-10">Projects</h2>
@@ -18,7 +18,7 @@ export default function ProjectTable({ projects }) {
         </thead>
         <tbody>
           {projects.map((project, idx) => (
-            <TableRow key={idx} project={project} />
+            <TableRow key={idx} project={project} currentUser={auth} handleJoinProject={handleJoinProject} />
           ))}
         </tbody>
       </table>
@@ -27,16 +27,25 @@ export default function ProjectTable({ projects }) {
 }
 
 
-function TableRow({ project }) {
+function TableRow({ project, currentUser, handleJoinProject }) {
   const { title, createdBy: { name }, createdOn } = project;
+  const inProject = userInProject(currentUser.name, project);
   return (
     <tr className="hover:shadow-md hover:bg-gray-100 border-b">
       <td className="px-2 py-4">{title}</td>
       <td className="px-2 py-4">{name}</td>
       <td className="px-2 py-4">{format(createdOn)}</td>
       <td className="px-2 py-4 uppercase text-sm font-medium text-gray-600 hover:underline">
-        {/* If searching for other projects, the text should be Join Project */}
-        <NavLink to="/project">View Project</NavLink>
+        <NavLink
+          to={inProject ? "/project" : "/projects"}
+          onClick={
+            inProject
+              ? null
+              : () => handleJoinProject(currentUser.token, project._id)
+          }
+        >
+          {inProject ? `View Project` : `Join Project`}
+        </NavLink>
       </td>
     </tr>
   );
