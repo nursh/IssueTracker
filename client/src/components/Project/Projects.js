@@ -10,10 +10,10 @@ import CreateProject from './CreateProject';
 import Modal from '../../Modals/useModal';
 import ProjectTable from './ProjectTable';
 import { handleFetchProjects } from '../../actions/projects';
-import { handleJoinProject } from '../../actions/project';
+import { handleJoinProject, handleSelectProject } from '../../actions/project';
 
 
-function Projects({ auth, projects, handleFetchProjects, handleJoinProject }) {
+function Projects({ auth, projects, handleFetchProjects, handleJoinProject, handleSelectProject }) {
   const { path } = useRouteMatch();
   const location = useLocation();
 
@@ -32,7 +32,7 @@ function Projects({ auth, projects, handleFetchProjects, handleJoinProject }) {
       )}
 
       <Header name={auth.name} />
-      <Sub projects={projects} path={path} location={location} auth={auth} handleJoinProject={handleJoinProject} />
+      <Sub projects={projects} path={path} location={location} auth={auth} handleJoinProject={handleJoinProject} handleSelectProject={handleSelectProject} />
     </>
   );
 }
@@ -67,11 +67,11 @@ function EmptyProjects({ path, location }) {
    );
 }
 
-function Sub({ projects, path, location, auth, handleJoinProject }) {
+function Sub({ projects, path, location, auth, handleJoinProject, handleSelectProject }) {
   if (!_.isEmpty(projects)) {
     return (
       <>
-        <ProjectTable projects={projects} auth={auth} handleJoinProject={handleJoinProject} />
+        <ProjectTable projects={projects} auth={auth} handleJoinProject={handleJoinProject} handleSelectProject={handleSelectProject} />
         <NavLink
           to={{
             pathname: `${path}/create-project`,
@@ -99,5 +99,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  { handleFetchProjects, handleJoinProject }
-)(Projects)
+  { handleFetchProjects, handleJoinProject, handleSelectProject }
+)(Projects);

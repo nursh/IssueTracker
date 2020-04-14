@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { format, userInProject } from '../../utils';
 
 
-export default function ProjectTable({ projects, auth, handleJoinProject }) {
+export default function ProjectTable({ projects, auth, handleJoinProject, handleSelectProject }) {
   return (
     <div className="m-auto w-5/12">
       <h2 className="font-medium uppercase text-center text-2xl mt-10">Projects</h2>
@@ -18,7 +18,7 @@ export default function ProjectTable({ projects, auth, handleJoinProject }) {
         </thead>
         <tbody>
           {projects.map((project, idx) => (
-            <TableRow key={idx} project={project} currentUser={auth} handleJoinProject={handleJoinProject} />
+            <TableRow key={idx} project={project} currentUser={auth} handleJoinProject={handleJoinProject} handleSelectProject={handleSelectProject} />
           ))}
         </tbody>
       </table>
@@ -27,7 +27,7 @@ export default function ProjectTable({ projects, auth, handleJoinProject }) {
 }
 
 
-function TableRow({ project, currentUser, handleJoinProject }) {
+function TableRow({ project, currentUser, handleJoinProject, handleSelectProject }) {
   const { title, createdBy: { name }, createdOn } = project;
   const inProject = userInProject(currentUser.name, project);
   return (
@@ -40,7 +40,7 @@ function TableRow({ project, currentUser, handleJoinProject }) {
           to={inProject ? "/project" : "/projects"}
           onClick={
             inProject
-              ? null
+              ? () => handleSelectProject(project)
               : () => handleJoinProject(currentUser.token, project._id)
           }
         >

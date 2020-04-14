@@ -5,6 +5,8 @@ import { handleFetchProjects } from './projects';
 
 export const CREATE_PROJECT = 'CREATE_PROJECT';
 export const JOIN_PROJECT = 'JOIN_PROJECT';
+export const DELETE_PROJECT = 'DELETE_PROJECT';
+export const SELECT_PROJECT = 'SELECT_PROJECT';
 
 const createProject = () => ({
   type: CREATE_PROJECT
@@ -13,6 +15,15 @@ const createProject = () => ({
 const joinProject = () => ({
   type: JOIN_PROJECT
 });
+
+const deleteProject = () => ({
+  type: DELETE_PROJECT
+});
+
+const selectProject = (project) => ({
+  type: SELECT_PROJECT,
+  payload: project
+})
 
 export const handleCreateProject = (token, project, history) => async (dispatch) => {
   try {
@@ -44,4 +55,28 @@ export const handleJoinProject = (token, projectId) => async (dispatch) => {
   } catch (error) {
     dispatch(getError(error.response.data));
   }
+}
+
+export const handleDeleteProject = (project, token, history) => async (dispatch) => {
+  try {
+    const { _id: projectId, createdBy: { id: createdById } } = project;
+    await axios.delete('/api/projects', {
+      headers: {
+        'Authorization': token
+      },
+      params: {
+        createdById, 
+        projectId
+      }
+    });
+    dispatch(deleteProject());
+    dispatch(clearError());
+    history.push('/projects');
+  } catch (error) {
+    dispatch(getError(error.response.data));
+  }
+}
+
+export const handleSelectProject = (project) => (dispatch) => {
+  dispatch(selectProject(project));
 }
