@@ -1,9 +1,12 @@
 import React from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { connect } from 'react-redux';
+
+import { handleCreateIssue } from '../../actions/issues';
 
 
-export default function CreateIssue({ history }) {
+function CreateIssue({ history, token, handleCreateIssue, project }) {
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -11,7 +14,17 @@ export default function CreateIssue({ history }) {
       priority: 'Low'
     },
     onSubmit: values => {
-      console.log(values)
+      const opts = {
+        status: "OPEN",
+        project: project._id,
+        progress: "BACKLOG",
+      };
+      values = {
+        ...values,
+        priority: values.priority.toUpperCase()
+      };
+      const newIssue = Object.assign({}, values, opts);
+      handleCreateIssue(newIssue, token, history);
     },
     validationSchema: createIssueSchema
   });
@@ -75,9 +88,9 @@ export default function CreateIssue({ history }) {
             value={formik.values.priority}
             className="form-select mt-2 px-4 rounded bg-gray-200 border"
           >
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
           </select>
         </div>
 
@@ -104,4 +117,10 @@ const createIssueSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string().notRequired(),
   priority: Yup.string().required("Priority is required")
-})
+});
+
+const mapStateToProps = (state) => ({ token: state.auth.token, project: state.project });
+export default connect(
+  mapStateToProps,
+  { handleCreateIssue }
+)(CreateIssue);

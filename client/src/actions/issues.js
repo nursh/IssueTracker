@@ -43,16 +43,15 @@ export const handleDeleteIssue = (issueId, token, history) => async (dispatch) =
   }
 }
 
-export const handleCreateIssue = (token, history) => async (dispatch) => {
+export const handleCreateIssue = (issue, token, history) => async (dispatch) => {
   try {
-    const data = {};
-    await axios.post('/api/issues', { issue: data }, {
+    await axios.post('/api/issues', { issue }, {
       headers: {
         'Authorization': token
       }
     });
     dispatch(createIssue());
-    dispatch(handleFetchIssues());
+    dispatch(handleFetchIssues(issue.project, token));
     dispatch(clearError());
     history.push('/project');
   } catch (error) {

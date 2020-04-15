@@ -28,3 +28,15 @@ export default {
 
   boardOrder: ["backlog", "in progress", "done"]
 };
+
+export function initialData(issues) {
+  return {
+    issues,
+    boards: {
+      'backlog': { title: 'backlog', issues: [] },
+      'in progress': { title: 'in progress', issues: [] },
+      'done': { title: 'done', issues: [] }
+    },
+    boardOrder: ['backlog', 'in progress', 'done']
+  }
+}

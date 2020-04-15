@@ -19,10 +19,9 @@ export async function getIssuesController(req, res) {
 
 export async function createIssueController(req, res) {
   try {
-    let { projectId, issue } = req.body;
+    let { issue } = req.body;
     issue = {
       ...issue,
-      project: projectId,
       createdBy: {
         id: req.user._id.toString(),
         name: req.user.name

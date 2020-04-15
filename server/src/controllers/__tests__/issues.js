@@ -70,7 +70,9 @@ describe('CREATE issue: ', () => {
       _id: 'user-id',
       name: 'user-name'
     };
-    const req = buildReq({ issue, projectId }, { user });
+
+    issue.project = projectId;
+    const req = buildReq({ issue }, { user });
     const res = buildRes();
 
     issues.buildIssue.mockImplementation(issue => issue);
@@ -110,7 +112,8 @@ describe('CREATE issue: ', () => {
       _id: 'user-id',
       name: 'user-name'
     };
-    const req = buildReq({ issue, projectId }, { user });
+    issue.project = projectId;
+    const req = buildReq({ issue }, { user });
     const res = buildRes();
 
     issues.buildIssue.mockImplementation(issue => issue);

@@ -15,10 +15,6 @@ beforeAll(async () => {
   const user = localSignupForm();
   const project = buildTestProject();
 
-  const issueOne = buildTestIssue();
-  const issueTwo = buildTestIssue();
-  const issueThree = buildTestIssue();
-
   const response = await request(app)
     .post('/auth/signup')
     .send(user);
@@ -32,24 +28,32 @@ beforeAll(async () => {
 
   issuesProject = resProject.body.project;
 
+  const issueOne = buildTestIssue();
+  const issueTwo = buildTestIssue();
+  const issueThree = buildTestIssue();
+
+  issueOne.project = issuesProject._id;
+  issueTwo.project = issuesProject._id;
+  issueThree.project = issuesProject._id;
+
   const resIssueToDelete = await request(app)
     .post('/api/issues')
     .set('Authorization', token)
-    .send({ projectId: issuesProject._id, issue: issueOne });
+    .send({ issue: issueOne });
 
   issueToDelete = resIssueToDelete.body.issue;
 
   const resIssueToUpdate = await request(app)
     .post('/api/issues')
     .set('Authorization', token)
-    .send({ projectId: issuesProject._id, issue: issueTwo });
+    .send({ issue: issueTwo });
 
   issueToUpdate = resIssueToUpdate.body.issue;
 
   await request(app)
     .post('/api/issues')
     .set('Authorization', token)
-    .send({ projectId: issuesProject._id, issue: issueThree });
+    .send({ issue: issueThree });
 });
 
 afterAll(async () => {
@@ -96,11 +100,11 @@ describe('GET: /api/issues', () => {
 describe('CREATE: /api/issues', () => {
   it('creates a new issue given valid issueInfo', async () => {
     const issue = buildTestIssue();
+    issue.project = issuesProject._id;
     const response = await request(app)
       .post('/api/issues')
       .set('Authorization', token)
       .send({
-        projectId: issuesProject._id,
         issue
       });
 
