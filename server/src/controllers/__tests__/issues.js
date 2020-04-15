@@ -17,7 +17,7 @@ beforeEach(() => {
 
 describe('GET issues: ', () => {
   it('returns a 400 when projectId is not included in the request body', async () => {
-    const req = buildReq();
+    const req = buildReq({}, { query: {} });
     const res = buildRes();
 
     /* eslint-disable */
@@ -35,9 +35,14 @@ describe('GET issues: ', () => {
 
   it('returns a 200 with an array given a valid projectId', async () => {
     const projectId = 'project-id';
-    const req = buildReq({
-      projectId
-    });
+    const req = buildReq(
+      {},
+      {
+        query: {
+          projectId
+        }
+      }
+    );
     const res = buildRes();
 
     /* eslint-disable */
@@ -147,7 +152,7 @@ describe('DELETE issue: ', () => {
     issues.issueDB.deleteOne.mockImplementation(query => {});
 
     const issueId = ObjectId(ObjectID.generate());
-    const req = buildReq({ issueId });
+    const req = buildReq({}, { query: { issueId } });
     const res = buildRes();
 
     await deleteIssueController(req, res);
@@ -165,7 +170,7 @@ describe('DELETE issue: ', () => {
   it('responds with 403 when there is no issueId', async () => {
     issues.issueDB.deleteOne.mockImplementation(query => {});
 
-    const req = buildReq();
+    const req = buildReq({}, { query: {} });
     const res = buildRes();
 
     await deleteIssueController(req, res);

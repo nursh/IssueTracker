@@ -3,7 +3,7 @@ import { issueDB, buildIssue } from 'issues';
 
 export async function getIssuesController(req, res) {
   try {
-    const { projectId } = req.body;
+    const { projectId } = req.query;
     if (!projectId) {
       return res.status(400).json({ message: 'ProjectId is required.' });
     }
@@ -43,7 +43,7 @@ export async function createIssueController(req, res) {
 
 export async function deleteIssueController(req, res) {
   try {
-    const { issueId } = req.body;
+    const { issueId } = req.query;
 
     if (!issueId) {
       return res.status(403).json({ message: 'IssueId is required' });

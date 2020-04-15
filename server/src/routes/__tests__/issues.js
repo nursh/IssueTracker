@@ -63,7 +63,7 @@ describe('GET: /api/issues', () => {
     const response = await request(app)
       .get('/api/issues')
       .set('Authorization', token)
-      .send({ projectId: issuesProject._id });
+      .query({ projectId: issuesProject._id });
 
     expect(response).toEqual(
       expect.objectContaining({
@@ -151,7 +151,7 @@ describe('DELETE /api/issues: ', () => {
     const response = await request(app)
       .delete('/api/issues')
       .set('Authorization', token)
-      .send({ issueId: issueToDelete._id });
+      .query({ issueId: issueToDelete._id });
 
     expect(response).toEqual(
       expect.objectContaining({
@@ -165,7 +165,7 @@ describe('DELETE /api/issues: ', () => {
     const confirmDeleteResponse = await request(app)
       .get('/api/issues')
       .set('Authorization', token)
-      .send({ projectId: issuesProject._id });
+      .query({ projectId: issuesProject._id });
 
     expect(confirmDeleteResponse).toEqual(
       expect.objectContaining({
