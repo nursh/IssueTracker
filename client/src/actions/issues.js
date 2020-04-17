@@ -25,9 +25,9 @@ const editIssue = () => ({
   type: EDIT_ISSUE
 });
 
-export const handleDeleteIssue = (issueId, token, history) => async (dispatch) => {
+export const handleDeleteIssue = (issueId, project, token, history) => async (dispatch) => {
   try {
-    await axios.delete('api/issues', {
+    await axios.delete('/api/issues', {
       headers: {
         'Authorization': token
       }, 
@@ -37,8 +37,10 @@ export const handleDeleteIssue = (issueId, token, history) => async (dispatch) =
     });
     dispatch(deleteIssue());
     dispatch(clearError());
-    history.push('/project');
+    dispatch(handleFetchIssues(project._id, token));
+    history.goBack();
   } catch (error) {
+    console.log(error);
     dispatch(getError(error.response.data));
   }
 }
@@ -72,8 +74,7 @@ export const handleFetchIssues = (projectId, token) => async (dispatch) => {
     dispatch(fetchIssues(response.data.issues));
     dispatch(clearError());
   } catch (error) {
-    console.log(error)
-    // dispatch(getError(error.response.data));
+    dispatch(getError(error.response.data));
   }
 }
 

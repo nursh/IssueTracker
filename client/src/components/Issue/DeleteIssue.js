@@ -1,8 +1,12 @@
 import React from 'react';
 import sprite from "../../images/sprite.svg";
+import { connect } from 'react-redux';
 
 
-export default function DeleteIssue({ history, issue }) {
+import { handleDeleteIssue } from '../../actions/issues';
+
+
+function DeleteIssue({ history, issue, handleDeleteIssue, token, project }) {
   return (
     <div className="w-72 shadow m-auto border-red-600 z-50 bg-white">
       <div className="bg-red-200 text-red-700 px-6 py-3 text-center">
@@ -30,10 +34,16 @@ export default function DeleteIssue({ history, issue }) {
         >
           Cancel
         </button>
-        <button className="ml-6 text-red-700 font-medium bg-red-200 py-1 px-6 rounded focus:outline-none">
+        <button className="ml-6 text-red-700 font-medium bg-red-200 py-1 px-6 rounded focus:outline-none" onClick={() => handleDeleteIssue(issue._id, project, token, history)}>
           Delete
         </button>
       </div>
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({ token: state.auth.token, project: state.project });
+export default connect(
+  mapStateToProps,
+  { handleDeleteIssue }
+)(DeleteIssue);

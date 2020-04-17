@@ -1,10 +1,13 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
+import { format } from '../../utils';
 import sprite from "../../images/sprite.svg";
 
-export default function ManageIssues({ url }) {
+
+function ManageIssues({ url, issues }) {
 
   const location = useLocation();
   return (
@@ -71,7 +74,7 @@ export default function ManageIssues({ url }) {
         </form>
       </div>
 
-      <div className="mx-auto mt-10 w-2/5">
+      <div className="mx-auto mt-10 w-2/5 md:w-4/5">
         <h2 className="font-medium uppercase text-center text-2xl">Issues</h2>
         <table className="table-auto w-full mt-6">
           <thead>
@@ -84,22 +87,7 @@ export default function ManageIssues({ url }) {
             </tr>
           </thead>
           <tbody>
-            {[
-              {
-                title: "New Issue",
-                priority: "High",
-                status: "Open",
-                createdBy: "Monkey man",
-                createdOn: "March 28, 2019"
-              },
-              {
-                title: "Closed Issue",
-                priority: "Medium",
-                status: "Closed",
-                createdBy: "Michael jango",
-                createdOn: "February 29, 2019"
-              }
-            ].map((issue, idx) => (
+            {issues.map((issue, idx) => (
               <IssueRow key={idx} issue={issue} url={url} location={location} />
             ))}
           </tbody>
@@ -114,7 +102,7 @@ function IssueRow({ issue, url, location }) {
     title,
     priority,
     status,
-    createdBy,
+    createdBy: { name },
     createdOn
   } = issue;
   return (
@@ -122,8 +110,8 @@ function IssueRow({ issue, url, location }) {
       <td className="px-2 py-4">{title}</td>
       <td className="uppercase px-2 py-4">{priority}</td>
       <td className="uppercase px-2 py-4">{status}</td>
-      <td className="px-2 py-4">{createdBy}</td>
-      <td className="px-2 py-4">{createdOn}</td>
+      <td className="px-2 py-4">{name}</td>
+      <td className="px-2 py-4">{format(createdOn)}</td>
       <td className="px-2 py-4">
         <NavLink to={{
           pathname: `${url}/edit-issue`,
@@ -139,7 +127,8 @@ function IssueRow({ issue, url, location }) {
         <NavLink to={{
           pathname: `${url}/delete-issue`,
           state: { modal: location, issue }
-        }}>
+        }}
+        >
           <svg className="h-6 w-6">
             <use xlinkHref={`${sprite}#icon-trashcan`} />
           </svg>
@@ -148,3 +137,9 @@ function IssueRow({ issue, url, location }) {
     </tr>
   );
 }
+
+const mapStateToProps = (state) => ({ issues: state.issues });
+export default connect(
+  mapStateToProps,
+  null
+)(ManageIssues);
