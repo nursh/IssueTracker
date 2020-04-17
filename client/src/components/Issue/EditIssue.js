@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { handleEditIssue } from '../../actions/issues';
 
-function EditIssue({ history, issue, token, handleEditIssue }) {
+function EditIssue({ history, issue, token, handleEditIssue, project }) {
   const formik = useFormik({
     initialValues: {
       title: issue.title,
@@ -14,12 +14,13 @@ function EditIssue({ history, issue, token, handleEditIssue }) {
       status: issue.status
     },
     onSubmit: values => {
-      const issue = {
+      const formValues = {
         ...values,
         priority: values.priority.toUpperCase(),
-        status: values.status.toUpperCase()
-      }
-      handleEditIssue(issue, token, history);
+        status: values.status.toUpperCase(),
+      };
+      const issueToEdit = Object.assign({}, issue, formValues)
+      handleEditIssue(issueToEdit, project, token, history);
     },
     validationSchema: editIssueSchema
   });
@@ -75,12 +76,12 @@ function EditIssue({ history, issue, token, handleEditIssue }) {
             name="priority"
             id="priority"
             className="form-select mt-2 px-4 rounded bg-gray-200 border"
-            onChange={formik.handleChange}
             value={formik.values.priority}
+            onChange={formik.handleChange}
           >
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
           </select>
         </div>
 
@@ -98,8 +99,8 @@ function EditIssue({ history, issue, token, handleEditIssue }) {
             onChange={formik.handleChange}
             value={formik.values.status}
           >
-            <option value="Open">Open</option>
-            <option value="Closed">Closed</option>
+            <option value="OPEN">Open</option>
+            <option value="CLOSED">Closed</option>
           </select>
         </div>
 
@@ -130,7 +131,7 @@ const editIssueSchema = Yup.object().shape({
 });
 
 
-const mapStateToProps = (state) => ({ token: state.auth.token });
+const mapStateToProps = (state) => ({ token: state.auth.token, project: state.project });
 export default connect(
   mapStateToProps,
   { handleEditIssue }

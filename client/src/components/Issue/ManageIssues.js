@@ -52,8 +52,17 @@ function ManageIssues({ url, issues }) {
           </div>
 
           <div className="ml-12">
-            <label htmlFor="createdBy" className="font-medium uppercase text-sm text-gray-700">Created by:</label>
-            <select name="createdBy" id="createdBy" className="form-select bg-gray-200 ml-2">
+            <label
+              htmlFor="createdBy"
+              className="font-medium uppercase text-sm text-gray-700"
+            >
+              Created by:
+            </label>
+            <select
+              name="createdBy"
+              id="createdBy"
+              className="form-select bg-gray-200 ml-2"
+            >
               <option value="All">All</option>
               <option value="Red Bell">Red Bell</option>
               <option value="Green Bell">Green Bell</option>
@@ -68,30 +77,42 @@ function ManageIssues({ url, issues }) {
             <span className="ml-2">Apply filter</span>
           </button>
 
-          <button className="ml-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-400" type="reset">
+          <button
+            className="ml-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-400"
+            type="reset"
+          >
             Reset
           </button>
         </form>
       </div>
 
-      <div className="mx-auto mt-10 w-2/5 md:w-4/5">
+      <div className="mx-auto mt-10 lg:w-2/5 w-3/5">
         <h2 className="font-medium uppercase text-center text-2xl">Issues</h2>
-        <table className="table-auto w-full mt-6">
-          <thead>
-            <tr className="uppercase text-gray-600 text-sm text-left">
-              <th className="px-2 py-2">Title</th>
-              <th className="px-2 py-2">Priority</th>
-              <th className="px-2 py-2">Status</th>
-              <th className="px-2 py-2">Created By</th>
-              <th className="px-2 py-2">Created On</th>
-            </tr>
-          </thead>
-          <tbody>
-            {issues.map((issue, idx) => (
-              <IssueRow key={idx} issue={issue} url={url} location={location} />
-            ))}
-          </tbody>
-        </table>
+        {!issues ? (
+          <h2 className="text-lg uppercase text-center mt-10">There are currently no issues in the project.</h2>
+        ) : (
+            <table className="table-auto w-full mt-6">
+              <thead>
+                <tr className="uppercase text-gray-600 text-sm text-left">
+                  <th className="px-2 py-2">Title</th>
+                  <th className="px-2 py-2">Priority</th>
+                  <th className="px-2 py-2">Status</th>
+                  <th className="px-2 py-2">Created By</th>
+                  <th className="px-2 py-2">Created On</th>
+                </tr>
+              </thead>
+              <tbody>
+                {issues.map((issue, idx) => (
+                  <IssueRow
+                    key={idx}
+                    issue={issue}
+                    url={url}
+                    location={location}
+                  />
+                ))}
+              </tbody>
+            </table>
+        )}
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ export const handleCreateIssue = (issue, token, history) => async (dispatch) => 
     dispatch(createIssue());
     dispatch(handleFetchIssues(issue.project, token));
     dispatch(clearError());
-    history.push('/project');
+    history.goBack();
   } catch (error) {
     dispatch(getError(error.response.data));
   }
@@ -78,9 +78,8 @@ export const handleFetchIssues = (projectId, token) => async (dispatch) => {
   }
 }
 
-export const handleEditIssue = (issue, token, history) => async (dispatch) => {
+export const handleEditIssue = (issue, project, token, history) => async (dispatch) => {
   try {
-    console.log(issue)
     await axios.put('/api/issues', { issue }, {
       headers: {
         'Authorization': token
@@ -89,7 +88,8 @@ export const handleEditIssue = (issue, token, history) => async (dispatch) => {
 
     dispatch(editIssue());
     dispatch(clearError());
-    history.push('/project');
+    dispatch(handleFetchIssues(project._id, token));
+    history.goBack();
   } catch (error) {
     dispatch(getError(error.response.data));
   }

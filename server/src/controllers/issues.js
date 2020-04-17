@@ -62,6 +62,14 @@ export async function deleteIssueController(req, res) {
 export async function updateIssueController(req, res) {
   try {
     const { issue } = req.body;
+    if (issue.status === 'CLOSED') {
+      issue.progress = 'DONE';
+    } else if (issue.status === 'OPEN') {
+      if (issue.progress === 'DONE') {
+        issue.progress = 'IN PROGRESS';
+      }
+    }
+
     const { title, description, status, priority, progress } = issue;
     const query = {
       $set: {
