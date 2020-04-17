@@ -40,7 +40,7 @@ function TableRow({ project, currentUser, handleJoinProject, handleSelectProject
           to={inProject ? "/project" : "/projects"}
           onClick={
             inProject
-              ? () => handleSelectProject(project)
+              ? () => handleSelectProject(project, currentUser.token)
               : () => handleJoinProject(currentUser.token, project._id)
           }
         >

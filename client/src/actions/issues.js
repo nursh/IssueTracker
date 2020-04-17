@@ -72,6 +72,24 @@ export const handleFetchIssues = (projectId, token) => async (dispatch) => {
     dispatch(fetchIssues(response.data.issues));
     dispatch(clearError());
   } catch (error) {
+    console.log(error)
+    // dispatch(getError(error.response.data));
+  }
+}
+
+export const handleEditIssue = (issue, token, history) => async (dispatch) => {
+  try {
+    console.log(issue)
+    await axios.put('/api/issues', { issue }, {
+      headers: {
+        'Authorization': token
+      }
+    });
+
+    dispatch(editIssue());
+    dispatch(clearError());
+    history.push('/project');
+  } catch (error) {
     dispatch(getError(error.response.data));
   }
 }

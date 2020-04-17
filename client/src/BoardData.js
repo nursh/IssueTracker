@@ -1,41 +1,30 @@
-export default {
-  issues: {
-    "issue-1": {
-      id: 'issue-1',
-      title: "of letters, as opposed to using Content here",
-      priority: "High",
-      author: "John Tofobu"
-    },
-    "issue-2": {
-      id: 'issue-2',
-      title: "making it over 2000 years old. ",
-      priority: "Low",
-      author: "Sarah Connor"
-    },
-    "issue-3": {
-      id: 'issue-3',
-      title: "combined with a handful of model sentence",
-      priority: "Medium",
-      author: "Michael Abdul"
+function filterIssues(issues, title) {
+  if (!issues) return [];
+  const filteredIssues = []
+  for (const issue of issues) {
+    if (issue.progress.toLowerCase() === title) {
+      filteredIssues.push(issue._id);
     }
-  },
+  }
+  return filteredIssues;
+}
 
-  boards: {
-    "backlog": { title: "backlog", issues: ["issue-1", "issue-2", "issue-3"] },
-    "in progress": { title: "in progress", issues: [] },
-    "done": { title: "done", issues: [] }
-  },
-
-  boardOrder: ["backlog", "in progress", "done"]
-};
+function formatIssues(issues) {
+  const formattedIssues = {};
+  if (!issues) return formattedIssues;
+  for (let issue of issues) {
+    formattedIssues[issue._id] = issue
+  }
+  return formattedIssues;
+}
 
 export function initialData(issues) {
   return {
-    issues,
+    issues: formatIssues(issues),
     boards: {
-      'backlog': { title: 'backlog', issues: [] },
-      'in progress': { title: 'in progress', issues: [] },
-      'done': { title: 'done', issues: [] }
+      'backlog': { title: 'backlog', issues: filterIssues(issues, 'backlog')},
+      'in progress': { title: 'in progress', issues: filterIssues(issues, 'in progress') },
+      'done': { title: 'done', issues: filterIssues(issues, 'done') }
     },
     boardOrder: ['backlog', 'in progress', 'done']
   }

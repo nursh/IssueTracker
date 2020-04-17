@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { connect } from 'react-redux';
+
 import IssueBoard from './Issue/IssueBoard';
-import data from '../BoardData';
+import { initialData } from '../BoardData';
 
 
-export default function Boards() {
-  const [boardData, setBoardData] = useState(data);
+function Boards({ issues, project }) {
+
+  const [boardData, setBoardData] = useState(initialData(issues));
+  
+  useEffect(() => {
+    setBoardData(initialData(issues));
+  }, [issues])
 
   const onDragEnd = result => {
     const { destination, source, draggableId } = result;
@@ -71,10 +78,13 @@ export default function Boards() {
     setBoardData(newBoardData);
   };
 
+  if (!boardData) {
+    return <h2>Loading...</h2>
+  }
   return (
     <div className="flex-1 bg-white flex flex-col min-w-0">
       <h2 className="font-medium text-3xl pt-2 ml-10 text-gray-700">
-        Pitalo Medical Board
+        { project.title }
       </h2>
       <div className="flex-1 overflow-auto">
         <DragDropContext onDragEnd={onDragEnd}>
@@ -84,8 +94,7 @@ export default function Boards() {
                 const board = boardData.boards[boardId];
                 const issues = board.issues.map(
                   issueId => boardData.issues[issueId]
-                )
-                
+                );
                 return <IssueBoard key={boardId} board={board} issues={issues} idx={idx} />
               })
             }
@@ -95,3 +104,9 @@ export default function Boards() {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({ project: state.project, issues: state.issues });
+export default connect(
+  mapStateToProps, 
+  null
+)(Boards)

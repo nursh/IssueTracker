@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getError, clearError } from './error';
 import { handleFetchProjects } from './projects';
+import { handleFetchIssues } from './issues';
 
 
 export const CREATE_PROJECT = 'CREATE_PROJECT';
@@ -77,6 +78,7 @@ export const handleDeleteProject = (project, token, history) => async (dispatch)
   }
 }
 
-export const handleSelectProject = (project) => (dispatch) => {
+export const handleSelectProject = (project, token) => (dispatch) => {
   dispatch(selectProject(project));
+  dispatch(handleFetchIssues(project._id, token));
 }

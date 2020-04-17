@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   Switch,
   Route,
@@ -6,7 +6,6 @@ import {
   useParams,
   useLocation
 } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 
 import Sidebar from './Sidebar';
@@ -17,19 +16,14 @@ import CreateIssue from './Issue/CreateIssue'
 import Modal from '../Modals/useModal';
 import ManageIssues from './Issue/ManageIssues';
 import EditIssue from './Issue/EditIssue';
-import { handleFetchIssues } from '../actions/issues';
 
 
-function Main({ project, handleFetchIssues, token }) {
+export default function Main() {
   const { path, url } = useRouteMatch();
   const location = useLocation();
   
   const modal = location.state && location.state.modal;
   const issueToEdit = location.state && location.state.issue;
-
-  useEffect(() => {
-    handleFetchIssues(project._id, token);
-  }, [project, handleFetchIssues])
 
   return (
     <div className="h-screen flex">
@@ -66,6 +60,3 @@ function Page({ issue }) {
     default: break;    
   }
 }
-
-const mapStateToProps = (state) => ({ project: state.project, token: state.auth.token });
-export default connect(mapStateToProps, { handleFetchIssues })(Main);

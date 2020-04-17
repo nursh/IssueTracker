@@ -4,6 +4,7 @@ import IssueCard from './IssueCard'
 
 
 const IssueList = ({ issues }) => {
+  if (!issues && issues.length) return [];
   return (  
     issues.map((issue, idx) => <IssueCard key={issue.title} issue={issue} index={idx} />)
   )
@@ -12,6 +13,7 @@ const IssueList = ({ issues }) => {
 export default function IssueBoard({ board, issues, idx }) {
   const { title } = board;
   const issuesList = useMemo(() => <IssueList issues={issues} />, [issues]);
+
   return (
     <div
       className={`py-3 flex-shrink-0 w-70 bg-gray-100 rounded-md flex flex-col ${

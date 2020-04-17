@@ -1,8 +1,11 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { connect } from 'react-redux';
 
-export default function EditIssue({ history, issue }) {
+import { handleEditIssue } from '../../actions/issues';
+
+function EditIssue({ history, issue, token, handleEditIssue }) {
   const formik = useFormik({
     initialValues: {
       title: issue.title,
@@ -11,7 +14,12 @@ export default function EditIssue({ history, issue }) {
       status: issue.status
     },
     onSubmit: values => {
-      console.log(Object.assign({}, values))
+      const issue = {
+        ...values,
+        priority: values.priority.toUpperCase(),
+        status: values.status.toUpperCase()
+      }
+      handleEditIssue(issue, token, history);
     },
     validationSchema: editIssueSchema
   });
@@ -120,3 +128,10 @@ const editIssueSchema = Yup.object().shape({
   priority: Yup.string().required(),
   status: Yup.string().required()
 });
+
+
+const mapStateToProps = (state) => ({ token: state.auth.token });
+export default connect(
+  mapStateToProps,
+  { handleEditIssue }
+)(EditIssue);
