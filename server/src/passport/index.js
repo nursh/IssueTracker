@@ -24,5 +24,6 @@ const useGoogleSignin = passport.authenticate(
   'google',
   authOpts({ scope: ['profile', 'email'] })
 );
+const useGoogleAuth = passport.authenticate('google', authOpts());
 
-export { requireAuth, useGithubSignin, useGoogleSignin };
+export { requireAuth, useGithubSignin, useGoogleSignin, useGoogleAuth };

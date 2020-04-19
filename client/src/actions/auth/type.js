@@ -1,10 +1,10 @@
 export const AUTH = "AUTH";
 export const CLEAR_AUTH = 'CLEAR_AUTH';
 
-export function auth(data) {
+export function auth(token) {
   return {
     type: AUTH,
-    payload: data.token,
+    payload: token,
   };
 }
 

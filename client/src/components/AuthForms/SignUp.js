@@ -29,16 +29,16 @@ function SignUp(props) {
       <div className="mt-10 max-w-lg m-auto bg-white shadow-lg rounded px-8 py-10 border">
         <h2 className="text-center mb-6 font-semibold text-3xl">Sign up</h2>
         <div className="flex flex-col">
-          <button className=" border rounded flex items-center shadow px-4 py-3 bg-white flex-grow justify-center focus:outline-none">
+          <a href="/auth/google" className=" border rounded flex items-center shadow px-4 py-3 bg-white flex-grow justify-center focus:outline-none">
             <img src={google} alt="google" className="h-8 w-8" />
             <span className="ml-4">Sign up with Google</span>
-          </button>
-          <button className=" border rounded flex items-center shadow mt-6 px-4 py-3 bg-white justify-center focus:outline-none">
+          </a>
+          <a href="/auth/github" className=" border rounded flex items-center shadow mt-6 px-4 py-3 bg-white justify-center focus:outline-none">
             <svg className="h-8 w-8">
               <use xlinkHref={`${sprite}#icon-github`} />
             </svg>
             <span className="ml-4 ">Sign up with GitHub</span>
-          </button>
+          </a>
         </div>
 
         <p className="text-center my-8 text-lg font-semibold">

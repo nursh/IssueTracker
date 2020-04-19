@@ -9,7 +9,7 @@ export const handleLocalSignin = ({ email, password, history, from }) => async (
       email,
       password
     });
-    dispatch(auth(response.data));
+    dispatch(auth(response.data.token));
     dispatch(clearError());
     history.push("/projects");
   } catch (error) {
@@ -24,7 +24,7 @@ export const handleLocalSignup = ({ name, email, password, history }) => async (
       email,
       password
     });
-    dispatch(auth(response.data));
+    dispatch(auth(response.data.token));
     dispatch(clearError());
     history.push('/projects');
   } catch (error) {

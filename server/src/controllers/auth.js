@@ -47,9 +47,11 @@ export function signinController(req, res) {
 }
 
 export function githubController(req, res) {
-  res.status(200).json({ token: signToken(req.user) });
+  const token = signToken(req.user);
+  res.redirect(`http://localhost:3000/index?token=${token}`);
 }
 
 export function googleController(req, res) {
-  res.status(200).json({ token: signToken(req.user) });
+  const token = signToken(req.user);
+  res.redirect(`http://localhost:3000/index?token=${token}`);
 }
