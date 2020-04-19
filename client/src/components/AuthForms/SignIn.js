@@ -31,7 +31,6 @@ function SignIn(props) {
         <div className="flex flex-col">
           <a
             className=" border rounded flex items-center shadow px-4 py-3 bg-white flex-grow justify-center focus:outline-none"
-            onClick={props.handleGoogleAuth}
             href="/auth/google"
           >
             <img src={google} alt="google" className="h-8 w-8" />
