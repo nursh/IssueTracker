@@ -12,6 +12,7 @@ coverage:
         if_ci_failed: error
         informational: False
         only_pulls: false
+        target: 85%
         
 comment:
   layout: "reach, diff, flags, files"

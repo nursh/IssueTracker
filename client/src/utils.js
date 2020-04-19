@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import _ from 'lodash';
 
 export function format(date) {
   const dateToFormat = new Date(date);
@@ -18,4 +19,11 @@ export function decodeToken(token) {
   } catch (error) {
     throw new Error(error);
   }
+}
+
+export function userInProject(user, project) {
+  const inTeam = _.find(project.team, (member) => member.name === user);
+  const author = project.createdBy.name === user;
+
+  return (inTeam || author);
 }

@@ -3,7 +3,7 @@ import { issueDB, buildIssue } from 'issues';
 
 export async function getIssuesController(req, res) {
   try {
-    const { projectId } = req.body;
+    const { projectId } = req.query;
     if (!projectId) {
       return res.status(400).json({ message: 'ProjectId is required.' });
     }
@@ -19,10 +19,9 @@ export async function getIssuesController(req, res) {
 
 export async function createIssueController(req, res) {
   try {
-    let { projectId, issue } = req.body;
+    let { issue } = req.body;
     issue = {
       ...issue,
-      project: projectId,
       createdBy: {
         id: req.user._id.toString(),
         name: req.user.name
@@ -43,7 +42,7 @@ export async function createIssueController(req, res) {
 
 export async function deleteIssueController(req, res) {
   try {
-    const { issueId } = req.body;
+    const { issueId } = req.query;
 
     if (!issueId) {
       return res.status(403).json({ message: 'IssueId is required' });
@@ -63,6 +62,14 @@ export async function deleteIssueController(req, res) {
 export async function updateIssueController(req, res) {
   try {
     const { issue } = req.body;
+    if (issue.status === 'CLOSED') {
+      issue.progress = 'DONE';
+    } else if (issue.status === 'OPEN') {
+      if (issue.progress === 'DONE') {
+        issue.progress = 'IN PROGRESS';
+      }
+    }
+
     const { title, description, status, priority, progress } = issue;
     const query = {
       $set: {

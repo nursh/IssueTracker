@@ -118,7 +118,7 @@ describe('DELETE: /api/projects: ', () => {
     const response = await request(app)
       .delete('/api/projects')
       .set('Authorization', token)
-      .send({
+      .query({
         createdById,
         projectId: _id
       });

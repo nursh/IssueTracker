@@ -15,10 +15,6 @@ beforeAll(async () => {
   const user = localSignupForm();
   const project = buildTestProject();
 
-  const issueOne = buildTestIssue();
-  const issueTwo = buildTestIssue();
-  const issueThree = buildTestIssue();
-
   const response = await request(app)
     .post('/auth/signup')
     .send(user);
@@ -32,24 +28,32 @@ beforeAll(async () => {
 
   issuesProject = resProject.body.project;
 
+  const issueOne = buildTestIssue();
+  const issueTwo = buildTestIssue();
+  const issueThree = buildTestIssue();
+
+  issueOne.project = issuesProject._id;
+  issueTwo.project = issuesProject._id;
+  issueThree.project = issuesProject._id;
+
   const resIssueToDelete = await request(app)
     .post('/api/issues')
     .set('Authorization', token)
-    .send({ projectId: issuesProject._id, issue: issueOne });
+    .send({ issue: issueOne });
 
   issueToDelete = resIssueToDelete.body.issue;
 
   const resIssueToUpdate = await request(app)
     .post('/api/issues')
     .set('Authorization', token)
-    .send({ projectId: issuesProject._id, issue: issueTwo });
+    .send({ issue: issueTwo });
 
   issueToUpdate = resIssueToUpdate.body.issue;
 
   await request(app)
     .post('/api/issues')
     .set('Authorization', token)
-    .send({ projectId: issuesProject._id, issue: issueThree });
+    .send({ issue: issueThree });
 });
 
 afterAll(async () => {
@@ -63,7 +67,7 @@ describe('GET: /api/issues', () => {
     const response = await request(app)
       .get('/api/issues')
       .set('Authorization', token)
-      .send({ projectId: issuesProject._id });
+      .query({ projectId: issuesProject._id });
 
     expect(response).toEqual(
       expect.objectContaining({
@@ -96,11 +100,11 @@ describe('GET: /api/issues', () => {
 describe('CREATE: /api/issues', () => {
   it('creates a new issue given valid issueInfo', async () => {
     const issue = buildTestIssue();
+    issue.project = issuesProject._id;
     const response = await request(app)
       .post('/api/issues')
       .set('Authorization', token)
       .send({
-        projectId: issuesProject._id,
         issue
       });
 
@@ -122,7 +126,6 @@ describe('UPDATE /api/issues: ', () => {
   it('updates an existing issue', async () => {
     const updates = {
       priority: 'MEDIUM',
-      progress: 'DONE',
       title: 'This is the updated issue'
     };
     const issue = Object.assign({}, issueToUpdate, updates);
@@ -137,7 +140,6 @@ describe('UPDATE /api/issues: ', () => {
         body: {
           issue: expect.objectContaining({
             priority: updates.priority,
-            progress: updates.progress,
             title: updates.title
           })
         }
@@ -151,7 +153,7 @@ describe('DELETE /api/issues: ', () => {
     const response = await request(app)
       .delete('/api/issues')
       .set('Authorization', token)
-      .send({ issueId: issueToDelete._id });
+      .query({ issueId: issueToDelete._id });
 
     expect(response).toEqual(
       expect.objectContaining({
@@ -165,7 +167,7 @@ describe('DELETE /api/issues: ', () => {
     const confirmDeleteResponse = await request(app)
       .get('/api/issues')
       .set('Authorization', token)
-      .send({ projectId: issuesProject._id });
+      .query({ projectId: issuesProject._id });
 
     expect(confirmDeleteResponse).toEqual(
       expect.objectContaining({

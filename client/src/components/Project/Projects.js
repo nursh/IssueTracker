@@ -10,17 +10,18 @@ import CreateProject from './CreateProject';
 import Modal from '../../Modals/useModal';
 import ProjectTable from './ProjectTable';
 import { handleFetchProjects } from '../../actions/projects';
+import { handleJoinProject, handleSelectProject } from '../../actions/project';
 
 
-function Projects({ token, name, projects, handleFetchProjects }) {
+function Projects({ auth, projects, handleFetchProjects, handleJoinProject, handleSelectProject }) {
   const { path } = useRouteMatch();
   const location = useLocation();
 
   const modal = location.state && location.state.modal;
 
   useEffect(() => {
-    handleFetchProjects(token)
-  }, [handleFetchProjects, token]);
+    handleFetchProjects(auth.token)
+  }, [handleFetchProjects, auth]);
 
   return (
     <>
@@ -30,8 +31,8 @@ function Projects({ token, name, projects, handleFetchProjects }) {
         </Route>
       )}
 
-      <Header name={name} />
-      <Sub projects={projects} path={path} location={location} />
+      <Header name={auth.name} />
+      <Sub projects={projects} path={path} location={location} auth={auth} handleJoinProject={handleJoinProject} handleSelectProject={handleSelectProject} />
     </>
   );
 }
@@ -66,11 +67,11 @@ function EmptyProjects({ path, location }) {
    );
 }
 
-function Sub({ projects, path, location }) {
+function Sub({ projects, path, location, auth, handleJoinProject, handleSelectProject }) {
   if (!_.isEmpty(projects)) {
     return (
       <>
-        <ProjectTable projects={projects} />
+        <ProjectTable projects={projects} auth={auth} handleJoinProject={handleJoinProject} handleSelectProject={handleSelectProject} />
         <NavLink
           to={{
             pathname: `${path}/create-project`,
@@ -92,12 +93,11 @@ function Sub({ projects, path, location }) {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.auth.token,
-  name: state.auth.name,
+  auth: state.auth,
   projects: state.projects
 });
 
 export default connect(
   mapStateToProps,
-  { handleFetchProjects }
-)(Projects)
+  { handleFetchProjects, handleJoinProject, handleSelectProject }
+)(Projects);

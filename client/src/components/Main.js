@@ -5,7 +5,9 @@ import {
   useRouteMatch,
   useParams,
   useLocation
-} from 'react-router-dom'
+} from 'react-router-dom';
+
+
 import Sidebar from './Sidebar';
 import Boards from './Boards';
 import DeleteProject from './Project/DeleteProject';
@@ -14,7 +16,6 @@ import CreateIssue from './Issue/CreateIssue'
 import Modal from '../Modals/useModal';
 import ManageIssues from './Issue/ManageIssues';
 import EditIssue from './Issue/EditIssue';
-
 
 
 export default function Main() {

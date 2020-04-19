@@ -28,7 +28,7 @@ export async function getProjectsController(req, res) {
 
 export async function deleteProjectController(req, res) {
   try {
-    const { projectId, createdById } = req.body;
+    const { projectId, createdById } = req.query;
 
     if (createdById !== req.user._id.toString()) {
       res.status(403).json({ message: 'User not allowed to delete project' });

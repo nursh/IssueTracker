@@ -1,10 +1,13 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
+import { format } from '../../utils';
 import sprite from "../../images/sprite.svg";
 
-export default function ManageIssues({ url }) {
+
+function ManageIssues({ url, issues }) {
 
   const location = useLocation();
   return (
@@ -49,8 +52,17 @@ export default function ManageIssues({ url }) {
           </div>
 
           <div className="ml-12">
-            <label htmlFor="createdBy" className="font-medium uppercase text-sm text-gray-700">Created by:</label>
-            <select name="createdBy" id="createdBy" className="form-select bg-gray-200 ml-2">
+            <label
+              htmlFor="createdBy"
+              className="font-medium uppercase text-sm text-gray-700"
+            >
+              Created by:
+            </label>
+            <select
+              name="createdBy"
+              id="createdBy"
+              className="form-select bg-gray-200 ml-2"
+            >
               <option value="All">All</option>
               <option value="Red Bell">Red Bell</option>
               <option value="Green Bell">Green Bell</option>
@@ -65,45 +77,42 @@ export default function ManageIssues({ url }) {
             <span className="ml-2">Apply filter</span>
           </button>
 
-          <button className="ml-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-400" type="reset">
+          <button
+            className="ml-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-400"
+            type="reset"
+          >
             Reset
           </button>
         </form>
       </div>
 
-      <div className="mx-auto mt-10 w-2/5">
+      <div className="mx-auto mt-10 lg:w-2/5 w-3/5">
         <h2 className="font-medium uppercase text-center text-2xl">Issues</h2>
-        <table className="table-auto w-full mt-6">
-          <thead>
-            <tr className="uppercase text-gray-600 text-sm text-left">
-              <th className="px-2 py-2">Title</th>
-              <th className="px-2 py-2">Priority</th>
-              <th className="px-2 py-2">Status</th>
-              <th className="px-2 py-2">Created By</th>
-              <th className="px-2 py-2">Created On</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              {
-                title: "New Issue",
-                priority: "High",
-                status: "Open",
-                createdBy: "Monkey man",
-                createdOn: "March 28, 2019"
-              },
-              {
-                title: "Closed Issue",
-                priority: "Medium",
-                status: "Closed",
-                createdBy: "Michael jango",
-                createdOn: "February 29, 2019"
-              }
-            ].map((issue, idx) => (
-              <IssueRow key={idx} issue={issue} url={url} location={location} />
-            ))}
-          </tbody>
-        </table>
+        {!issues ? (
+          <h2 className="text-lg uppercase text-center mt-10">There are currently no issues in the project.</h2>
+        ) : (
+            <table className="table-auto w-full mt-6">
+              <thead>
+                <tr className="uppercase text-gray-600 text-sm text-left">
+                  <th className="px-2 py-2">Title</th>
+                  <th className="px-2 py-2">Priority</th>
+                  <th className="px-2 py-2">Status</th>
+                  <th className="px-2 py-2">Created By</th>
+                  <th className="px-2 py-2">Created On</th>
+                </tr>
+              </thead>
+              <tbody>
+                {issues.map((issue, idx) => (
+                  <IssueRow
+                    key={idx}
+                    issue={issue}
+                    url={url}
+                    location={location}
+                  />
+                ))}
+              </tbody>
+            </table>
+        )}
       </div>
     </div>
   );
@@ -114,7 +123,7 @@ function IssueRow({ issue, url, location }) {
     title,
     priority,
     status,
-    createdBy,
+    createdBy: { name },
     createdOn
   } = issue;
   return (
@@ -122,8 +131,8 @@ function IssueRow({ issue, url, location }) {
       <td className="px-2 py-4">{title}</td>
       <td className="uppercase px-2 py-4">{priority}</td>
       <td className="uppercase px-2 py-4">{status}</td>
-      <td className="px-2 py-4">{createdBy}</td>
-      <td className="px-2 py-4">{createdOn}</td>
+      <td className="px-2 py-4">{name}</td>
+      <td className="px-2 py-4">{format(createdOn)}</td>
       <td className="px-2 py-4">
         <NavLink to={{
           pathname: `${url}/edit-issue`,
@@ -139,7 +148,8 @@ function IssueRow({ issue, url, location }) {
         <NavLink to={{
           pathname: `${url}/delete-issue`,
           state: { modal: location, issue }
-        }}>
+        }}
+        >
           <svg className="h-6 w-6">
             <use xlinkHref={`${sprite}#icon-trashcan`} />
           </svg>
@@ -148,3 +158,9 @@ function IssueRow({ issue, url, location }) {
     </tr>
   );
 }
+
+const mapStateToProps = (state) => ({ issues: state.issues });
+export default connect(
+  mapStateToProps,
+  null
+)(ManageIssues);

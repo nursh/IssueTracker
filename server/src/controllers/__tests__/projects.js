@@ -86,12 +86,13 @@ describe('DELETE projects: ', () => {
 
     const projectId = ObjectId(ObjectID.generate());
     const req = buildReq(
+      {},
       {
-        projectId: projectId,
-        createdById: 'user-id'
-      },
-      {
-        user: { _id: 'user-id' }
+        user: { _id: 'user-id' },
+        query: {
+          projectId: projectId,
+          createdById: 'user-id'
+        }
       }
     );
 
@@ -122,12 +123,13 @@ describe('DELETE projects: ', () => {
   it('returns a 403 forbidden given different createdById and user._id', async () => {
     const projectId = ObjectId(ObjectID.generate());
     const req = buildReq(
+      {},
       {
-        projectId: projectId,
-        createdById: 'user-id-1'
-      },
-      {
-        user: { _id: 'user-id' }
+        user: { _id: 'user-id' },
+        query: {
+          projectId: projectId,
+          createdById: 'user-id-1'
+        }
       }
     );
 

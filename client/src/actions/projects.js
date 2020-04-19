@@ -25,7 +25,6 @@ export const handleFetchProjects = (token) => async (dispatch) => {
     dispatch(fetchProjects(response.data.projects));
     dispatch(clearError());
   } catch (error) {
-    console.log(error);
     dispatch(getError(error.response.data));
   }
 }
