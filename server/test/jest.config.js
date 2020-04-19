@@ -7,14 +7,6 @@ module.exports = {
   coverageDirectory: path.join(__dirname, '../coverage'),
   setupFiles: ['dotenv/config'],
   collectCoverageFrom: ['**/src/**/*.js'],
-  coverageThreshold: {
-    global: {
-      statements: 85,
-      functions: 85,
-      branches: 85,
-      lines: 85
-    }
-  },
   coveragePathIgnorePatterns: [
     '.*/__tests__/.*',
     '.*/src/index.js',
