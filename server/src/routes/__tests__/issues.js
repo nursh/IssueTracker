@@ -126,7 +126,6 @@ describe('UPDATE /api/issues: ', () => {
   it('updates an existing issue', async () => {
     const updates = {
       priority: 'MEDIUM',
-      progress: 'DONE',
       title: 'This is the updated issue'
     };
     const issue = Object.assign({}, issueToUpdate, updates);
@@ -141,7 +140,6 @@ describe('UPDATE /api/issues: ', () => {
         body: {
           issue: expect.objectContaining({
             priority: updates.priority,
-            progress: updates.progress,
             title: updates.title
           })
         }
