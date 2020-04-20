@@ -13,7 +13,7 @@ import { handleFetchProjects } from '../../actions/projects';
 import { handleJoinProject, handleSelectProject } from '../../actions/project';
 
 
-function Projects({ auth, projects, handleFetchProjects, handleJoinProject, handleSelectProject }) {
+function Projects({ auth, projects, handleFetchProjects, handleJoinProject, handleSelectProject, search }) {
   const { path } = useRouteMatch();
   const location = useLocation();
 
@@ -32,7 +32,15 @@ function Projects({ auth, projects, handleFetchProjects, handleJoinProject, hand
       )}
 
       <Header name={auth.name} />
-      <Sub projects={projects} path={path} location={location} auth={auth} handleJoinProject={handleJoinProject} handleSelectProject={handleSelectProject} />
+      <Sub
+        projects={projects}
+        path={path}
+        location={location}
+        auth={auth}
+        handleJoinProject={handleJoinProject}
+        handleSelectProject={handleSelectProject}
+        search={search}  
+      />
     </>
   );
 }
@@ -67,7 +75,7 @@ function EmptyProjects({ path, location }) {
    );
 }
 
-function Sub({ projects, path, location, auth, handleJoinProject, handleSelectProject }) {
+function Sub({ projects, path, location, auth, handleJoinProject, handleSelectProject, search }) {
   if (!_.isEmpty(projects)) {
     return (
       <>
@@ -88,13 +96,20 @@ function Sub({ projects, path, location, auth, handleJoinProject, handleSelectPr
         </NavLink>
       </>
     );
+  } else if  (search === false && _.isEmpty(projects)) {
+    return (
+      <div className="text-center mt-20"> 
+        <h2 className="font-medium text-2xl text-gray-800">No Projects were found.</h2>
+      </div>
+    );
   }
   return <EmptyProjects path={path} location={location} />
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  projects: state.projects
+  projects: state.projects,
+  search: state.search
 });
 
 export default connect(
