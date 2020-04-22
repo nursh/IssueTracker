@@ -4,12 +4,12 @@ import {
   Route,
   useRouteMatch,
   useParams,
-  useLocation
+  useLocation,
+  Redirect
 } from 'react-router-dom';
 
 
 import Sidebar from './Sidebar';
-import Boards from './Boards';
 import DeleteProject from './Project/DeleteProject';
 import DeleteIssue from './Issue/DeleteIssue';
 import CreateIssue from './Issue/CreateIssue'
@@ -30,7 +30,7 @@ export default function Main() {
       <Sidebar url={url} />
       <Switch location={modal || location}>
         <Route exact path={`${path}`}>
-          <Boards />
+          <Redirect to={`${path}/manage-issues`} />
         </Route>
         <Route path={`${path}/manage-issues`}>
           <ManageIssues url={url} />

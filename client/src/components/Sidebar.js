@@ -1,10 +1,12 @@
 import React from 'react';
 import Avatar from 'react-avatar';
 import { NavLink, useLocation } from 'react-router-dom';
+import _ from 'lodash';
 
 import sprite from "../images/sprite.svg";
+import { connect } from 'react-redux';
 
-export default function Sidebar({ url }) {
+function Sidebar({ url, name }) {
 
   const location = useLocation();
 
@@ -15,8 +17,8 @@ export default function Sidebar({ url }) {
           Issue Tracker
         </h2>
         <div className="mt-4 flex items-center">
-          <Avatar name="John Guarnane" size={40} />
-          <p className="ml-3">John Guarnane</p>
+          <Avatar name={name} size={40} color="#7e6dcf" />
+          <p className="ml-3">{_.startCase(name)}</p>
         </div>
       </div>
 
@@ -37,12 +39,6 @@ export default function Sidebar({ url }) {
         </h3>
         <div className="mt-2 -mx-3">
           <NavLink
-            to={`${url}`}
-            className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
-          >
-            Project Board
-          </NavLink>
-          <NavLink
             to={`${url}/manage-issues`}
             className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
           >
@@ -51,7 +47,7 @@ export default function Sidebar({ url }) {
           <NavLink
             to={{
               pathname: `${url}/create-issue`,
-              state: { modal: location }
+              state: { modal: location },
             }}
             className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
           >
@@ -60,7 +56,7 @@ export default function Sidebar({ url }) {
           <NavLink
             to={{
               pathname: `${url}/delete-project`,
-              state: { modal: location }
+              state: { modal: location },
             }}
             className="block font-medium text-sm hover:bg-indigo-500 px-3 py-2 rounded"
           >
@@ -85,3 +81,8 @@ export default function Sidebar({ url }) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({ name: state.auth.name });
+export default connect(
+  mapStateToProps
+)(Sidebar)

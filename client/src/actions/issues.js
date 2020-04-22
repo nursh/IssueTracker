@@ -1,11 +1,14 @@
 import axios from 'axios';
+import _ from 'lodash';
 import { getError, clearError } from './error';
 
 
 export const DELETE_ISSUE = 'DELETE_ISSUE';
 export const CREATE_ISSUE = 'CREATE_ISSUE';
 export const EDIT_ISSUE = 'EDIT_ISSUE';
-export const FETCH_ISSUES = 'FETCH_ISSUES'
+export const FETCH_ISSUES = 'FETCH_ISSUES';
+export const FILTER_ISSUES = 'FILTER_ISSUES';
+export const RESET_ISSUES = 'RESET_ISSUES';
 
 
 const fetchIssues = (issues) => ({
@@ -24,6 +27,30 @@ const createIssue = () => ({
 const editIssue = () => ({
   type: EDIT_ISSUE
 });
+
+const filterIssues = (filter) => ({
+  type: FILTER_ISSUES,
+  payload: filter
+});
+
+const resetIssues = () => ({
+  type: RESET_ISSUES
+});
+
+export const handleResetIssues = () => (dispatch) => {
+  dispatch(resetIssues());
+}
+
+export const handleFilterIssues = (issueFilter) => (dispatch) => {
+  const parsedFilter = _(issueFilter)
+    .pickBy((v, k) => v !== 'All')
+    .omitBy((v, k) => v === '')
+    .value();
+
+  if (!_.isEmpty(parsedFilter)) {
+    dispatch(filterIssues(parsedFilter));
+  }
+}
 
 export const handleDeleteIssue = (issueId, project, token, history) => async (dispatch) => {
   try {

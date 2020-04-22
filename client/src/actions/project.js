@@ -52,7 +52,6 @@ export const handleJoinProject = (token, projectId) => async (dispatch) => {
     });
     dispatch(joinProject());
     dispatch(clearError());
-    alert(`You've been added to the project.`);
   } catch (error) {
     dispatch(getError(error.response.data));
   }

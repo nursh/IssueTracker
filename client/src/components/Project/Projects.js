@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Header from '../Header'
-import { NavLink, useLocation, Route, useRouteMatch } from "react-router-dom";
+import { NavLink, useLocation, Route, useRouteMatch, useParams } from "react-router-dom";
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
 
@@ -11,6 +11,7 @@ import Modal from '../../Modals/useModal';
 import ProjectTable from './ProjectTable';
 import { handleFetchProjects } from '../../actions/projects';
 import { handleJoinProject, handleSelectProject } from '../../actions/project';
+import JoinProject from './JoinProject';
 
 
 function Projects({ auth, projects, handleFetchProjects, handleJoinProject, handleSelectProject, search }) {
@@ -26,8 +27,8 @@ function Projects({ auth, projects, handleFetchProjects, handleJoinProject, hand
   return (
     <>
       {modal && (
-        <Route to={`${path}/create-project`}>
-          <Modal UI={CreateProject} />
+        <Route path={`${path}/:page`}>
+          <Page />
         </Route>
       )}
 
@@ -43,6 +44,18 @@ function Projects({ auth, projects, handleFetchProjects, handleJoinProject, hand
       />
     </>
   );
+}
+
+function Page() {
+  let { page } = useParams();
+  switch (page) {
+    case "create-project":
+      return <Modal UI={CreateProject} />;
+    case "join-project":
+      return <Modal UI={JoinProject} />;
+    default:
+      break;
+  }
 }
 
 function EmptyProjects({ path, location }) {
@@ -79,21 +92,30 @@ function Sub({ projects, path, location, auth, handleJoinProject, handleSelectPr
   if (!_.isEmpty(projects)) {
     return (
       <>
-        <ProjectTable projects={projects} auth={auth} handleJoinProject={handleJoinProject} handleSelectProject={handleSelectProject} />
-        <NavLink
-          to={{
-            pathname: `${path}/create-project`,
-            state: { modal: location }
-          }}
-          className="m-auto mt-10 w-48 rounded px-1 py-4 bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700"
-        >
-          <svg className="fill-current h-3 w-3">
-            <use xlinkHref={`${sprite}#icon-plus`} />
-          </svg>
-          <span className="uppercase tracking-wide ml-3 font-medium text-sm">
-            Create Project
-          </span>
-        </NavLink>
+        <ProjectTable
+          projects={projects}
+          auth={auth}
+          handleJoinProject={handleJoinProject}
+          handleSelectProject={handleSelectProject}
+          location={location}
+          path={path}
+        />
+        {search === null ? (
+          <NavLink
+            to={{
+              pathname: `${path}/create-project`,
+              state: { modal: location },
+            }}
+            className="m-auto mt-10 w-48 rounded px-1 py-4 bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700"
+          >
+            <svg className="fill-current h-3 w-3">
+              <use xlinkHref={`${sprite}#icon-plus`} />
+            </svg>
+            <span className="uppercase tracking-wide ml-3 font-medium text-sm">
+              Create Project
+            </span>
+          </NavLink>
+        ) : null}
       </>
     );
   } else if  (search === false && _.isEmpty(projects)) {
