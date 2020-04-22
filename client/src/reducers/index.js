@@ -4,6 +4,7 @@ import error from './error';
 import projects from './projects';
 import project from './project';
 import issues from './issues';
+import search from './search';
 
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
   error,
   projects,
   project,
-  issues
+  issues,
+  search
 });
