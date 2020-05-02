@@ -42,6 +42,7 @@ function ManageIssues({ url, issues, project, handleFilterIssues, filtered, filt
               className="form-select bg-gray-200 ml-2"
               onChange={formik.handleChange}
               value={formik.values.status}
+              data-testid="status-filter"
             >
               <option value="All">All</option>
               <option value="OPEN">Open</option>
@@ -62,6 +63,7 @@ function ManageIssues({ url, issues, project, handleFilterIssues, filtered, filt
               className="form-select bg-gray-200 ml-2"
               onChange={formik.handleChange}
               value={formik.values.priority}
+              data-testid="priority-filter"
             >
               <option value="All">All</option>
               <option value="LOW">Low</option>
@@ -83,6 +85,7 @@ function ManageIssues({ url, issues, project, handleFilterIssues, filtered, filt
               className="form-select bg-gray-200 ml-2"
               onChange={formik.handleChange}
               value={formik.values.createdBy}
+              data-testid="created-filter"
             >
               <option value="All">All</option>
               <option value={project.createdBy.id}>
@@ -131,6 +134,7 @@ function ManageIssues({ url, issues, project, handleFilterIssues, filtered, filt
                   pathname: `${url}/create-issue`,
                   state: { modal: location },
                 }}
+                data-testid="create-issue"
                 className="m-auto w-2/5  mt-10 rounded px-1 py-4 bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700"
               >
                 <svg className="fill-current h-3 w-3">
@@ -186,23 +190,25 @@ function IssueRow({ issue, url, location }) {
       <td className="px-2 py-4">{_.startCase(name)}</td>
       <td className="px-2 py-4">{format(createdOn)}</td>
       <td className="px-2 py-4">
-        <NavLink to={{
-          pathname: `${url}/edit-issue`,
-          state: { modal: location, issue }
-        }}
+        <NavLink
+          to={{
+            pathname: `${url}/edit-issue`,
+            state: { modal: location, issue },
+          }}
         >
-          <svg className="h-6 w-6">
+          <svg className="h-6 w-6" data-testid="edit-issue">
             <use xlinkHref={`${sprite}#icon-edit`} />
           </svg>
         </NavLink>
       </td>
       <td className="px-2 py-4">
-        <NavLink to={{
-          pathname: `${url}/delete-issue`,
-          state: { modal: location, issue }
-        }}
+        <NavLink
+          to={{
+            pathname: `${url}/delete-issue`,
+            state: { modal: location, issue },
+          }}
         >
-          <svg className="h-6 w-6">
+          <svg className="h-6 w-6" data-testid="delete-issue">
             <use xlinkHref={`${sprite}#icon-trashcan`} />
           </svg>
         </NavLink>

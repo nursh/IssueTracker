@@ -120,6 +120,7 @@ function SignUp(props) {
           <button
             className="shadow rounded px-4 py-3 bg-indigo-600 text-white mt-10 uppercase text-sm"
             type="submit"
+            data-testid="signup-button"
           >
             Sign up
           </button>
