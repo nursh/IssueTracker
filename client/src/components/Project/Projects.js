@@ -75,6 +75,7 @@ function EmptyProjects({ path, location }) {
              state: { modal: location }
            }}
            className="m-auto w-1/6  mt-4 rounded px-1 py-4 bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700"
+           data-testid="create-project"
          >
            <svg className="fill-current h-3 w-3">
              <use xlinkHref={`${sprite}#icon-plus`} />

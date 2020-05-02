@@ -42,6 +42,7 @@ function DeleteProject({ history, handleDeleteProject, token, project, error }) 
           <button
             className="ml-6 text-red-700 font-medium bg-red-200 py-1 px-6 rounded focus:outline-none"
             onClick={() => handleDeleteProject(project, token, history)}
+            data-testid="delete-project"
           >
             Delete
           </button>

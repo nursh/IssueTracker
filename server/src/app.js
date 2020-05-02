@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import passport from 'passport';
 import 'dotenv/config';
 
+import setDB from './db';
 import authRouter from './routes/auth';
 import issueRouter from './routes/issues';
 import projectRouter from './routes/projects';
@@ -23,5 +24,15 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/auth', authRouter);
 app.use('/api/issues', issueRouter);
 app.use('/api/projects', projectRouter);
+
+app.get('/api/cleardb', async (req, res) => {
+  if (process.env.NODE_ENV === 'test') {
+    const db = await setDB();
+    await db.collection('users').deleteMany({});
+    await db.collection('projects').deleteMany({});
+    await db.collection('issues').deleteMany({});
+  }
+  return res.status(200).json({ message: 'Successfully cleared db' });
+});
 
 export { app };

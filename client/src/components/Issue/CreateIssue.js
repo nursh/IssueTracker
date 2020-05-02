@@ -97,6 +97,7 @@ function CreateIssue({ history, token, handleCreateIssue, project }) {
         <button
           type="submit"
           className="shadow rounded px-4 py-3 bg-indigo-600 text-white mt-10 hover:bg-indigo-700 uppercase text-sm"
+          data-testid="submit-create-issue"
         >
           Create Issue
         </button>

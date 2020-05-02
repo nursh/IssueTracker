@@ -91,7 +91,11 @@ function RightHeader({ url, handleLogout, name, handleSearchProjects, auth, hand
         </NavLink>
         <div className="ml-10 flex items-baseline">
           <Avatar name={name} round={true} size={35} color="#8175D8" />
-          <span className="ml-2 font-medium uppercase text-sm">{name}</span>
+          <span
+            className="ml-2 font-medium uppercase text-sm"
+          >
+            {name}
+          </span>
         </div>
         <NavLink
           to="/index"

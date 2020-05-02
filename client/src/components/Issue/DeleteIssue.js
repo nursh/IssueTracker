@@ -34,7 +34,7 @@ function DeleteIssue({ history, issue, handleDeleteIssue, token, project }) {
         >
           Cancel
         </button>
-        <button className="ml-6 text-red-700 font-medium bg-red-200 py-1 px-6 rounded focus:outline-none" onClick={() => handleDeleteIssue(issue._id, project, token, history)}>
+        <button data-testid="delete-modal" className="ml-6 text-red-700 font-medium bg-red-200 py-1 px-6 rounded focus:outline-none" onClick={() => handleDeleteIssue(issue._id, project, token, history)}>
           Delete
         </button>
       </div>
