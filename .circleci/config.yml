@@ -33,7 +33,11 @@ workflows:
       - server_test
       - cypress/run:
           yarn: true
-          working_directory: ~/repo/client
+          install-command: yarn install --frozen-lockfile
+          working_directory: client
+          cache-key: >-
+            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json"
+            }}
           filters:
             branches:
               only: 
