@@ -32,10 +32,10 @@ workflows:
     jobs:
       - server_test
       - cypress/install:
-          working_directory: ~/repo/client
+          working_directory: ~/client
       - cypress/run:
           yarn: true
-          working_directory: ~/repo/client
+          working_directory: ~/client
           filters:
             branches:
               only: 
