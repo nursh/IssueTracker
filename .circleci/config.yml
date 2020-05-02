@@ -35,10 +35,10 @@ workflows:
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "package.json"
             }}
-          working_directory: ~/client
+          working_directory: client
       - cypress/run:
           yarn: true
-          working_directory: ~/client
+          working_directory: client
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "package.json"
             }}
