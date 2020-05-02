@@ -33,7 +33,7 @@ workflows:
       - server_test
       - cypress/run:
           yarn: true
-          working_directory: client
+          working_directory: ~/repo/client
           filters:
             branches:
               only: 
