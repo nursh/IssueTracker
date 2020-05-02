@@ -32,10 +32,15 @@ workflows:
     jobs:
       - server_test
       - cypress/install:
-          working_directory: ~/client
+          cache-key: >-
+            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json"
+            }}
       - cypress/run:
           yarn: true
-          working_directory: ~/client
+          working_directory: client
+          cache-key: >-
+            cache-{{ arch }}-{{ .Branch }}-{{ checksum "frontend/package.json"
+            }}
           filters:
             branches:
               only: 
