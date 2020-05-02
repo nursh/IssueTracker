@@ -31,7 +31,7 @@ workflows:
   complete_test:
     jobs:
       - server_test
-      - cypress/run
+      - cypress/run:
           yarn: true
           working_directory: ~/repo/client
           filters:
