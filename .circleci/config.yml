@@ -31,6 +31,8 @@ workflows:
   complete_test:
     jobs:
       - server_test
+      - cypress/install:
+          working_directory: ~/repo/client
       - cypress/run:
           yarn: true
           working_directory: ~/repo/client
