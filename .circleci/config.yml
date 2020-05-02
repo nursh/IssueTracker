@@ -39,8 +39,4 @@ workflows:
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json"
             }}
-          filters:
-            branches:
-              only: 
-                - master
 

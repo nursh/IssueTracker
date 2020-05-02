@@ -67,7 +67,9 @@
   },
   "devDependencies": {
     "@testing-library/cypress": "^6.0.0",
-    "cypress": "^4.5.0",
     "start-server-and-test": "^1.11.0"
+  },
+  "peerDependencies": {
+    "cypress": "^4.5.0"
   }
 }
