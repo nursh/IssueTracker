@@ -31,13 +31,9 @@ workflows:
   complete_test:
     jobs:
       - server_test
-      - cypress/install:
-          cache-key: >-
-            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json"
-            }}
-          working_directory: client
       - cypress/run:
           yarn: true
+          install-command: yarn install --frozen-lockfile
           working_directory: client
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json"
