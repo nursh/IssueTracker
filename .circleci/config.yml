@@ -22,10 +22,6 @@ jobs:
             - ~/.cache
           key: v2-dependencies-{{ checksum "package.json" }}
       - run: npm test
-      - persist_to_workspace:
-          root: ~/repo
-          paths:
-            - ./server
       - codecov/upload:
           file: coverage/coverage-final.json
           token: '${CODECOV_TOKEN}'
@@ -40,6 +36,9 @@ workflows:
           working_directory: client
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
+          post-install: 
+            run: cd ..
+            run: ls -al
       - cypress/run:
           yarn: true
           command: yarn run test:e2e
@@ -48,7 +47,6 @@ workflows:
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
           requires:
-            - server_test
             - cypress/install
           
 
