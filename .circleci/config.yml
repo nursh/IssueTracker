@@ -42,6 +42,7 @@ workflows:
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
       - cypress/run:
           yarn: true
+          command: yarn run test:e2e
           working_directory: client
           attach-workspace: true
           cache-key: >-
