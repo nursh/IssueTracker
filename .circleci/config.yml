@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@1.0.2
-  cypress: cypress-io/cypress@1.20.0
+  # cypress: cypress-io/cypress@1.20.0
 jobs:
   server_test:
     docker:
@@ -26,16 +26,48 @@ jobs:
           file: coverage/coverage-final.json
           token: '${CODECOV_TOKEN}'
 
+  frontend_test:
+    docker:
+      - image: cypress/base:8
+        environment:
+          TERM: xterm
+    
+    working_directory: ~/repo/client
+
+    steps:
+      - checkout:
+          path: ~/repo
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          command: >-
+            cd ../server &&
+            npm install &&
+            cd ../client &&
+            yarn run test:e2e
+
+      
+
 workflows:
   version: 2
   complete_test:
     jobs:
       - server_test
-      - cypress/run:
-          yarn: true
-          working_directory: client
-          command: yarn run test:e2e
-          cache-key: >-
-            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
+      - frontend_test
+      # - cypress/run:
+      #     yarn: true
+      #     working_directory: client
+      #     command: yarn run test:e2e
+      #     cache-key: >-
+      #       cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
           
 
