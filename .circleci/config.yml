@@ -34,10 +34,9 @@ workflows:
       - cypress/run:
           yarn: true
           install-command: yarn install
-          post-install: 
-            - run: cd ../server
+          post-checkout: 
+            - run: cd ..
             - run: ls -al
-            - run: npm install
           command: yarn run test:e2e
           working_directory: client
           cache-key: >-
