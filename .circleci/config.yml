@@ -48,5 +48,6 @@ workflows:
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
           requires:
             - server_test
+            - cypress/install
           
 
