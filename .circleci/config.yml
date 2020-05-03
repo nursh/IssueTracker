@@ -37,8 +37,8 @@ workflows:
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
           post-install: 
-            run: cd ..
-            run: ls -al
+            - run: cd ..
+            - run: ls -al
       - cypress/run:
           yarn: true
           command: yarn run test:e2e
