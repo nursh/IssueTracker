@@ -38,8 +38,8 @@ workflows:
       - cypress/install:
           yarn: true
           working_directory: client
-           cache-key: >-
-            cache-{{ arch }}-{{ .Branch }}-{{ checksum "frontend/package.json" }}
+          cache-key: >-
+            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
       - cypress/run:
           yarn: true
           working_directory: client
