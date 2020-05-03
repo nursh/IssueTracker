@@ -40,5 +40,7 @@ workflows:
           working_directory: client
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
+          requires:
+            - server_test
           
 
