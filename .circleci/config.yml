@@ -31,20 +31,11 @@ workflows:
   complete_test:
     jobs:
       - server_test
-      - cypress/install:
-          working_directory: server
-          command: npm install
-          cache-key: >-
-            cache-{{ arch }}-{{ .Branch }}-{{ checksum "server/package.json" }}
       - cypress/run:
           yarn: true
-          install-command: yarn install --frozen-lockfile
           working_directory: client
-          attach-workspace: true
-          command: yarn run test:e2e:run
+          command: yarn run test:e2e
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
-          requires:
-            - server_test
-            - cypress/install
+          
 
