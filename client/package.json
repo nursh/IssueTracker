@@ -47,7 +47,7 @@
     "server-start": "npm --prefix ../server run test:start",
     "app:start": "concurrently \"yarn start\" \"yarn:server-start\"",
     "some-build-script": "yarn run build",
-    "test:e2e:run": "start-server-and-test http://localhost:3000 cy:run",
+    "test:e2e:run": "start-server-and-test app:start http://localhost:3000 cy:run",
     "test:e2e:dev": "start-server-and-test app:start http://localhost:3000 cy:open"
   },
   "eslintConfig": {
