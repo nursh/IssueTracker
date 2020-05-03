@@ -36,6 +36,7 @@ workflows:
           install-command: yarn install --frozen-lockfile
           working_directory: client
           command: yarn run test:e2e:run
+          attach-workspace: true
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json"
             }}
