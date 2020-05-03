@@ -36,7 +36,6 @@ workflows:
           install-command: yarn install
           post-checkout:
             - run: cd server && npm install
-            - run: killall -9 node
           command: yarn run test:e2e
           working_directory: client
           cache-key: >-
