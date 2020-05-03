@@ -19,10 +19,9 @@ jobs:
       - run: npm install
       - save_cache:
           paths:
-            - node_modules
+            - ~/.cache
+            # - node_modules
           key: v2-dependencies-{{ checksum "package.json" }}
-      - persist_to_workspace:
-
       - run: npm test
       - codecov/upload:
           file: coverage/coverage-final.json
@@ -39,8 +38,7 @@ workflows:
           working_directory: client
           command: yarn run test:e2e:run
           cache-key: >-
-            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json"
-            }}
+            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
           requires:
             - server_test
 
