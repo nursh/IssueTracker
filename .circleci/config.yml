@@ -33,6 +33,8 @@ workflows:
       - server_test
       - cypress/install:
           yarn: true
+          post-checkout:
+            - run: cd server && npm install
           working_directory: client
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
@@ -40,8 +42,6 @@ workflows:
           yarn: true
           parallel: true
           parallelism: 4
-          post-checkout:
-            - run: cd server && npm install
           command: yarn run test:e2e
           browser: chrome
           working_directory: client
