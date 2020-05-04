@@ -31,22 +31,15 @@ workflows:
   server:
     jobs:
       - server_test
-      - cypress/install:
+      - cypress/run:
           yarn: true
           post-checkout:
             - run: cd server && npm install
-          working_directory: client
-          cache-key: >-
-            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
-      - cypress/run:
-          yarn: true
           command: yarn run test:e2e
-          browser: chrome
           working_directory: client
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
           requires:
             - server_test
-            - cypress/install
           
 

@@ -13,6 +13,10 @@ Cypress.Commands.add('signupUser', () => {
 
 Cypress.Commands.add('signinUser', (user) => {
   cy.visit("/");
+
+  cy.findByLabelText(/email/i).should('exist');
+  cy.findByLabelText(/password/i).should('exist');
+
   cy.findByLabelText(/email/i).type(user.email.toLowerCase());
   cy.findByLabelText(/password/i).type(user.password);
   cy.findByTestId(/signin-button/i).click();
