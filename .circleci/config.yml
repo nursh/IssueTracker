@@ -34,6 +34,8 @@ workflows:
       - cypress/run:
           yarn: true
           install-command: yarn install
+          parallel: true
+          parallelism: 4
           post-checkout:
             - run: cd server && npm install
           command: yarn run test:e2e
