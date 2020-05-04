@@ -37,7 +37,7 @@ workflows:
           post-checkout:
             - run: cd server && npm install
           command: yarn run test:e2e
-          timeout: 5m
+          browser: chrome
           working_directory: client
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
