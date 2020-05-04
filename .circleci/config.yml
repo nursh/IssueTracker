@@ -47,7 +47,7 @@ workflows:
           parallel: true
           parallelism: 4
           group: all tests
-          attach_workspace: true
+          attach-workspace: true
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
           requires:
