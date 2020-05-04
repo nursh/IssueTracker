@@ -40,8 +40,6 @@ workflows:
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
       - cypress/run:
           yarn: true
-          parallel: true
-          parallelism: 4
           command: yarn run test:e2e
           browser: chrome
           working_directory: client

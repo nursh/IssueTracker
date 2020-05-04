@@ -28,6 +28,9 @@ Cypress.Commands.add('createProject', () => {
   const project = buildProject();
   
   cy.createAndSigninUser();
+  cy.url().should("eq", `${Cypress.config().baseUrl}/projects`);
+  
+
   cy.findByTestId(/create-project/i).click();
   cy.findByLabelText(/title/i).type(project.title);
   cy.findAllByLabelText(/description/i).type(project.description);
