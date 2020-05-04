@@ -44,9 +44,6 @@ workflows:
           command: yarn run test:e2e
           working_directory: client
           record: true
-          parallel: true
-          parallelism: 4
-          group: all tests
           attach-workspace: true
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
