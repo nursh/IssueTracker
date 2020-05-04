@@ -41,13 +41,13 @@
     "build:styles": "postcss src/tailwind.css -o src/index.css",
     "prebuild": "yarn build:styles",
     "prestart": "yarn build:styles",
-    "cy:run": "cypress run",
+    "cy:run": "cypress run --record",
     "cy:open": "cypress open",
     "test:e2e": "is-ci \"test:e2e:run\" \"test:e2e:dev\"",
     "server-start": "npm --prefix ../server run test:start",
     "app:start": "concurrently \"yarn start\" \"yarn:server-start\"",
-    "pretest:e2e:run": "yarn run build",
-    "test:e2e:run": "start-server-and-test http://localhost:3000 cy:run",
+    "some-build-script": "yarn run build",
+    "test:e2e:run": "start-server-and-test app:start http://localhost:3000 cy:run",
     "test:e2e:dev": "start-server-and-test app:start http://localhost:3000 cy:open"
   },
   "eslintConfig": {
@@ -67,7 +67,9 @@
   },
   "devDependencies": {
     "@testing-library/cypress": "^6.0.0",
-    "cypress": "^4.5.0",
     "start-server-and-test": "^1.11.0"
+  },
+  "peerDependencies": {
+    "cypress": "^4.5.0"
   }
 }

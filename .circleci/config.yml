@@ -19,7 +19,7 @@ jobs:
       - run: npm install
       - save_cache:
           paths:
-            - node_modules
+            - ~/.cache
           key: v2-dependencies-{{ checksum "package.json" }}
       - run: npm test
       - codecov/upload:
@@ -28,19 +28,17 @@ jobs:
 
 workflows:
   version: 2
-  complete_test:
+  server:
     jobs:
       - server_test
       - cypress/run:
           yarn: true
-          install-command: yarn install --frozen-lockfile
+          install-command: yarn install
+          post-checkout:
+            - run: cd server && npm install
+          command: yarn run test:e2e
           working_directory: client
-          command: yarn run test:e2e:run
+          record: true
           cache-key: >-
-            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json"
-            }}
-          filters:
-            branches:
-              only: 
-                - master
+            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
 
