@@ -31,6 +31,12 @@ workflows:
   server:
     jobs:
       - server_test
+      - cypress/install:
+          yarn: true
+          working_directory: client
+          install-command: yarn install
+          cache-key: >-
+            cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
       - cypress/run:
           yarn: true
           post-checkout:
@@ -41,9 +47,10 @@ workflows:
           parallel: true
           parallelism: 4
           group: all tests
+          attach_workspace: true
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
           requires:
             - server_test
-          
+            - cypress/install
 
