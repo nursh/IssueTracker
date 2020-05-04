@@ -37,6 +37,10 @@ workflows:
             - run: cd server && npm install
           command: yarn run test:e2e
           working_directory: client
+          record: true
+          parallel: true
+          parallelism: 4
+          group: all tests
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
           requires:
