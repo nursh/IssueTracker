@@ -41,7 +41,7 @@
     "build:styles": "postcss src/tailwind.css -o src/index.css",
     "prebuild": "yarn build:styles",
     "prestart": "yarn build:styles",
-    "cy:run": "cypress run",
+    "cy:run": "cypress run --headed",
     "cy:open": "cypress open",
     "test:e2e": "is-ci \"test:e2e:run\" \"test:e2e:dev\"",
     "server-start": "npm --prefix ../server run test:start",
