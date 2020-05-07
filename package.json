@@ -2,8 +2,9 @@
   "name": "issuetracker",
   "version": "1.0.0",
   "description": "IssueTracker application",
-    "engines": {
-    "node": "10.x"
+  "engines": {
+    "node": "10.x",
+    "yarn": "1.x"
   },
   "scripts": {
     "build:client": "yarn install i --cwd client && yarn run build --cwd client",
