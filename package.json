@@ -1,0 +1,14 @@
+{
+  "name": "issuetracker",
+  "version": "1.0.0",
+  "description": "IssueTracker application",
+    "engines": {
+    "node": "10.x"
+  },
+  "scripts": {
+    "build:client": "npm i --prefix client && npm run build --prefix client",
+    "build:server": "npm i --prefix server && npm run build --prefix server",
+    "start": "npm start --prefix server",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build:client && npm npm run build:server"
+  }
+}
