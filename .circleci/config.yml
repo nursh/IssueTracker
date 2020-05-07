@@ -43,7 +43,7 @@ workflows:
           record: true
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
-      - heroku/deploy-via-git
+      - heroku/deploy-via-git:
           requires:
             - server_test
             - cypress/run
