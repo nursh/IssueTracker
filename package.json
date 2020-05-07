@@ -6,7 +6,7 @@
     "node": "10.x"
   },
   "scripts": {
-    "build:client": "yarn install i --cwd client && npm run build --cwd client",
+    "build:client": "yarn install i --cwd client && yarn run build --cwd client",
     "build:server": "npm i --prefix server && npm run build --prefix server",
     "start": "npm start --prefix server",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build:client && npm npm run build:server"
