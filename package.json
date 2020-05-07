@@ -7,10 +7,10 @@
     "yarn": "1.x"
   },
   "scripts": {
-    "build:client": "YARN_PRODUCTION=false yarn install --cwd client && yarn build --cwd client",
-    "build:server": "NPM_CONFIG_PRODUCTION=false npm i --prefix server && npm run build --prefix server",
+    "build:client": "yarn install --cwd client && yarn build --cwd client",
+    "build:server": "npm i --prefix server && npm run build --prefix server",
     "start": "npm start --prefix server",
-    "heroku-postbuild": "npm run build:server && npm run build:client"
+    "postinstall": "npm run build:server && npm run build:client"
   },
   "cacheDirectories": ["client/node_modules", "server/node_modules"]
 }
