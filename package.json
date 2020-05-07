@@ -7,7 +7,7 @@
     "yarn": "1.x"
   },
   "scripts": {
-    "build:client": "yarn install --cwd client && yarn build --cwd client",
+    "build:client": "yarn install --cwd client && ls -a",
     "build:server": "npm i --prefix server && npm run build --prefix server",
     "start": "npm start --prefix server",
     "postinstall": "npm run build:client && npm run build:server"
