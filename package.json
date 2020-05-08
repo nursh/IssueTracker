@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build:client": "YARN_PRODUCTION=false yarn install --cwd client && yarn --cwd client build",
-    "build:server": "NPM_CONFIG_PRODUCTION=false npm i --prefix server && cd server && npm run build",
+    "build:server": "NPM_CONFIG_PRODUCTION=false npm i --prefix server &&  npm run --prefix client build",
     "start": "npm start --prefix server",
     "postinstall": "npm run build:client && npm run build:server"
   }
