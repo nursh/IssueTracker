@@ -37,7 +37,7 @@ app.get('/api/cleardb', async (req, res) => {
 });
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('../../client/build'));
+  app.use(express.static(path.resolve(__dirname, '../..', 'client', 'build')));
 
   app.get('*', (_req, res) => {
     res.sendFile(
