@@ -46,12 +46,17 @@ export function signinController(req, res) {
   })(req, res);
 }
 
+const redirectPath =
+  process.env.NODE_ENV === 'production'
+    ? '/index'
+    : 'http://localhost:3000/index';
+
 export function githubController(req, res) {
   const token = signToken(req.user);
-  res.redirect(`http://localhost:3000/index?token=${token}`);
+  res.redirect(`${redirectPath}?token=${token}`);
 }
 
 export function googleController(req, res) {
   const token = signToken(req.user);
-  res.redirect(`http://localhost:3000/index?token=${token}`);
+  res.redirect(`${redirectPath}?token=${token}`);
 }

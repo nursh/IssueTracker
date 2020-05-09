@@ -7,6 +7,7 @@
     "dev:start": "cross-env NODE_ENV=development nodemon --exec babel-node --extensions \".js\" src/index.js",
     "test:start": "cross-env NODE_ENV=test nodemon --exec babel-node --extensions \".js\" src/index.js",
     "build": "babel src --out-dir dist",
+    "start": "node dist/index",
     "lint": "eslint --ignore-path ../.gitignore --ext .js .",
     "format": "prettier --ignore-path ../.gitignore \"**/*.js\"",
     "test": "is-ci \"test:coverage\" \"test:watch\"",

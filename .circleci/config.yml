@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@1.0.2
   cypress: cypress-io/cypress@1.20.0
+  heroku: circleci/heroku@1.0.1
 jobs:
   server_test:
     docker:
@@ -26,6 +27,7 @@ jobs:
           file: coverage/coverage-final.json
           token: '${CODECOV_TOKEN}'
 
+
 workflows:
   version: 2
   server:
@@ -41,4 +43,8 @@ workflows:
           record: true
           cache-key: >-
             cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}
+      - heroku/deploy-via-git:
+          requires:
+            - server_test
+            - cypress/run
 
