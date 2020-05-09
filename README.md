@@ -18,6 +18,8 @@ Application Link - [IssueTracker](https://issuetracker-app.herokuapp.com/)
 * Redux
 * MongoDB
 * Tailwindcss
+* CircleCI
+* Heroku
 
 ## Testing
 
